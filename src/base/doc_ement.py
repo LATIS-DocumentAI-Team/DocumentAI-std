@@ -2,7 +2,7 @@ from src.base.content_type import ContentType
 
 
 class DocElement:
-    def __init__(self, x, y, w, h, content_type: ContentType, content):
+    def __init__(self, x: int, y: int, w: int, h: int, content_type: ContentType, content):
         self.__x = x
         self.__y = y
         self.__w = w
