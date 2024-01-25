@@ -1,6 +1,7 @@
 from src.base.content_type import ContentType
 from src.tests.mock_sample import mock_doc_element
 
+
 def test_doc_element(mock_doc_element):
     assert mock_doc_element.x == 1
     assert mock_doc_element.y == 2
