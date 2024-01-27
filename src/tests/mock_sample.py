@@ -7,9 +7,19 @@ from src.base.doc_ement import DocElement
 
 @pytest.fixture
 def mock_doc_element():
-    return DocElement(x=1, y=2, w=3, h=4, content_type=ContentType.TEXT, content="Mock Content")
+    return DocElement(
+        x=1, y=2, w=3, h=4, content_type=ContentType.TEXT, content="Mock Content"
+    )
 
 
 @pytest.fixture
 def mock_doc_element_classification():
-    return DocElementClassification(x=1, y=2, w=3, h=4, content_type=ContentType.TEXT, content="Mock Content", label=5)
+    return DocElementClassification(
+        x=1,
+        y=2,
+        w=3,
+        h=4,
+        content_type=ContentType.TEXT,
+        content="Mock Content",
+        label=5,
+    )

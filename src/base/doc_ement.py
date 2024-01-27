@@ -1,10 +1,10 @@
 from src.base.content_type import ContentType
 
 
-# TODO: ADD DOc fo renityt classification
-#       - Create New branch for each feature
 class DocElement:
-    def __init__(self, x: int, y: int, w: int, h: int, content_type: ContentType, content):
+    def __init__(
+        self, x: int, y: int, w: int, h: int, content_type: ContentType, content
+    ):
         self.__x = x
         self.__y = y
         self.__w = w
@@ -62,7 +62,7 @@ class DocElement:
 
     def to_json(self):
         return {
-            'bbox': [self.__x, self.__y, self.__w, self.__h],
-            'content_type': self.__content_type,
-            'content': self.__content
+            "bbox": [self.__x, self.__y, self.__w, self.__h],
+            "content_type": self.__content_type,
+            "content": self.__content,
         }

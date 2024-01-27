@@ -3,7 +3,16 @@ from src.base.doc_ement import DocElement
 
 
 class DocElementClassification(DocElement):
-    def __init__(self, x: int, y: int, w: int, h: int, content_type: ContentType, content, label: int):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        w: int,
+        h: int,
+        content_type: ContentType,
+        content,
+        label: int,
+    ):
         super().__init__(x, y, w, h, content_type, content)
         self.__label = label
 
@@ -17,7 +26,5 @@ class DocElementClassification(DocElement):
 
     def to_json(self):
         doc_element_dict = super().to_json()
-        doc_element_dict['label'] = self.__label
+        doc_element_dict["label"] = self.__label
         return doc_element_dict
-
-

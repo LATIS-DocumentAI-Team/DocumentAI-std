@@ -11,7 +11,9 @@ class TestDocElements:
         assert mock_doc_element.content_type == ContentType.TEXT
         assert mock_doc_element.content == "Mock Content"
 
-    def test_doc_element_classification_properties(self, mock_doc_element_classification):
+    def test_doc_element_classification_properties(
+        self, mock_doc_element_classification
+    ):
         assert mock_doc_element_classification.x == 1
         assert mock_doc_element_classification.y == 2
         assert mock_doc_element_classification.w == 3
@@ -22,7 +24,7 @@ class TestDocElements:
 
     def test_to_json(self, mock_doc_element_classification):
         json_data = mock_doc_element_classification.to_json()
-        assert json_data['bbox'] == [1, 2, 3, 4]
-        assert json_data['content_type'] == ContentType.TEXT
-        assert json_data['content'] == "Mock Content"
-        assert json_data['label'] == 5
+        assert json_data["bbox"] == [1, 2, 3, 4]
+        assert json_data["content_type"] == ContentType.TEXT
+        assert json_data["content"] == "Mock Content"
+        assert json_data["label"] == 5
