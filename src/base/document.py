@@ -44,10 +44,8 @@ class Document:
         except AssertionError:
             raise AssertionError("Length of 'bbox' and 'content' in OCR output are not equal.")
 
-        doc_elements = []
-        for element_index in range(len(ocr_output["bbox"])):
-            # TODO: ASK how to know the type: For now it's TEXT
-            doc = DocElement(ocr_output["bbox"][element_index][0], ocr_output["bbox"][element_index][1], ocr_output["bbox"][element_index][2], ocr_output["bbox"][element_index][3], content_type=ContentType.TEXT, content=ocr_output["bbox"][element_index])
-            doc_elements.append(doc)
-
-        self.element: Tuple[str, List[DocElement]] = (filename, doc_elements)
+        self.element: Tuple[str, List[DocElement]] = (
+            filename,
+            [DocElement(*bbox, content_type=ContentType.TEXT, content=content) for bbox, content in
+             zip(ocr_output["bbox"], ocr_output["content"])]
+        )
