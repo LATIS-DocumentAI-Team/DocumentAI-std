@@ -44,7 +44,7 @@ class Document:
         except AssertionError:
             raise AssertionError("Length of 'bbox' and 'content' in OCR output are not equal.")
 
-        self.element: Tuple[str, List[DocElement]] = (
+        self.elements: Tuple[str, List[DocElement]] = (
             filename,
             [DocElement(*bbox, content_type=ContentType.TEXT, content=content) for bbox, content in
              zip(ocr_output["bbox"], ocr_output["content"])]
