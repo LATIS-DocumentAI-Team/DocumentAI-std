@@ -1,5 +1,8 @@
 import os
-from typing import Any
+from typing import Any, List, Tuple
+
+from src.base.content_type import ContentType
+from src.base.doc_element import DocElement
 
 
 class Document:
@@ -18,10 +21,13 @@ class Document:
             bbox: List[List]
             content: List[Any]
         }
+        Here len(bbox) == len(content) an obligation
+
+        bbox are in the format x,y,w,h (TODO: create utlity function to convert to x,y,w,h)
         this output are generate from an ocr engine
         ---
     """
-    # TODO: Create a Adapter class which adapt from Paddle to ocr_output, from EasyOcr to
+    # TODO: Create a Adapter class which adapt from Paddle to ocr_output, from EasyOcr to ocr_output and tessaract to ocr_output
 
     # TODO: - ASK how to create a Document (normaly a list of docElements)
     #       - The problem is how to check the type of the content ?
@@ -32,6 +38,16 @@ class Document:
             raise FileNotFoundError(f"unable to locate img_folder at {img_path}")
 
         filename = os.path.basename(img_path)
+        self.root = os.path.dirname(img_path)
+        try:
+            assert len(ocr_output["bbox"]) == len(ocr_output["content"])
+        except AssertionError:
+            raise AssertionError("Length of 'bbox' and 'content' in OCR output are not equal.")
 
+        doc_elements = []
+        for element_index in range(len(ocr_output["bbox"])):
+            # TODO: ASK how to know the type: For now it's TEXT
+            doc = DocElement(ocr_output["bbox"][element_index][0], ocr_output["bbox"][element_index][1], ocr_output["bbox"][element_index][2], ocr_output["bbox"][element_index][3], content_type=ContentType.TEXT, content=ocr_output["bbox"][element_index])
+            doc_elements.append(doc)
 
-        pass
+        self.element: Tuple[str, List[DocElement]] = (filename, doc_elements)
