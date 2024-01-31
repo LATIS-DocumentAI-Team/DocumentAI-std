@@ -27,11 +27,14 @@ class Document:
         this output are generate from an ocr engine
         ---
     """
+
     # TODO: Create a Adapter class which adapt from Paddle to ocr_output, from EasyOcr to ocr_output and tessaract to ocr_output
 
     # TODO: - ASK how to create a Document (normaly a list of docElements)
     #       - The problem is how to check the type of the content ?
     #       - Else we do not create class for document
+
+    # TODO: add method to extract image when need depend on content
     def __init__(self, img_path: str, ocr_output: dict, **kwargs: Any) -> None:
         # File existence check
         if not os.path.exists(img_path):
@@ -42,10 +45,14 @@ class Document:
         try:
             assert len(ocr_output["bbox"]) == len(ocr_output["content"])
         except AssertionError:
-            raise AssertionError("Length of 'bbox' and 'content' in OCR output are not equal.")
+            raise AssertionError(
+                "Length of 'bbox' and 'content' in OCR output are not equal."
+            )
 
         self.elements: Tuple[str, List[DocElement]] = (
             filename,
-            [DocElement(*bbox, content_type=ContentType.TEXT, content=content) for bbox, content in
-             zip(ocr_output["bbox"], ocr_output["content"])]
+            [
+                DocElement(*bbox, content_type=ContentType.TEXT, content=content)
+                for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
+            ],
         )
