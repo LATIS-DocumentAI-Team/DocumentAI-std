@@ -2,3 +2,4 @@
 /.pytest_cache/
 /src/tests/.pytest_cache/
 /venv/
+/data/

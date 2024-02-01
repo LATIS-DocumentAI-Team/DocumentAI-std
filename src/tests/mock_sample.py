@@ -34,7 +34,7 @@ def mock_document():
         "content": ["Text 1", "Text 2", "Text 3"]
     }
 
-    img_path = "/path/to/your/image.jpg"
+    img_path = "data/test/test.jpg"
     document = Document(img_path, ocr_output)
 
     return document
