@@ -34,7 +34,7 @@ def mock_document():
     # Dummy data for ocr_output
     ocr_output = {
         "bbox": [[10, 20, 30, 40], [50, 60, 70, 80], [90, 100, 110, 120]],
-        "content": ["Text 1", "Text 2", "Text 3"]
+        "content": ["Text 1", "Text 2", "Text 3"],
     }
 
     img_dir = os.path.join("dummy_data", "test")
@@ -45,6 +45,7 @@ def mock_document():
     document = Document(img_path, ocr_output)
 
     return document
+
 
 def create_dummy_image(file_path):
     # Create a dummy image with a white background

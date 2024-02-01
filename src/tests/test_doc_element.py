@@ -1,5 +1,9 @@
 from src.base.content_type import ContentType
-from src.tests.mock_sample import mock_doc_element, mock_doc_element_classification, mock_document
+from src.tests.mock_sample import (
+    mock_doc_element,
+    mock_doc_element_classification,
+    mock_document,
+)
 
 
 class TestDocElements:
@@ -44,17 +48,17 @@ class TestDocument:
     def test_to_json(self, mock_document):
         json_data = mock_document.to_json()
 
-        assert len(json_data['bbox_list']) == 3
-        assert len(json_data['bbox_list']) == len(json_data['content_type_list'])
-        assert len(json_data['bbox_list']) == len(json_data['content_list'])
-        assert json_data['bbox_list'][0] == [10, 20, 30, 40]
-        assert json_data['bbox_list'][1] == [50, 60, 70, 80]
-        assert json_data['bbox_list'][2] == [90, 100, 110, 120]
+        assert len(json_data["bbox_list"]) == 3
+        assert len(json_data["bbox_list"]) == len(json_data["content_type_list"])
+        assert len(json_data["bbox_list"]) == len(json_data["content_list"])
+        assert json_data["bbox_list"][0] == [10, 20, 30, 40]
+        assert json_data["bbox_list"][1] == [50, 60, 70, 80]
+        assert json_data["bbox_list"][2] == [90, 100, 110, 120]
 
-        assert json_data['content_type_list'][0] == ContentType.TEXT
-        assert json_data['content_type_list'][1] == ContentType.TEXT
-        assert json_data['content_type_list'][2] == ContentType.TEXT
+        assert json_data["content_type_list"][0] == ContentType.TEXT
+        assert json_data["content_type_list"][1] == ContentType.TEXT
+        assert json_data["content_type_list"][2] == ContentType.TEXT
 
-        assert json_data['content_list'][0] == "Text 1"
-        assert json_data['content_list'][1] == "Text 2"
-        assert json_data['content_list'][2] == "Text 3"
+        assert json_data["content_list"][0] == "Text 1"
+        assert json_data["content_list"][1] == "Text 2"
+        assert json_data["content_list"][2] == "Text 3"

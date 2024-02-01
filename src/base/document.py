@@ -59,7 +59,14 @@ class Document:
 
     def to_json(self):
         return {
-            "bbox_list": [doc_element.to_json()["bbox"] for doc_element in self.elements[1]],
-            "content_type_list": [doc_element.to_json()["content_type"] for doc_element in self.elements[1]],
-            "content_list": [doc_element.to_json()["content"] for doc_element in self.elements[1]],
+            "bbox_list": [
+                doc_element.to_json()["bbox"] for doc_element in self.elements[1]
+            ],
+            "content_type_list": [
+                doc_element.to_json()["content_type"]
+                for doc_element in self.elements[1]
+            ],
+            "content_list": [
+                doc_element.to_json()["content"] for doc_element in self.elements[1]
+            ],
         }
