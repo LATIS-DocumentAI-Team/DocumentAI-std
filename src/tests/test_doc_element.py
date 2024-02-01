@@ -28,3 +28,25 @@ class TestDocElements:
         assert json_data["content_type"] == ContentType.TEXT
         assert json_data["content"] == "Mock Content"
         assert json_data["label"] == 5
+
+
+class TestDocumentt:
+    def test_doc_element(self, mock_document):
+        assert mock_doc_element.x == 1
+        assert mock_doc_element.y == 2
+        assert mock_doc_element.w == 3
+        assert mock_doc_element.h == 4
+        assert mock_doc_element.content_type == ContentType.TEXT
+        assert mock_doc_element.content == "Mock Content"
+
+    def test_to_json(self, mock_document):
+        img_path = "/path/to/your/image.jpg"
+        document = Document(img_path, ocr_output)
+        json_data = document.to_json()
+
+        assert len(json_data['bbox_list']) == 1
+        assert json_data['bbox_list'][0] == [1, 2, 3, 4]
+        assert len(json_data['content_type_list']) == 1
+        assert json_data['content_type_list'][0] == ContentType.TEXT
+        assert len(json_data['content_list']) == 1
+        assert json_data['content_list'][0] == "Mock Content"
