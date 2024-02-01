@@ -1,4 +1,7 @@
+import os
+
 import pytest
+from PIL import Image
 
 from src.base.content_type import ContentType
 from src.base.doc_element_classification import DocElementClassification
@@ -34,7 +37,17 @@ def mock_document():
         "content": ["Text 1", "Text 2", "Text 3"]
     }
 
-    img_path = "data/test/test.jpg"
+    img_dir = os.path.join("dummy_data", "test")
+    os.makedirs(img_dir, exist_ok=True)
+    img_path = os.path.join(img_dir, "test.jpg")
+    create_dummy_image(img_path)  # Create dummy image at the specified path
+
     document = Document(img_path, ocr_output)
 
     return document
+
+def create_dummy_image(file_path):
+    # Create a dummy image with a white background
+    image = Image.new("RGB", (200, 200), "white")
+    # Save the image to the specified file path
+    image.save(file_path)
