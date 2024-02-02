@@ -23,7 +23,7 @@ class Document:
         }
         Here len(bbox) == len(content) an obligation
 
-        bbox are in the format x,y,w,h (TODO: create utlity function to convert to x,y,w,h)
+        bbox are in the format x,y,w,h
         this output are generate from an ocr engine
         ---
     """
