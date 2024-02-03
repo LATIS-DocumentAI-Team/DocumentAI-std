@@ -1,8 +1,11 @@
+import logging
 import os
 
 import pytest
+import numpy as np
 from PIL import Image
-
+from paddleocr import PaddleOCR
+# FIXME: TO Install paddle ocr try: pip install "paddleocr>=2.0.1" --upgrade PyMuPDF==1.21.1
 from src.base.content_type import ContentType
 from src.base.doc_element_classification import DocElementClassification
 from src.base.doc_element import DocElement
@@ -46,6 +49,18 @@ def mock_document():
 
     return document
 
+@pytest.fixture
+def mock_paddle():
+    im = Image.open("dummy_data/invoice.png")
+    im = im.convert('RGB')
+    # newsize = (800, 1000)
+    #
+    # im1 = im.resize(newsize)
+
+    ocr = PaddleOCR(use_angle_cls=True, max_text_length=2, use_space_char=True, lang='french', type='structure')
+    result = ocr.ocr(np.asarray(im), cls=True)
+
+    return result
 
 def create_dummy_image(file_path):
     # Create a dummy image with a white background

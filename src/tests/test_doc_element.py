@@ -1,8 +1,11 @@
+import logging
+
 from src.base.content_type import ContentType
 from src.tests.mock_sample import (
     mock_doc_element,
     mock_doc_element_classification,
     mock_document,
+    mock_paddle
 )
 
 
@@ -62,3 +65,7 @@ class TestDocument:
         assert json_data["content_list"][0] == "Text 1"
         assert json_data["content_list"][1] == "Text 2"
         assert json_data["content_list"][2] == "Text 3"
+
+    def test_paddle_adapter(self, mock_paddle):
+        result = mock_paddle
+        logging.debug(f"the result {result}")
