@@ -68,4 +68,4 @@ class TestDocument:
 
     def test_paddle_adapter(self, mock_paddle):
         result = mock_paddle
-        logging.debug(f"the result {result}")
+        print(f"the result {result}")
