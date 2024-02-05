@@ -7,6 +7,7 @@ from src.tests.mock_sample import (
     mock_document,
     mock_paddle
 )
+from src.utility.OCR_adapter import OCRAdapter
 
 
 class TestDocElements:
@@ -68,4 +69,4 @@ class TestDocument:
 
     def test_paddle_adapter(self, mock_paddle):
         result = mock_paddle
-        print(f"the result {result}")
+        OCRAdapter.from_paddle_ocr(result)
