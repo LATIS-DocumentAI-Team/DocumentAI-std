@@ -69,4 +69,7 @@ class TestDocument:
 
     def test_paddle_adapter(self, mock_paddle):
         result = mock_paddle
-        OCRAdapter.from_paddle_ocr(result)
+        output_json = OCRAdapter.from_paddle_ocr(result)
+
+        assert len(output_json["bbox"]) == len(output_json["content"])
+
