@@ -28,8 +28,6 @@ class Document:
         ---
     """
 
-    # TODO: Create a Adapter class which adapt from Paddle to ocr_output, from EasyOcr to ocr_output and tessaract to ocr_output
-
     # TODO: add method to extract image when need depend on content
     def __init__(self, img_path: str, ocr_output: dict, **kwargs: Any) -> None:
         # File existence check

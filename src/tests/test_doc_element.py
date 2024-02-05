@@ -5,7 +5,7 @@ from src.tests.mock_sample import (
     mock_document,
     mock_paddle,
     mock_easy,
-    mock_tesseract
+    mock_tesseract,
 )
 from src.utility.OCR_adapter import OCRAdapter
 
@@ -78,5 +78,4 @@ class TestDocument:
 
     def test_tesseract_adapter(self, mock_tesseract):
         output_json = OCRAdapter.from_tesseract_ocr(mock_tesseract)
-        print(output_json)
         assert len(output_json["bbox"]) == len(output_json["content"])
