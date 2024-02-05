@@ -25,7 +25,14 @@ class OCRAdapter:
 
     @staticmethod
     def from_easy_ocr(easy_ocr_output):
-        pass
+        bbox_content_pairs = [
+            (BaseUtils.X1X2X3X4_to_xywh(sum(text_box[0], [])), text_box[1])
+            for text_box in easy_ocr_output
+        ]
+
+        bbox, content = zip(*bbox_content_pairs)
+
+        return {"bbox": list(bbox), "content": list(content)}
 
     @staticmethod
     def from_tesseract_ocr(tesseract_ocr_output):
