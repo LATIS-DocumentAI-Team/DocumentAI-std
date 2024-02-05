@@ -2,6 +2,7 @@ import logging
 import os
 
 import easyocr
+import pytesseract
 import pytest
 import numpy as np
 from PIL import Image
@@ -56,9 +57,6 @@ def mock_document():
 def mock_paddle():
     im = Image.open("dummy_data/invoice.png")
     im = im.convert("RGB")
-    # newsize = (800, 1000)
-    #
-    # im1 = im.resize(newsize)
 
     ocr = PaddleOCR(
         use_angle_cls=True,
@@ -78,6 +76,16 @@ def mock_easy():
         ["en", "fr"]
     )  # this needs to run only once to load the model into memory
     result = reader.readtext("dummy_data/invoice.png")
+    return result
+
+
+@pytest.fixture
+def mock_tesseract():
+    im = Image.open("dummy_data/invoice.png")
+    im = im.convert("RGB")
+
+    result = pytesseract.image_to_string(im)
+
     return result
 
 
