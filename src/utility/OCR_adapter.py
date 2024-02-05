@@ -9,7 +9,7 @@ class OCRAdapter:
                 print("j")
                 print(text_box[0])
                 # TODO: Convert text_box to the expected format of the mapper
-                K = BaseUtils.x1y1x2y2x3y3x4y4_to_xywh(text_box[0])
+                K = BaseUtils.X1X2X3X4_to_xywh(sum(text_box[0], []))
                 print("K")
                 print(K)
 

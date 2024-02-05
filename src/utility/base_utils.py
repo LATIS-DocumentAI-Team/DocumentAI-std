@@ -1,6 +1,6 @@
 class BaseUtils:
     @staticmethod
-    def x1y1x2y2_to_xywh(bbox):
+    def X1X2_to_xywh(bbox):
         """
         Convert bounding box from x1,y1,x2,y2 format to x,y,w,h format.
         """
@@ -9,10 +9,10 @@ class BaseUtils:
         y = y1
         w = x2 - x1
         h = y2 - y1
-        return x, y, w, h
+        return [x, y, w, h]
 
     @staticmethod
-    def x1y1x2y2x3y3x4y4_to_xywh(bbox):
+    def X1X2X3X4_to_xywh(bbox):
         """Converts from x1, y1, x2, y2, x3, y3, x4, y4 to x, y, w, h."""
         x1, y1, x2, y2, x3, y3, x4, y4 = bbox
         min_x = min(x1, x2, x3, x4)
@@ -21,4 +21,4 @@ class BaseUtils:
         max_y = max(y1, y2, y3, y4)
         w = max_x - min_x
         h = max_y - min_y
-        return min_x, min_y, w, h
+        return [min_x, min_y, w, h]
