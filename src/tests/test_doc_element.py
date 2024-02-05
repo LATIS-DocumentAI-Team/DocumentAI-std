@@ -5,7 +5,8 @@ from src.tests.mock_sample import (
     mock_doc_element,
     mock_doc_element_classification,
     mock_document,
-    mock_paddle
+    mock_paddle,
+    mock_easy
 )
 from src.utility.OCR_adapter import OCRAdapter
 
@@ -73,3 +74,9 @@ class TestDocument:
 
         assert len(output_json["bbox"]) == len(output_json["content"])
 
+    def test_easy_adapter(self, mock_easy):
+        result = mock_easy
+        print(result)
+        # output_json = OCRAdapter.from_paddle_ocr(result)
+        #
+        # assert len(output_json["bbox"]) == len(output_json["content"])

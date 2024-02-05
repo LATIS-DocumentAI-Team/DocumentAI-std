@@ -5,11 +5,12 @@ from src.utility.base_utils import BaseUtils
 
 class OCRAdapter:
     """
-            output = {
-            bbox: List[List]
-            content: List[Any]
-        }
+        output = {
+        bbox: List[List]
+        content: List[Any]
+    }
     """
+
     @staticmethod
     def from_paddle_ocr(paddle_ocr_output):
         bbox_content_pairs = [
@@ -20,15 +21,12 @@ class OCRAdapter:
 
         bbox, content = zip(*bbox_content_pairs)
 
-        return {
-            "bbox": list(bbox),
-            "content": list(content)
-        }
+        return {"bbox": list(bbox), "content": list(content)}
 
     @staticmethod
     def from_easy_ocr(easy_ocr_output):
         pass
+
     @staticmethod
     def from_tesseract_ocr(tesseract_ocr_output):
         pass
-
