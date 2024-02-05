@@ -84,7 +84,7 @@ def mock_tesseract():
     im = Image.open("dummy_data/invoice.png")
     im = im.convert("RGB")
 
-    result = pytesseract.image_to_string(im)
+    result = pytesseract.image_to_data(im, output_type=pytesseract.Output.DICT)
 
     return result
 

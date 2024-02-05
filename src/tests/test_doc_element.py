@@ -1,5 +1,3 @@
-import logging
-
 from src.base.content_type import ContentType
 from src.tests.mock_sample import (
     mock_doc_element,
@@ -7,6 +5,7 @@ from src.tests.mock_sample import (
     mock_document,
     mock_paddle,
     mock_easy,
+    mock_tesseract
 )
 from src.utility.OCR_adapter import OCRAdapter
 
@@ -69,12 +68,15 @@ class TestDocument:
         assert json_data["content_list"][2] == "Text 3"
 
     def test_paddle_adapter(self, mock_paddle):
-        result = mock_paddle
-        output_json = OCRAdapter.from_paddle_ocr(result)
+        output_json = OCRAdapter.from_paddle_ocr(mock_paddle)
 
         assert len(output_json["bbox"]) == len(output_json["content"])
 
     def test_easy_adapter(self, mock_easy):
-        result = mock_easy
-        output_json = OCRAdapter.from_easy_ocr(result)
+        output_json = OCRAdapter.from_easy_ocr(mock_easy)
+        assert len(output_json["bbox"]) == len(output_json["content"])
+
+    def test_tesseract_adapter(self, mock_tesseract):
+        output_json = OCRAdapter.from_tesseract_ocr(mock_tesseract)
+        print(output_json)
         assert len(output_json["bbox"]) == len(output_json["content"])
