@@ -1,7 +1,10 @@
+import json
 import os
 from typing import Any, List, Union, Tuple
 
+from src.base.content_type import ContentType
 from src.base.document import Document
+from src.utility.base_utils import BaseUtils
 
 
 class Wildreceipt:
@@ -28,9 +31,7 @@ class Wildreceipt:
             img_folder: str,
             label_path: str,
             train: bool = True,
-            use_polygons: bool = False,
-            recognition_task: bool = False,
-            **kwargs: Any,
+
     ) -> None:
 
         # File existence check
@@ -39,51 +40,27 @@ class Wildreceipt:
 
         tmp_root = img_folder
         self.train = train
-        np_dtype = np.float32
-        self.data: List[Tuple[Union[str, Document]]] = []
+        self.data: List[Document] = []
 
         with open(label_path, "r") as file:
             data = file.read()
         # Split the text file into separate JSON strings
         json_strings = data.strip().split("\n")
-        box: Union[List[float], np.ndarray]
         _targets = []
         for json_string in json_strings:
             json_data = json.loads(json_string)
             img_path = json_data["file_name"]
             annotations = json_data["annotations"]
             for annotation in annotations:
-                coordinates = annotation["box"]
-                if use_polygons:
-                    # (x, y) coordinates of top left, top right, bottom right, bottom left corners
-                    box = np.array(
-                        [
-                            [coordinates[0], coordinates[1]],
-                            [coordinates[2], coordinates[3]],
-                            [coordinates[4], coordinates[5]],
-                            [coordinates[6], coordinates[7]],
-                        ],
-                        dtype=np_dtype,
-                    )
-                else:
-                    x, y = coordinates[::2], coordinates[1::2]
-                    box = [min(x), min(y), max(x), max(y)]
-                _targets.append((annotation["text"], box))
+                coordinates = BaseUtils.X1X2X3X4_to_xywh(annotation["box"])
+                _targets.append((annotation["text"], coordinates))
             text_targets, box_targets = zip(*_targets)
+            ocr_output = {
+            "bbox_list": list(box_targets),
+            "content_type_list": [ContentType.TEXT*len(text_targets)],
+            "content_list": list(text_targets)
+            }
 
-            if recognition_task:
-                crops = crop_bboxes_from_image(
-                    img_path=os.path.join(tmp_root, img_path), geoms=np.asarray(box_targets, dtype=int).clip(min=0)
-                )
-                for crop, label in zip(crops, list(text_targets)):
-                    if label and " " not in label:
-                        self.data.append((crop, label))
-            else:
-                self.data.append((
-                    img_path,
-                    dict(boxes=np.asarray(box_targets, dtype=int).clip(min=0), labels=list(text_targets)),
-                ))
+            self.data.append(Document(os.path.join(tmp_root, img_path), ocr_output))
         self.root = tmp_root
 
-    def extra_repr(self) -> str:
-        return f"train={self.train}"
