@@ -53,6 +53,7 @@ class Document:
 
     def to_json(self):
         return {
+            "filename": self.elements[0],
             "bbox_list": [
                 doc_element.to_json()["bbox"] for doc_element in self.elements[1]
             ],
