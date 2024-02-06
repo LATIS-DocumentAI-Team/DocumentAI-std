@@ -56,9 +56,8 @@ class Wildreceipt:
                 *[(BaseUtils.X1X2X3X4_to_xywh(annotation["box"]), annotation["text"]) for annotation in annotations])
 
             ocr_output = {
-                "bbox_list": box_targets,
-                "content_type_list": [ContentType.TEXT] * len(text_targets),
-                "content_list": text_targets
+                "bbox": box_targets,
+                "content": text_targets
             }
 
             self.data.append(Document(os.path.join(tmp_root, img_path), ocr_output))
