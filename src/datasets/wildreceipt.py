@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Any, List, Union, Tuple
+from typing import List
 
 from src.base.content_type import ContentType
 from src.base.document import Document
@@ -51,14 +51,14 @@ class Wildreceipt:
             json_data = json.loads(json_string)
             img_path = json_data["file_name"]
             annotations = json_data["annotations"]
-            for annotation in annotations:
-                coordinates = BaseUtils.X1X2X3X4_to_xywh(annotation["box"])
-                _targets.append((annotation["text"], coordinates))
-            text_targets, box_targets = zip(*_targets)
+
+            box_targets, text_targets = zip(
+                *[(BaseUtils.X1X2X3X4_to_xywh(annotation["box"]), annotation["text"]) for annotation in annotations])
+
             ocr_output = {
-            "bbox_list": list(box_targets),
-            "content_type_list": [ContentType.TEXT*len(text_targets)],
-            "content_list": list(text_targets)
+                "bbox_list": box_targets,
+                "content_type_list": [ContentType.TEXT] * len(text_targets),
+                "content_list": text_targets
             }
 
             self.data.append(Document(os.path.join(tmp_root, img_path), ocr_output))
