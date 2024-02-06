@@ -2,3 +2,5 @@
 /.pytest_cache/
 /src/tests/.pytest_cache/
 /venv/
+/data/
+/src/tests/dummy_data/
