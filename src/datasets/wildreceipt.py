@@ -27,16 +27,16 @@ class Wildreceipt:
     """
 
     def __init__(
-            self,
-            img_folder: str,
-            label_path: str,
-            train: bool = True,
-
+        self,
+        img_folder: str,
+        label_path: str,
+        train: bool = True,
     ) -> None:
-
         # File existence check
         if not os.path.exists(label_path) or not os.path.exists(img_folder):
-            raise FileNotFoundError(f"unable to locate {label_path if not os.path.exists(label_path) else img_folder}")
+            raise FileNotFoundError(
+                f"unable to locate {label_path if not os.path.exists(label_path) else img_folder}"
+            )
 
         tmp_root = img_folder
         self.train = train
@@ -53,13 +53,13 @@ class Wildreceipt:
             annotations = json_data["annotations"]
 
             box_targets, text_targets = zip(
-                *[(BaseUtils.X1X2X3X4_to_xywh(annotation["box"]), annotation["text"]) for annotation in annotations])
+                *[
+                    (BaseUtils.X1X2X3X4_to_xywh(annotation["box"]), annotation["text"])
+                    for annotation in annotations
+                ]
+            )
 
-            ocr_output = {
-                "bbox": box_targets,
-                "content": text_targets
-            }
+            ocr_output = {"bbox": box_targets, "content": text_targets}
 
             self.data.append(Document(os.path.join(tmp_root, img_path), ocr_output))
         self.root = tmp_root
-
