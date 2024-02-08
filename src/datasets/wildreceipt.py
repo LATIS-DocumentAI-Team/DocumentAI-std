@@ -6,7 +6,7 @@ from src.base.content_type import ContentType
 from src.base.document import Document
 from src.utility.base_utils import BaseUtils
 
-
+# TODO: USE document Element Classififcation
 class Wildreceipt:
     """WildReceipt dataset from `"Spatial Dual-Modality Graph Reasoning for Key Information Extraction"
         <https://arxiv.org/abs/2103.14470v1>`_ |
