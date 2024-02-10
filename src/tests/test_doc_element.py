@@ -6,6 +6,7 @@ from src.tests.mock_sample import (
     mock_paddle,
     mock_easy,
     mock_tesseract,
+    mock_document_entity_classification
 )
 from src.utility.OCR_adapter import OCRAdapter
 
@@ -39,6 +40,17 @@ class TestDocElements:
 
 
 class TestDocument:
+    def test_doc_element(self, mock_document_entity_classification):
+        mock_doc_element = mock_document_entity_classification.elements[1][0]
+
+        assert mock_doc_element.x == 10
+        assert mock_doc_element.y == 20
+        assert mock_doc_element.w == 30
+        assert mock_doc_element.h == 40
+        assert mock_doc_element.content_type == ContentType.TEXT
+        assert mock_doc_element.content == "Text 1"
+        assert mock_doc_element.label == 1
+
     def test_doc_element(self, mock_document):
         mock_doc_element = mock_document.elements[1][0]
 
