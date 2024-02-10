@@ -54,6 +54,25 @@ def mock_document():
 
 
 @pytest.fixture
+def mock_document_entity_classification():
+    # Dummy data for ocr_output
+    ocr_output = {
+        "bbox": [[10, 20, 30, 40], [50, 60, 70, 80], [90, 100, 110, 120]],
+        "content": ["Text 1", "Text 2", "Text 3"],
+        "label": [1,1,2],
+    }
+
+    img_dir = os.path.join("dummy_data", "test")
+    os.makedirs(img_dir, exist_ok=True)
+    img_path = os.path.join(img_dir, "test.jpg")
+    create_dummy_image(img_path)  # Create dummy image at the specified path
+
+    document = Document(img_path, ocr_output)
+
+    return document
+
+
+@pytest.fixture
 def mock_paddle():
     im = Image.open("dummy_data/invoice.png")
     im = im.convert("RGB")
