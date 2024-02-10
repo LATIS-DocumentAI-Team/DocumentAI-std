@@ -50,4 +50,7 @@ class DocumentEntityClassification(Document):
             "content_list": [
                 doc_element.to_json()["content"] for doc_element in self.elements[1]
             ],
+            "label": [
+                doc_element.to_json()["label"] for doc_element in self.elements[1]
+            ],
         }
