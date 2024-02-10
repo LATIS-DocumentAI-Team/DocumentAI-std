@@ -4,6 +4,7 @@ from typing import List
 
 from src.base.content_type import ContentType
 from src.base.document import Document
+from src.base.document_entity_classification import DocumentEntityClassification
 from src.utility.base_utils import BaseUtils
 
 # TODO: USE document Element Classififcation
@@ -52,14 +53,14 @@ class Wildreceipt:
             img_path = json_data["file_name"]
             annotations = json_data["annotations"]
 
-            box_targets, text_targets = zip(
+            box_targets, text_targets, label_targets = zip(
                 *[
-                    (BaseUtils.X1X2X3X4_to_xywh(annotation["box"]), annotation["text"])
+                    (BaseUtils.X1X2X3X4_to_xywh(annotation["box"]), annotation["text"].lower(), annotation["label"])
                     for annotation in annotations
                 ]
             )
 
-            ocr_output = {"bbox": box_targets, "content": text_targets}
+            ocr_output = {"bbox": box_targets, "content": text_targets, "label": label_targets}
 
-            self.data.append(Document(os.path.join(tmp_root, img_path), ocr_output))
+            self.data.append(DocumentEntityClassification(os.path.join(tmp_root, img_path), ocr_output))
         self.root = tmp_root
