@@ -51,7 +51,7 @@ class TestDocument:
         assert mock_doc_element.content == "Text 1"
         assert mock_doc_element.label == 1
 
-    def test_doc_element(self, mock_document):
+    def test_doc_element_classfication(self, mock_document):
         mock_doc_element = mock_document.elements[1][0]
 
         assert mock_doc_element.x == 10
