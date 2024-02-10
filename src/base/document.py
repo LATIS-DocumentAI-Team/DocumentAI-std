@@ -43,13 +43,13 @@ class Document:
                 "Length of 'bbox' and 'content' in OCR output are not equal."
             )
 
-        self.elements: Tuple[str, List[DocElement]] = (
+        self.elements: List[str, List[DocElement]] = [
             filename,
             [
                 DocElement(*bbox, content_type=ContentType.TEXT, content=content)
                 for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
             ],
-        )
+        ]
 
     def to_json(self):
         return {

@@ -13,6 +13,5 @@ class TestDataset:
             img_folder="/home/bobmarley/PycharmProjects/DocumentAI-std/data/wildreceipt/",
             label_path="/home/bobmarley/PycharmProjects/DocumentAI-std/data/wildreceipt/test.txt",
         )
-        print(f"the labels {train_set.data}")
         assert len(train_set.data) == 1267
         assert len(test_set.data) == 472
