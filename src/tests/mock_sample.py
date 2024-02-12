@@ -59,7 +59,7 @@ def mock_document_entity_classification():
     ocr_output = {
         "bbox": [[10, 20, 30, 40], [50, 60, 70, 80], [90, 100, 110, 120]],
         "content": ["Text 1", "Text 2", "Text 3"],
-        "label": [1,1,2],
+        "label": [1, 1, 2],
     }
 
     img_dir = os.path.join("dummy_data", "test")

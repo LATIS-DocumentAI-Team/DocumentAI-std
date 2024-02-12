@@ -6,7 +6,7 @@ from src.tests.mock_sample import (
     mock_paddle,
     mock_easy,
     mock_tesseract,
-    mock_document_entity_classification
+    mock_document_entity_classification,
 )
 from src.utility.OCR_adapter import OCRAdapter
 

@@ -30,12 +30,17 @@ class DocumentEntityClassification(Document):
         this output are generate from an ocr engine
         ---
     """
+
     def __init__(self, img_path: str, ocr_output: dict, **kwargs: Any) -> None:
         super().__init__(img_path, ocr_output, **kwargs)
         self.elements[1] = [
-                DocElementClassification(*bbox, content_type=ContentType.TEXT, content=content, label=label)
-                for bbox, content, label in zip(ocr_output["bbox"], ocr_output["content"], ocr_output["label"])
-            ]
+            DocElementClassification(
+                *bbox, content_type=ContentType.TEXT, content=content, label=label
+            )
+            for bbox, content, label in zip(
+                ocr_output["bbox"], ocr_output["content"], ocr_output["label"]
+            )
+        ]
 
     def to_json(self):
         return {

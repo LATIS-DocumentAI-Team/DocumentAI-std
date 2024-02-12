@@ -7,6 +7,7 @@ from src.base.document import Document
 from src.base.document_entity_classification import DocumentEntityClassification
 from src.utility.base_utils import BaseUtils
 
+
 # TODO: USE document Element Classififcation
 class Wildreceipt:
     """WildReceipt dataset from `"Spatial Dual-Modality Graph Reasoning for Key Information Extraction"
@@ -55,12 +56,24 @@ class Wildreceipt:
 
             box_targets, text_targets, label_targets = zip(
                 *[
-                    (BaseUtils.X1X2X3X4_to_xywh(annotation["box"]), annotation["text"].lower(), annotation["label"])
+                    (
+                        BaseUtils.X1X2X3X4_to_xywh(annotation["box"]),
+                        annotation["text"].lower(),
+                        annotation["label"],
+                    )
                     for annotation in annotations
                 ]
             )
 
-            ocr_output = {"bbox": box_targets, "content": text_targets, "label": label_targets}
+            ocr_output = {
+                "bbox": box_targets,
+                "content": text_targets,
+                "label": label_targets,
+            }
 
-            self.data.append(DocumentEntityClassification(os.path.join(tmp_root, img_path), ocr_output))
+            self.data.append(
+                DocumentEntityClassification(
+                    os.path.join(tmp_root, img_path), ocr_output
+                )
+            )
         self.root = tmp_root
