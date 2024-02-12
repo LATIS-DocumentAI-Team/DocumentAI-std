@@ -5,7 +5,9 @@ with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
 version = "0.1.0"
-
+# FIXME: No module named ModuleNotFoundError: No module named 'src.base'
+# FIXME: Unistall the package
+# FIXME: rename the src file to the same name of the library
 setup(
     name="DocumentAI-std",
     version=version,
