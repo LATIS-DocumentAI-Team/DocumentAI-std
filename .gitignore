@@ -1,6 +1,10 @@
+pip install /path/to/your/package/dist/your_package_name-0.1.tar.gz
 .idea
 /.pytest_cache/
 /src/tests/.pytest_cache/
 /venv/
 /data/
 /src/tests/dummy_data/
+/build/
+/dist/
+/src/DocumentAI_std.egg-info/
