@@ -3,7 +3,9 @@ from setuptools import setup, find_packages
 # Read the requirements from requirements.txt
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
-version = '0.1-SNAPSHOT'
+
+version = '0.1.0'
+
 setup(
     name='DocumentAI-std',
     version=version,
@@ -15,5 +17,3 @@ setup(
     author='Hamza Gbada',
     description='The main standards for Latis Document AI project',
 )
-
-
