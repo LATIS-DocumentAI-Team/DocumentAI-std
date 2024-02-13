@@ -9,6 +9,7 @@ from tests.mock_sample import (
 )
 
 from base.content_type import ContentType
+from utility.OCR_adapter import OCRAdapter
 
 
 class TestDocElements:

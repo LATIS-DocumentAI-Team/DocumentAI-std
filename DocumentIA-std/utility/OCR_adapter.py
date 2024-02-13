@@ -1,5 +1,6 @@
 import logging
 
+from utility.base_utils import BaseUtils
 
 
 class OCRAdapter:
