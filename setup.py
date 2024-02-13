@@ -4,10 +4,10 @@
 # with open('requirements.txt') as f:
 #     required = f.read().splitlines()
 # setup(
-#     name='DocumentAI-std',
+#     name='DocumentAI_std',
 #     version='0.1.0',
 #     packages=['base', 'utils', 'datasets'],
-#     package_dir={'DocumentAI-std': 'DocumentAI-std'},
+#     package_dir={'DocumentAI_std': 'DocumentAI_std'},
 #     install_requires=required,
 #     url='',
 #     license='',
@@ -22,11 +22,11 @@ with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(
-    name='DocumentAI-std',
+    name='DocumentAI_std',
     version='0.1.0',
-    # packages=find_packages(where='DocumentAI-std'),  # Include all packages within this directory
-    packages=find_packages(exclude=['DocumentAI-std.tests']),
-    # package_dir={'': 'DocumentAI-std'},  # Set root package directory
+    # packages=find_packages(where='DocumentAI_std'),  # Include all packages within this directory
+    packages=find_packages(exclude=['DocumentAI_std.tests']),
+    # package_dir={'': 'DocumentAI_std'},  # Set root package directory
     install_requires=required,
     url='',
     license='',
