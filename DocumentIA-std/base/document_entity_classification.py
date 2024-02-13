@@ -1,8 +1,8 @@
 from typing import Any
 
-from src.base.content_type import ContentType
-from src.base.doc_element_classification import DocElementClassification
-from src.base.document import Document
+from base.content_type import ContentType
+from base.doc_element_classification import DocElementClassification
+from base.document import Document
 
 
 class DocumentEntityClassification(Document):

@@ -1,4 +1,4 @@
-from src.datasets.wildreceipt import Wildreceipt
+from datasets.wildreceipt import Wildreceipt
 
 
 class TestDataset:

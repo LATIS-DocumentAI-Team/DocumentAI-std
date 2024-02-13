@@ -8,11 +8,13 @@ import numpy as np
 from PIL import Image
 from paddleocr import PaddleOCR
 
+from base.content_type import ContentType
+from base.doc_element import DocElement
+from base.doc_element_classification import DocElementClassification
+
+
 # FIXME: TO Install paddle ocr try: pip install "paddleocr>=2.0.1" --upgrade PyMuPDF==1.21.1
-from src.base.content_type import ContentType
-from src.base.doc_element_classification import DocElementClassification
-from src.base.doc_element import DocElement
-from src.base.document import Document
+
 
 
 @pytest.fixture

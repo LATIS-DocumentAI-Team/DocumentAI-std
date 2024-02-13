@@ -2,13 +2,11 @@ import json
 import os
 from typing import List
 
-from src.base.content_type import ContentType
-from src.base.document import Document
-from src.base.document_entity_classification import DocumentEntityClassification
-from src.utility.base_utils import BaseUtils
+from base.document import Document
+from base.document_entity_classification import DocumentEntityClassification
+from utility.base_utils import BaseUtils
 
 
-# TODO: USE document Element Classififcation
 class Wildreceipt:
     """WildReceipt dataset from `"Spatial Dual-Modality Graph Reasoning for Key Information Extraction"
         <https://arxiv.org/abs/2103.14470v1>`_ |

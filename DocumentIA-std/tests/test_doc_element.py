@@ -1,5 +1,4 @@
-from src.base.content_type import ContentType
-from src.tests.mock_sample import (
+from tests.mock_sample import (
     mock_doc_element,
     mock_doc_element_classification,
     mock_document,
@@ -8,7 +7,8 @@ from src.tests.mock_sample import (
     mock_tesseract,
     mock_document_entity_classification,
 )
-from src.utility.OCR_adapter import OCRAdapter
+
+from base.content_type import ContentType
 
 
 class TestDocElements:

@@ -1,5 +1,5 @@
-from src.base.content_type import ContentType
-from src.base.doc_element import DocElement
+from base.content_type import ContentType
+from base.doc_element import DocElement
 
 
 class DocElementClassification(DocElement):

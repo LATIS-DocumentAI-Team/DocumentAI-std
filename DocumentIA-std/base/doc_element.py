@@ -1,4 +1,4 @@
-from src.base.content_type import ContentType
+from base.content_type import ContentType
 
 
 class DocElement:
