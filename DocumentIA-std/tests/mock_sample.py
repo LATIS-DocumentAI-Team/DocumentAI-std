@@ -17,7 +17,6 @@ from base.document_entity_classification import DocumentEntityClassification
 # FIXME: TO Install paddle ocr try: pip install "paddleocr>=2.0.1" --upgrade PyMuPDF==1.21.1
 
 
-
 @pytest.fixture
 def mock_doc_element():
     return DocElement(

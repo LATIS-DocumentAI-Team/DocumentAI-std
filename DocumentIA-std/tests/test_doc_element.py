@@ -1,7 +1,5 @@
-from base.content_type import ContentType
-from utils.OCR_adapter import OCRAdapter
-
 from tests.mock_sample import *
+from utils.OCR_adapter import OCRAdapter
 
 
 class TestDocElements:
