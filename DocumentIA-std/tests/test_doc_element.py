@@ -1,15 +1,7 @@
-from tests.mock_sample import (
-    mock_doc_element,
-    mock_doc_element_classification,
-    mock_document,
-    mock_paddle,
-    mock_easy,
-    mock_tesseract,
-    mock_document_entity_classification,
-)
-
 from base.content_type import ContentType
-from utility.OCR_adapter import OCRAdapter
+from utils.OCR_adapter import OCRAdapter
+
+from tests.mock_sample import *
 
 
 class TestDocElements:
@@ -41,26 +33,26 @@ class TestDocElements:
 
 
 class TestDocument:
-    def test_doc_element(self, mock_document_entity_classification):
-        mock_doc_element = mock_document_entity_classification.elements[1][0]
+    def test_doc_element_classfication(self, mock_document_entity_classification):
+        doc_element_class = mock_document_entity_classification.elements[1][0]
 
-        assert mock_doc_element.x == 10
-        assert mock_doc_element.y == 20
-        assert mock_doc_element.w == 30
-        assert mock_doc_element.h == 40
-        assert mock_doc_element.content_type == ContentType.TEXT
-        assert mock_doc_element.content == "Text 1"
-        assert mock_doc_element.label == 1
+        assert doc_element_class.x == 10
+        assert doc_element_class.y == 20
+        assert doc_element_class.w == 30
+        assert doc_element_class.h == 40
+        assert doc_element_class.content_type == ContentType.TEXT
+        assert doc_element_class.content == "Text 1"
+        assert doc_element_class.label == 1
 
-    def test_doc_element_classfication(self, mock_document):
-        mock_doc_element = mock_document.elements[1][0]
+    def test_doc_element(self, mock_document):
+        doc_element = mock_document.elements[1][0]
 
-        assert mock_doc_element.x == 10
-        assert mock_doc_element.y == 20
-        assert mock_doc_element.w == 30
-        assert mock_doc_element.h == 40
-        assert mock_doc_element.content_type == ContentType.TEXT
-        assert mock_doc_element.content == "Text 1"
+        assert doc_element.x == 10
+        assert doc_element.y == 20
+        assert doc_element.w == 30
+        assert doc_element.h == 40
+        assert doc_element.content_type == ContentType.TEXT
+        assert doc_element.content == "Text 1"
 
     def test_to_json(self, mock_document):
         json_data = mock_document.to_json()

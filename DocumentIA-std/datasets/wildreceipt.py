@@ -4,7 +4,7 @@ from typing import List
 
 from base.document import Document
 from base.document_entity_classification import DocumentEntityClassification
-from utility.base_utils import BaseUtils
+from utils.base_utils import BaseUtils
 
 
 class Wildreceipt:

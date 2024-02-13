@@ -1,16 +1,16 @@
-import logging
 import os
 
 import easyocr
+import numpy as np
 import pytesseract
 import pytest
-import numpy as np
 from PIL import Image
 from paddleocr import PaddleOCR
 
 from base.content_type import ContentType
 from base.doc_element import DocElement
 from base.doc_element_classification import DocElementClassification
+from base.document import Document
 
 
 # FIXME: TO Install paddle ocr try: pip install "paddleocr>=2.0.1" --upgrade PyMuPDF==1.21.1
