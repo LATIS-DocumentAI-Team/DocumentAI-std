@@ -5,14 +5,13 @@ with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
 version = "0.1.0"
-# FIXME: No module named ModuleNotFoundError: No module named 'src.base'
+# FIXME: No module named ModuleNotFoundError: No module named 'DocumentIA-std.base'
 # FIXME: Unistall the package
-# FIXME: rename the src file to the same name of the library
 setup(
     name="DocumentAI-std",
     version=version,
-    packages=find_packages("src", exclude=["src.test"]),
-    package_dir={"": "src"},  # Specify the root package directory
+    packages=find_packages("DocumentIA-std", exclude=["DocumentIA-std.test"]),
+    package_dir={"DocumentIA-std": "DocumentIA-std"},  # Specify the root package directory
     install_requires=requirements,
     # Add other metadata like author, description, etc.
     author="Hamza Gbada",
