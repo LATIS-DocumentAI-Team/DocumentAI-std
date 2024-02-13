@@ -11,6 +11,7 @@ from base.content_type import ContentType
 from base.doc_element import DocElement
 from base.doc_element_classification import DocElementClassification
 from base.document import Document
+from base.document_entity_classification import DocumentEntityClassification
 
 
 # FIXME: TO Install paddle ocr try: pip install "paddleocr>=2.0.1" --upgrade PyMuPDF==1.21.1
@@ -69,7 +70,7 @@ def mock_document_entity_classification():
     img_path = os.path.join(img_dir, "test.jpg")
     create_dummy_image(img_path)  # Create dummy image at the specified path
 
-    document = Document(img_path, ocr_output)
+    document = DocumentEntityClassification(img_path, ocr_output)
 
     return document
 
