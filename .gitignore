@@ -8,3 +8,4 @@ pip install /path/to/your/package/dist/your_package_name-0.1.tar.gz
 /build/
 /dist/
 /DocumentIA-std/DocumentAI_std.egg-info/
+/DocumentAI_std.egg-info/
