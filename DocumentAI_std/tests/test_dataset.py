@@ -1,4 +1,4 @@
-from datasets.wildreceipt import Wildreceipt
+from DocumentAI_std.datasets.wildreceipt import Wildreceipt
 
 
 class TestDataset:

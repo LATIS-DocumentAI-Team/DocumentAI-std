@@ -1,4 +1,4 @@
-from utils.base_utils import BaseUtils
+from DocumentAI_std.utils.base_utils import BaseUtils
 
 
 class OCRAdapter:

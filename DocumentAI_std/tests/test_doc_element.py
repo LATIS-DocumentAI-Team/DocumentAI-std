@@ -1,5 +1,6 @@
-from tests.mock_sample import *
-from utils.OCR_adapter import OCRAdapter
+from DocumentAI_std.utils.OCR_adapter import OCRAdapter
+
+from DocumentAI_std.tests.mock_sample import *
 
 
 class TestDocElements:

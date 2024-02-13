@@ -4,14 +4,19 @@ import easyocr
 import numpy as np
 import pytesseract
 import pytest
+from DocumentAI_std.base.document_entity_classification import (
+    DocumentEntityClassification,
+)
+
+from DocumentAI_std.base.document import Document
+
+from DocumentAI_std.base.doc_element_classification import DocElementClassification
+
+from DocumentAI_std.base.content_type import ContentType
+
+from DocumentAI_std.base.doc_element import DocElement
 from PIL import Image
 from paddleocr import PaddleOCR
-
-from base.content_type import ContentType
-from base.doc_element import DocElement
-from base.doc_element_classification import DocElementClassification
-from base.document import Document
-from base.document_entity_classification import DocumentEntityClassification
 
 
 # FIXME: TO Install paddle ocr try: pip install "paddleocr>=2.0.1" --upgrade PyMuPDF==1.21.1

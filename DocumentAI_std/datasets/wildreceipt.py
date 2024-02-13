@@ -2,9 +2,13 @@ import json
 import os
 from typing import List
 
-from base.document import Document
-from base.document_entity_classification import DocumentEntityClassification
-from utils.base_utils import BaseUtils
+from DocumentAI_std.base.document_entity_classification import (
+    DocumentEntityClassification,
+)
+
+from DocumentAI_std.utils.base_utils import BaseUtils
+
+from DocumentAI_std.base.document import Document
 
 
 class Wildreceipt:

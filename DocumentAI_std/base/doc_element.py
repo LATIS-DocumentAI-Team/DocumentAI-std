@@ -1,4 +1,4 @@
-from base.content_type import ContentType
+from DocumentAI_std.base.content_type import ContentType
 
 
 class DocElement:
