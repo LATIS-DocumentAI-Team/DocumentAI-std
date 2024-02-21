@@ -8,29 +8,46 @@ from DocumentAI_std.base.doc_element import DocElement
 
 class Document:
     """
-    The class describe a document by its content, a document in our case is defined by:
-        file_name: str
-        bounding boxes: List[List]
-        content: content of each bounding box : List
-        content_type: type of each bounding box content: Enum.ContentType
+    Represents a document consisting of content elements defined by bounding boxes.
 
-    :arg
-        ---
-        img_path: path to document
-        ocr_output: define the output of an ocr, (here we assume it is a json format in the following format)
-        {
+    A document is characterized by its content, where each content element is represented by a bounding box
+    with associated content and content type.
+
+    The `elements` attribute contains all the document elements within the filename, structured as follows:
+    self.elements: List[str, List[DocElement]]
+
+    Attributes:
+        img_path (str): The path to the document image file.
+        ocr_output (dict): The output of an OCR engine, containing bounding box and content information.
+        in this format:
+                {
             bbox: List[List]
             content: List[Any]
         }
-        Here len(bbox) == len(content) an obligation
+        root (str): The root directory of the document image file.
 
-        bbox are in the format x,y,w,h
-        this output are generate from an ocr engine
-        ---
+    Example:
+    >>> ocr_output = {
+    ...     "bbox": [[10, 20, 30, 40], [50, 60, 70, 80]],
+    ...     "content": ["Text 1", "Text 2"]
+    ... }
+    >>> doc = Document(img_path="/path/to/document.jpg", ocr_output=ocr_output)
     """
 
     # TODO: add method to extract image when need depend on content
     def __init__(self, img_path: str, ocr_output: dict, **kwargs: Any) -> None:
+        """
+        Initialize a Document instance with the provided image path and OCR output.
+
+        Args:
+            img_path (str): The path to the document image file.
+            ocr_output (dict): The output of an OCR engine, containing bounding box and content information.
+            **kwargs: Additional keyword arguments.
+
+        Raises:
+            FileNotFoundError: If the specified image file path does not exist.
+            AssertionError: If the lengths of bounding box and content lists in the OCR output do not match.
+        """
         # File existence check
         if not os.path.exists(img_path):
             raise FileNotFoundError(f"unable to locate img_folder at {img_path}")
@@ -52,7 +69,14 @@ class Document:
             ],
         ]
 
-    def to_json(self):
+    def to_json(self) -> dict:
+        """
+        Convert the document elements to a JSON-compatible dictionary.
+
+        Returns:
+            dict: A dictionary representing the document elements with filename, bounding box,
+                  content type, and content lists.
+        """
         return {
             "filename": self.elements[0],
             "bbox_list": [

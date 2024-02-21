@@ -2,8 +2,26 @@ from DocumentAI_std.base.content_type import ContentType
 
 
 class DocElement:
+    """
+    Represents a basic element within a document, typically defined by bounding boxes.
+
+    This class encapsulates properties and methods for managing document elements, including their
+    position, size, content type, and content.
+
+    Attributes:
+        x (int): The x-coordinate of the document element (or bounding box).
+        y (int): The y-coordinate of the document element (or bounding box).
+        w (int): The width of the document element (or bounding box).
+        h (int): The height of the document element (or bounding box).
+        content_type (ContentType): The type of content contained in the document element.
+        content (Any): The actual content of the document element.
+
+    Example:
+    >>> doc_element = DocElement(x=10, y=20, w=100, h=50, content_type=ContentType.TEXT, content="Hello, world!")
+    """
+
     def __init__(
-        self, x: int, y: int, w: int, h: int, content_type: ContentType, content
+            self, x: int, y: int, w: int, h: int, content_type: ContentType, content
     ):
         self.__x = x
         self.__y = y
@@ -61,6 +79,12 @@ class DocElement:
         self.__content = value
 
     def to_json(self):
+        """
+         Convert the document element to a JSON-compatible dictionary.
+
+         :return: A dictionary representation of the document element.
+         :rtype: dict
+         """
         return {
             "bbox": [self.__x, self.__y, self.__w, self.__h],
             "content_type": self.__content_type,

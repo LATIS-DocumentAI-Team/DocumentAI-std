@@ -9,6 +9,38 @@ from DocumentAI_std.base.document import Document
 
 class DocumentEntityClassification(Document):
     """
+    Represents a document consisting of content elements defined by bounding boxes.
+    The class describe a document by its content, a document in our case is defined by:
+        file_name: str
+        bounding boxes: List[List]
+        content: content of each bounding box : List
+        content_type: type of each bounding box content: Enum.ContentType
+        Label: The label or the class of each bounding box
+    A document is characterized by its content, where each content element is represented by a bounding box
+    with associated content and content type and label.
+
+    The `elements` attribute contains all the document elements within the filename, structured as follows:
+    self.elements: List[str, List[DocumentEntityClassification]]
+
+    Attributes:
+        img_path (str): The path to the document image file.
+        ocr_output (dict): The output of an OCR engine, containing bounding box and content information.
+        in this format:
+                {
+            bbox: List[List]
+            content: List[Any]
+            Label:  List[Any]
+        }
+        root (str): The root directory of the document image file.
+
+    Example:
+    >>> ocr_output = {
+    ...     "bbox": [[10, 20, 30, 40], [50, 60, 70, 80]],
+    ...     "content": ["Text 1", "Text 2"]
+    ... }
+    >>> doc = DocumentEntityClassification(img_path="/path/to/document.jpg", ocr_output=ocr_output)
+    """
+    """
     The class describe a document by its content, a document in our case is defined by:
         file_name: str
         bounding boxes: List[List]
