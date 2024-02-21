@@ -21,7 +21,7 @@ class DocElement:
     """
 
     def __init__(
-            self, x: int, y: int, w: int, h: int, content_type: ContentType, content
+        self, x: int, y: int, w: int, h: int, content_type: ContentType, content
     ):
         self.__x = x
         self.__y = y
@@ -80,11 +80,11 @@ class DocElement:
 
     def to_json(self):
         """
-         Convert the document element to a JSON-compatible dictionary.
+        Convert the document element to a JSON-compatible dictionary.
 
-         :return: A dictionary representation of the document element.
-         :rtype: dict
-         """
+        :return: A dictionary representation of the document element.
+        :rtype: dict
+        """
         return {
             "bbox": [self.__x, self.__y, self.__w, self.__h],
             "content_type": self.__content_type,

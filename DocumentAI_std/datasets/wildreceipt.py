@@ -12,22 +12,28 @@ from DocumentAI_std.base.document import Document
 
 
 class Wildreceipt:
-    """WildReceipt dataset from `"Spatial Dual-Modality Graph Reasoning for Key Information Extraction"
-        <https://arxiv.org/abs/2103.14470v1>`_ |
-    `repository <https://download.openmmlab.com/mmocr/data/wildreceipt.tar>`_.
-
-    .. image:: https://doctr-static.mindee.com/models?id=v0.7.0/wildreceipt-dataset.jpg&src=0
-        :align: center
+    """
+    WildReceipt dataset from "Spatial Dual-Modality Graph Reasoning for Key Information Extraction"
+    (https://arxiv.org/abs/2103.14470v1) and available at the following repository:
+    https://download.openmmlab.com/mmocr/data/wildreceipt.tar.
 
 
     Args:
-    ----
-        img_folder: folder with all the images of the dataset
-        label_path: path to the annotations file of the dataset
-        train: whether the subset should be the training one
-        use_polygons: whether polygons should be considered as rotated bounding box (instead of straight ones)
-        recognition_task: whether the dataset should be used for recognition task
-        **kwargs: keyword arguments from `AbstractDataset`.
+        img_folder (str): Folder containing all the images of the dataset.
+        label_path (str): Path to the annotations file of the dataset.
+        train (bool, optional): Whether the subset should be the training one. Defaults to True.
+
+    Attributes:
+        data (List[DocumentEntityClassification]): List of document entities in the dataset.
+        root (str): Root directory of the document image files.
+        train (bool): Indicates whether the dataset is for training or not.
+
+    Example:
+    >>> dataset = Wildreceipt(
+    ...     img_folder="/path/to/images",
+    ...     label_path="/path/to/annotations.json",
+    ...     train=True
+    ... )
     """
 
     def __init__(

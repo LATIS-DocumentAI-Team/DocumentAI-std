@@ -13,17 +13,16 @@ class Document:
     A document is characterized by its content, where each content element is represented by a bounding box
     with associated content and content type.
 
-    The `elements` attribute contains all the document elements within the filename, structured as follows:
+    The `elements` attribute contains all the document elements, structured as follows:
     self.elements: List[str, List[DocElement]]
 
     Attributes:
         img_path (str): The path to the document image file.
         ocr_output (dict): The output of an OCR engine, containing bounding box and content information.
-        in this format:
-                {
-            bbox: List[List]
-            content: List[Any]
-        }
+            Format: {
+                bbox: List[List]
+                content: List[Any]
+            }
         root (str): The root directory of the document image file.
 
     Example:

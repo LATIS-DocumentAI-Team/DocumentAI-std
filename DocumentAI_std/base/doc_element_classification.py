@@ -22,6 +22,7 @@ class DocElementClassification(DocElement):
     Example:
     >>> doc_element = DocElementClassification(x=10, y=20, w=100, h=50, content_type=ContentType.TEXT, content="Hello, world!", label=1)
     """
+
     def __init__(
         self,
         x: int,

@@ -13,7 +13,9 @@ class BaseUtils:
 
     @staticmethod
     def X1X2X3X4_to_xywh(bbox):
-        """Converts from x1, y1, x2, y2, x3, y3, x4, y4 to x, y, w, h."""
+        """
+        Converts from x1, y1, x2, y2, x3, y3, x4, y4 to x, y, w, h.
+        """
         x1, y1, x2, y2, x3, y3, x4, y4 = bbox
         min_x = min(x1, x2, x3, x4)
         min_y = min(y1, y2, y3, y4)
