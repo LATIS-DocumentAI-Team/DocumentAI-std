@@ -59,7 +59,7 @@ class Document:
             raise AssertionError(
                 "Length of 'bbox' and 'content' in OCR output are not equal."
             )
-
+# TODO make file name as superate atribut
         self.elements: List[str, List[DocElement]] = [
             filename,
             [
@@ -67,7 +67,7 @@ class Document:
                 for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
             ],
         ]
-
+# TODO: Serilazie as OBJECT to JSON
     def to_json(self) -> dict:
         """
         Convert the document elements to a JSON-compatible dictionary.
