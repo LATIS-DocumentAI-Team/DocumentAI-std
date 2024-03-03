@@ -59,13 +59,10 @@ class DocumentEntityClassification(Document):
                 doc_element.to_json()["bbox"] for doc_element in self.elements
             ],
             "content_type_list": [
-                doc_element.to_json()["content_type"]
-                for doc_element in self.elements
+                doc_element.to_json()["content_type"] for doc_element in self.elements
             ],
             "content_list": [
                 doc_element.to_json()["content"] for doc_element in self.elements
             ],
-            "label": [
-                doc_element.to_json()["label"] for doc_element in self.elements
-            ],
+            "label": [doc_element.to_json()["label"] for doc_element in self.elements],
         }

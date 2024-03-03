@@ -44,6 +44,31 @@ class DocElementClassification(DocElement):
     def label(self, value):
         self.__label = value
 
+    def serialize(self):
+        """
+        Serialize the DocElementClassification object attributes into a JSON representing its state.
+
+        Returns:
+            dict: A dictionary containing the serialized representation of the object.
+                  The dictionary includes the following keys:
+                  - "x": The x-coordinate of the document element.
+                  - "y": The y-coordinate of the document element.
+                  - "w": The width of the document element.
+                  - "h": The height of the document element.
+                  - "content_type": The type of content contained in the document element.
+                  - "content": The actual content of the document element.
+                  - label (int): The label assigned to the document element for classification purposes.
+        """
+        return {
+            "x": self.__x,
+            "y": self.__y,
+            "w": self.__w,
+            "h": self.__h,
+            "content_type": self.__content_type,
+            "content": self.__content,
+            "label": self.__label,
+        }
+
     def to_json(self):
         """
         Convert the classified document element to a JSON-compatible dictionary.
