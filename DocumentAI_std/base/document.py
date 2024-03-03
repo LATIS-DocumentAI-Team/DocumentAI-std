@@ -67,6 +67,26 @@ class Document:
             ],
         ]
 
+    @property
+    def filename(self) -> str:
+        """Getter method for the filename attribute."""
+        return self.__filename
+
+    @filename.setter
+    def filename(self, value: str) -> None:
+        """Setter method for the filename attribute."""
+        self.__filename = value
+
+    @property
+    def elements(self) -> List[List[DocElement]]:
+        """Getter method for the elements attribute."""
+        return self.__elements
+
+    @elements.setter
+    def elements(self, value: List[List[DocElement]]) -> None:
+        """Setter method for the elements attribute."""
+        self.__elements = value
+
     # TODO: Serilazie as OBJECT to JSON
     def to_json(self) -> dict:
         """
