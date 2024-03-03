@@ -60,11 +60,9 @@ class Document:
             raise AssertionError(
                 "Length of 'bbox' and 'content' in OCR output are not equal."
             )
-        self.__elements: List[List[DocElement]] = [
-            [
-                DocElement(*bbox, content_type=ContentType.TEXT, content=content)
-                for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
-            ],
+        self.__elements: List[DocElement] = [
+            DocElement(*bbox, content_type=ContentType.TEXT, content=content)
+            for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
         ]
 
     @property

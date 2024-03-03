@@ -33,8 +33,9 @@ class TestDocElements:
 
 class TestDocument:
     def test_doc_element_classfication(self, mock_document_entity_classification):
-        doc_element_class = mock_document_entity_classification.elements[1][0]
+        doc_element_class = mock_document_entity_classification.elements[0]
 
+        assert mock_document_entity_classification.filename == "test.jpg"
         assert doc_element_class.x == 10
         assert doc_element_class.y == 20
         assert doc_element_class.w == 30
@@ -44,8 +45,9 @@ class TestDocument:
         assert doc_element_class.label == 1
 
     def test_doc_element(self, mock_document):
-        doc_element = mock_document.elements[1][0]
+        doc_element = mock_document.elements[0]
 
+        assert mock_document.filename == "test.jpg"
         assert doc_element.x == 10
         assert doc_element.y == 20
         assert doc_element.w == 30

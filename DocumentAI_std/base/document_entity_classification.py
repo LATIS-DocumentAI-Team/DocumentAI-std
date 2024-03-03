@@ -43,7 +43,7 @@ class DocumentEntityClassification(Document):
 
     def __init__(self, img_path: str, ocr_output: dict, **kwargs: Any) -> None:
         super().__init__(img_path, ocr_output, **kwargs)
-        self.elements[1] = [
+        self.elements = [
             DocElementClassification(
                 *bbox, content_type=ContentType.TEXT, content=content, label=label
             )
@@ -54,18 +54,18 @@ class DocumentEntityClassification(Document):
 
     def to_json(self):
         return {
-            "filename": self.elements[0],
+            "filename": self.filename,
             "bbox_list": [
-                doc_element.to_json()["bbox"] for doc_element in self.elements[1]
+                doc_element.to_json()["bbox"] for doc_element in self.elements
             ],
             "content_type_list": [
                 doc_element.to_json()["content_type"]
-                for doc_element in self.elements[1]
+                for doc_element in self.elements
             ],
             "content_list": [
-                doc_element.to_json()["content"] for doc_element in self.elements[1]
+                doc_element.to_json()["content"] for doc_element in self.elements
             ],
             "label": [
-                doc_element.to_json()["label"] for doc_element in self.elements[1]
+                doc_element.to_json()["label"] for doc_element in self.elements
             ],
         }
