@@ -85,7 +85,24 @@ class Document:
         """Setter method for the elements attribute."""
         self.__elements = value
 
-    # TODO: Serilazie as OBJECT to JSON
+    def serialize(self):
+        """
+        Serialize the Document object attributes into a JSON representing its state.
+
+        Returns:
+            dict: A dictionary containing the serialized representation of the Document object.
+                  The dictionary includes the following keys:
+                  - "filename": The filename of the document.
+                  - "elements": A list of serialized representations of each document element.
+                                Each element is represented as a dictionary.
+                                For each element, the dictionary includes the serialized attributes
+                                returned by the `serialize` method of the DocElement class.
+        """
+        return {
+            "filename": self.__filename,
+            "elements": [element.serialize() for element in self.__elements],
+        }
+
     def to_json(self) -> dict:
         """
         Convert the document elements to a JSON-compatible dictionary.

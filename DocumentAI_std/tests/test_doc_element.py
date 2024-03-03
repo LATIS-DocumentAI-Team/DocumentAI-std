@@ -30,6 +30,15 @@ class TestDocElements:
         assert json_data["content"] == "Mock Content"
         assert json_data["label"] == 5
 
+    def test_serialize(self, mock_doc_element):
+        serialize_object = mock_doc_element.serialize()
+        assert serialize_object["x"] == 1
+        assert serialize_object["y"] == 2
+        assert serialize_object["w"] == 3
+        assert serialize_object["h"] == 4
+        assert serialize_object["content_type"] == ContentType.TEXT
+        assert serialize_object["content"] == "Mock Content"
+
 
 class TestDocument:
     def test_doc_element_classfication(self, mock_document_entity_classification):
@@ -72,6 +81,14 @@ class TestDocument:
         assert json_data["content_list"][0] == "Text 1"
         assert json_data["content_list"][1] == "Text 2"
         assert json_data["content_list"][2] == "Text 3"
+
+    def test_seralize(self, mock_document):
+        serialize_object = mock_document.serialize()
+
+        assert serialize_object["filename"] == "test.jpg"
+        assert serialize_object["elements"] == [
+            e.serialize() for e in mock_document.elements
+        ]
 
     def test_paddle_adapter(self, mock_paddle):
         output_json = OCRAdapter.from_paddle_ocr(mock_paddle)
