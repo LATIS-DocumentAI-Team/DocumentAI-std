@@ -14,7 +14,9 @@ class Document:
     with associated content and content type.
 
     The `elements` attribute contains all the document elements, structured as follows:
-    self.elements: List[str, List[DocElement]]
+    self.elements: List[ List[DocElement]]
+    The `filename` attribute contains the filename of the document:
+    self.filename: str
 
     Attributes:
         img_path (str): The path to the document image file.
@@ -51,23 +53,21 @@ class Document:
         if not os.path.exists(img_path):
             raise FileNotFoundError(f"unable to locate img_folder at {img_path}")
 
-        filename = os.path.basename(img_path)
-        self.root = os.path.dirname(img_path)
+        self.__filename = os.path.basename(img_path)
         try:
             assert len(ocr_output["bbox"]) == len(ocr_output["content"])
         except AssertionError:
             raise AssertionError(
                 "Length of 'bbox' and 'content' in OCR output are not equal."
             )
-# TODO make file name as superate atribut
-        self.elements: List[str, List[DocElement]] = [
-            filename,
+        self.__elements: List[List[DocElement]] = [
             [
                 DocElement(*bbox, content_type=ContentType.TEXT, content=content)
                 for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
             ],
         ]
-# TODO: Serilazie as OBJECT to JSON
+
+    # TODO: Serilazie as OBJECT to JSON
     def to_json(self) -> dict:
         """
         Convert the document elements to a JSON-compatible dictionary.
@@ -77,15 +77,15 @@ class Document:
                   content type, and content lists.
         """
         return {
-            "filename": self.elements[0],
+            "filename": self.__filename,
             "bbox_list": [
-                doc_element.to_json()["bbox"] for doc_element in self.elements[1]
+                doc_element.to_json()["bbox"] for doc_element in self.__elements
             ],
             "content_type_list": [
                 doc_element.to_json()["content_type"]
-                for doc_element in self.elements[1]
+                for doc_element in self.__elements
             ],
             "content_list": [
-                doc_element.to_json()["content"] for doc_element in self.elements[1]
+                doc_element.to_json()["content"] for doc_element in self.__elements
             ],
         }
