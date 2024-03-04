@@ -168,24 +168,24 @@ class TextUtils:
 
         s1, s2 = a.content, b.content
 
-        # Create a matrix to store distances
-        rows, cols = len(s1) + 1, len(s2) + 1
-        distance = [[0] * cols for _ in range(rows)]
+        # Ensure s1 is the shorter string
+        if len(s1) > len(s2):
+            s1, s2 = s2, s1
 
-        # Initialize the first row and column
-        for i in range(rows):
-            distance[i][0] = i
-        for j in range(1, cols):
-            distance[0][j] = j
+        # Initialize the previous and current rows of the matrix
+        prev_row = list(range(len(s2) + 1))
+        curr_row = [0] * (len(s2) + 1)
 
-        # Compute the minimum distance
-        for i in range(1, rows):
-            for j in range(1, cols):
+        # Compute the Levenshtein distance row by row
+        for i in range(1, len(s1) + 1):
+            curr_row[0] = i
+            for j in range(1, len(s2) + 1):
                 cost = 0 if s1[i - 1] == s2[j - 1] else 1
-                distance[i][j] = min(
-                    distance[i - 1][j] + 1,  # Deletion
-                    distance[i][j - 1] + 1,  # Insertion
-                    distance[i - 1][j - 1] + cost  # Substitution
+                curr_row[j] = min(
+                    curr_row[j - 1] + 1,  # Insertion
+                    prev_row[j] + 1,  # Deletion
+                    prev_row[j - 1] + cost  # Substitution
                 )
+            prev_row, curr_row = curr_row, prev_row
 
-        return distance[rows - 1][cols - 1]
+        return prev_row[-1]
