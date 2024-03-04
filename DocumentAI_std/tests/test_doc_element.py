@@ -109,15 +109,8 @@ class TestUtils:
     def test_nbr_chars(self, mock_doc_element):
         assert TextUtils.nbr_chars(mock_doc_element) == 12
 
-    def test_is_date(self, mock_doc_element_date):
-        print(mock_doc_element_date[0].content)
-        assert TextUtils.is_date(mock_doc_element_date[0]) == True
-        print(mock_doc_element_date[1].content)
-        assert TextUtils.is_date(mock_doc_element_date[1]) == True
-        print(mock_doc_element_date[2].content)
-        assert TextUtils.is_date(mock_doc_element_date[2]) == True
-        print(mock_doc_element_date[3].content)
-        assert TextUtils.is_date(mock_doc_element_date[3]) == True
-        print(mock_doc_element_date[4].content)
-        assert TextUtils.is_date(mock_doc_element_date[4]) == True
+    def test_is_date(self, mock_dates):
+        for date in mock_dates:
+            print(f"the date is {date}")
+            assert TextUtils.is_date(date) == True
 
