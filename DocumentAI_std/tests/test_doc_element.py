@@ -2,6 +2,8 @@ from DocumentAI_std.utils.OCR_adapter import OCRAdapter
 
 from DocumentAI_std.tests.mock_sample import *
 from DocumentAI_std.utils.text_utils import TextUtils
+from DocumentAI_std.base.doc_enum import ContentRelativePosition
+from DocumentAI_std.utils.layout_utils import LayoutUtils
 
 
 class TestDocElements:
@@ -117,3 +119,23 @@ class TestUtils:
                 )
                 == True
             )
+
+    def test_relative_position(self, mock_document):
+        """Test the relative_position method."""
+        # Test the top height position
+        position = LayoutUtils.relative_position(
+            mock_document.elements[0], mock_document
+        )
+        assert position == ContentRelativePosition.TOP_HEIGHT
+
+        # Test the central height position
+        position = LayoutUtils.relative_position(
+            mock_document.elements[1], mock_document
+        )
+        assert position == ContentRelativePosition.CENTRAL_HEIGHT
+
+        # Test the bottom height position
+        position = LayoutUtils.relative_position(
+            mock_document.elements[2], mock_document
+        )
+        assert position == ContentRelativePosition.BOTTOM_HEIGHT

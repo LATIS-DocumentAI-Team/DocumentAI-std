@@ -8,7 +8,9 @@ from DocumentAI_std.base.doc_enum import ContentRelativePosition
 
 class LayoutUtils:
     @staticmethod
-    def relative_position(doc_element: DocElement, document: Document) -> ContentRelativePosition:
+    def relative_position(
+        doc_element: DocElement, document: Document
+    ) -> ContentRelativePosition:
         """
         Determine the relative position of a bounding box within a document.
 
@@ -25,7 +27,12 @@ class LayoutUtils:
         """
         # Extracting shape and bounding box information
         shape: Tuple[int, int] = document.shape
-        bbox: Tuple[int, int, int, int] = doc_element.x, doc_element.y, doc_element.w, doc_element.h
+        bbox: Tuple[int, int, int, int] = (
+            doc_element.x,
+            doc_element.y,
+            doc_element.w,
+            doc_element.h,
+        )
 
         # Calculate the vertical center of the bounding box
         bbox_center_y: float = bbox[1] + bbox[3] / 2
@@ -41,4 +48,3 @@ class LayoutUtils:
             return ContentRelativePosition.CENTRAL_HEIGHT
         else:
             return ContentRelativePosition.BOTTOM_HEIGHT
-

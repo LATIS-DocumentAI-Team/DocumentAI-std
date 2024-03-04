@@ -41,6 +41,7 @@ class ContentRelativePosition(Enum):
     | CENTRAL_HEIGHT   | BBT exists in the central part of the document. |
     | BOTTOM_HEIGHT    | BBT exists at the bottom of the document.    |
     """
+
     TOP_HEIGHT = 1
     CENTRAL_HEIGHT = 2
     BOTTOM_HEIGHT = 3
