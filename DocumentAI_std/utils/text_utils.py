@@ -164,7 +164,9 @@ class TextUtils:
             AssertionError: If either of the DocElements does not contain text content.
         """
         if a.content_type != ContentType.TEXT or b.content_type != ContentType.TEXT:
-            raise AssertionError("Cannot calculate Levenshtein distance for non-text content")
+            raise AssertionError(
+                "Cannot calculate Levenshtein distance for non-text content"
+            )
 
         s1, s2 = a.content, b.content
 
@@ -184,7 +186,7 @@ class TextUtils:
                 curr_row[j] = min(
                     curr_row[j - 1] + 1,  # Insertion
                     prev_row[j] + 1,  # Deletion
-                    prev_row[j - 1] + cost  # Substitution
+                    prev_row[j - 1] + cost,  # Substitution
                 )
             prev_row, curr_row = curr_row, prev_row
 

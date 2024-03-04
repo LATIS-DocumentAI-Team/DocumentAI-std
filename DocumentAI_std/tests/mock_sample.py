@@ -80,6 +80,21 @@ def mock_document():
     return document
 
 
+def mock_levenshtien():
+    return [
+        ("kitten", "sitting", 3),
+        ("rosettacode", "raisethysword", 8),
+        ("saturday", "sunday", 3),
+        ("k", "kitten", 5),
+        ("kitten", "k", 5),
+        ("", "kitten", 6),
+        ("kitten", "", 6),
+        ("", "", 0),
+        ("abcd", "abcd", 0),
+        ("abc", "xyz", 3),
+    ]
+
+
 @pytest.fixture
 def mock_document_entity_classification():
     # Dummy data for ocr_output
