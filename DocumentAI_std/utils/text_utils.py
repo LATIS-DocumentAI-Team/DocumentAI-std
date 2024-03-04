@@ -110,10 +110,13 @@ class TextUtils:
         Check if the given text contains a date in various formats.
 
         Args:
-            text (str): The text to check for a date.
+            doc_element (DocElement): The document element to check for a date.
 
         Returns:
             bool: True if the text contains a date, False otherwise.
+
+        Raises:
+            AssertionError: If the content type of the DocElement is not TEXT.
         """
         # Ensure the content type is TEXT
         if doc_element.content_type != ContentType.TEXT:
