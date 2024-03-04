@@ -147,3 +147,45 @@ class TextUtils:
                 return True
 
         return False
+
+    @staticmethod
+    def levenshtein_distance(a: DocElement, b: DocElement) -> int:
+        """
+        Compute the Levenshtein distance between the content of two DocElements.
+
+        Args:
+            a (DocElement): The first DocElement.
+            b (DocElement): The second DocElement.
+
+        Returns:
+            int: The Levenshtein distance between the content of the two DocElements.
+
+        Raises:
+            AssertionError: If either of the DocElements does not contain text content.
+        """
+        if a.content_type != ContentType.TEXT or b.content_type != ContentType.TEXT:
+            raise AssertionError("Cannot calculate Levenshtein distance for non-text content")
+
+        s1, s2 = a.content, b.content
+
+        # Create a matrix to store distances
+        rows, cols = len(s1) + 1, len(s2) + 1
+        distance = [[0] * cols for _ in range(rows)]
+
+        # Initialize the first row and column
+        for i in range(rows):
+            distance[i][0] = i
+        for j in range(1, cols):
+            distance[0][j] = j
+
+        # Compute the minimum distance
+        for i in range(1, rows):
+            for j in range(1, cols):
+                cost = 0 if s1[i - 1] == s2[j - 1] else 1
+                distance[i][j] = min(
+                    distance[i - 1][j] + 1,  # Deletion
+                    distance[i][j - 1] + 1,  # Insertion
+                    distance[i - 1][j - 1] + cost  # Substitution
+                )
+
+        return distance[rows - 1][cols - 1]
