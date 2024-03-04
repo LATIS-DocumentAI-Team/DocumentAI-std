@@ -101,27 +101,40 @@ class TextUtils:
             return num_numeric_chars / total_chars
 
     @staticmethod
-    def is_date(doc_element: DocElement) -> bool:
+    def is_date(text: str) -> bool:
         """
-        Check if the given text contains a date.
-        """
+        Check if the given text contains a date in various formats.
 
-        date_format_patterns = [
-            r"^\d{4}-\d{2}-\d{2}$",  # YYYY-MM-DD
-            r"^\d{1,2}(?:-\w{3,10}|\s\w{3,10})$-\d{4}$",  # DD-Mon-YYYY (flexible month name length)
+        Args:
+            text (str): The text to check for a date.
+
+        Returns:
+            bool: True if the text contains a date, False otherwise.
+        """
+        # Define regular expression patterns for different date formats
+        date_patterns = [
+            r"\b(\d{1,2}/\d{1,2}/\d{4})\b",                # dd/mm/yyyy
+            r"\b(\d{1,2}-\d{1,2}-\d{4})\b",                # dd-mm-yyyy
+            r"\b(\d{1,2}\s\w+\s\d{4})\b",                  # dd month yyyy
+            r"\b(\d{1,2}\s\w{3,}\s\d{4})\b",               # month dd yyyy
+            r"\b(\w{3,}\s\d{1,2}\s\d{4})\b",               # month day yyyy
+            r"\b(\w{3,}\,\s\d{1,2}\s\d{4})\b",             # month, day yyyy
+            r"\b(\d{1,2}\|\d{1,2}\|\d{4})\b",              # dd|mm|yyyy
+            r"\b(\d{1,2}-\d{1,2}-\d{4})\b",                # mm-dd-yyyy
+            r"\b(\d{1,2}/\d{1,2}/\d{4})\b",                # mm/dd/yyyy
+            r"\b(\d{1,2}\s\w+\s\d{1,2}\s\d{4})\b",         # dd month dd yyyy
+            r"\b(\w{3,}\s\d{1,2}\s\w{3,}\s\d{4})\b",       # month dd month yyyy
+            r"\b(\w{3,}\,\s\d{1,2}\s\w{3,}\s\d{4})\b",     # month, dd month yyyy
+            r"\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s(\d{1,2})\s(\w{3,})\s(\d{4})\b",  # Monday 15 July 2023
+            r"\b(\w{3,}\s\d{1,2},\s\d{4})\b",              # Month dd, yyyy (e.g., March 12, 2023)
         ]
-        text = doc_element.content
-        for pattern in date_format_patterns:
+
+        # Check each pattern for a match in the text
+        for pattern in date_patterns:
             match = re.search(pattern, text)
             if match:
-                try:
-                    # Convert the matched date string to a date object for validation
-                    datetime.strptime(match.group(),
-                                               "%Y-%m-%d" if pattern == date_format_patterns[0] else pattern)
-                    return True
-                except ValueError:
-                    # If parsing fails, the date is invalid
-                    pass
+                return True
 
         return False
+
 
