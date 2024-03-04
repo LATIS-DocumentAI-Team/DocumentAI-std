@@ -4,6 +4,9 @@ from DocumentAI_std.base.doc_element import DocElement
 from DocumentAI_std.base.doc_enum import ContentType
 
 
+# TODO: - ADD strategy the compute text embeddings
+#       - ADD methods and some logic related the image content of each doc element (develop a utils for it also)
+#       - Write a docuemnt (.md file) explain the architecture and the relationship between classes and a develop guide
 class TextUtils:
     @staticmethod
     def nbr_chars(doc_element: DocElement) -> int:
@@ -136,7 +139,8 @@ class TextUtils:
             r"\b(\d{1,2}\s\w+\s\d{1,2}\s\d{4})\b",  # dd month dd yyyy
             r"\b(\w{3,}\s\d{1,2}\s\w{3,}\s\d{4})\b",  # month dd month yyyy
             r"\b(\w{3,}\,\s\d{1,2}\s\w{3,}\s\d{4})\b",  # month, dd month yyyy
-            r"\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s(\d{1,2})\s(\w{3,})\s(\d{4})\b",  # Monday 15 July 2023
+            r"\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s(\d{1,2})\s(\w{3,})\s(\d{4})\b",
+            # Monday 15 July 2023
             r"\b(\w{3,}\s\d{1,2},\s\d{4})\b",  # Month dd, yyyy (e.g., March 12, 2023)
         ]
 
