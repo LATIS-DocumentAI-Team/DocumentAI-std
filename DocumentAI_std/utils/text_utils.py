@@ -5,7 +5,7 @@ from DocumentAI_std.base.doc_element import DocElement
 
 class TextUtils:
     @staticmethod
-    def nbr_chars(doc_element: DocElement):
+    def nbr_chars(doc_element: DocElement) -> int:
         """
         Count the number of characters in the content of a DocElement if it is of type TEXT.
 
@@ -40,7 +40,9 @@ class TextUtils:
         Raises:
             AssertionError: If the content type of the DocElement is not TEXT.
         """
-        if doc_element.content_type != ContentType.TEXT:
+        try:
+            assert doc_element.content == ContentType.TEXT
+        except AssertionError:
             raise AssertionError("Cannot check for special characters in non-TEXT objects")
 
         special_chars = set("!@#$%^&*()_+{}[];:'\"<>,.?/\\|-")
@@ -52,15 +54,15 @@ class TextUtils:
         return False
 
     @staticmethod
-    def nbr_chars(doc_element: DocElement):
+    def count_special_chars(doc_element: DocElement) -> int:
         """
-        Count the number of characters in the content of a DocElement if it is of type TEXT.
+        Count the number of special characters in the content of a DocElement of type TEXT.
 
         Args:
-            doc_element (DocElement): The document element to count characters from.
+            doc_element (DocElement): The document element to count special characters.
 
         Returns:
-            int: The number of characters in the content of the DocElement.
+            int: The number of special characters in the content.
 
         Raises:
             AssertionError: If the content type of the DocElement is not TEXT.
@@ -68,29 +70,9 @@ class TextUtils:
         try:
             assert doc_element.content == ContentType.TEXT
         except AssertionError:
-            raise AssertionError(
-                "Cannot count the number of character of non TEXT Objects"
-            )
-        return len(doc_element.content)
+            raise AssertionError("Cannot count special characters in non-TEXT objects")
 
-    @staticmethod
-    def nbr_chars(doc_element: DocElement):
-        """
-        Count the number of characters in the content of a DocElement if it is of type TEXT.
+        special_chars = "!@#$%^&*()_+{}[];:'\"<>,.?/\\|-"
+        count = sum(1 for char in doc_element.content if char in special_chars)
 
-        Args:
-            doc_element (DocElement): The document element to count characters from.
-
-        Returns:
-            int: The number of characters in the content of the DocElement.
-
-        Raises:
-            AssertionError: If the content type of the DocElement is not TEXT.
-        """
-        try:
-            assert doc_element.content == ContentType.TEXT
-        except AssertionError:
-            raise AssertionError(
-                "Cannot count the number of character of non TEXT Objects"
-            )
-        return len(doc_element.content)
+        return count

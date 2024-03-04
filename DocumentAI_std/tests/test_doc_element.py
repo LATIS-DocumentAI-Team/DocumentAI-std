@@ -1,6 +1,7 @@
 from DocumentAI_std.utils.OCR_adapter import OCRAdapter
 
 from DocumentAI_std.tests.mock_sample import *
+from DocumentAI_std.utils.text_utils import TextUtils
 
 
 class TestDocElements:
@@ -102,3 +103,10 @@ class TestDocument:
     def test_tesseract_adapter(self, mock_tesseract):
         output_json = OCRAdapter.from_tesseract_ocr(mock_tesseract)
         assert len(output_json["bbox"]) == len(output_json["content"])
+
+class TestUtils:
+    def test_nbr_chars(self, mock_doc_element):
+        assert TextUtils.nbr_chars(mock_doc_element) == 12
+        mock_doc_element.content_type = ContentType.IMAGE
+        print(TextUtils.nbr_chars(mock_doc_element))
+        assert TextUtils.nbr_chars(mock_doc_element) == 12
