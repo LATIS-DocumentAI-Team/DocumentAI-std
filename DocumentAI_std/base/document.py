@@ -1,5 +1,7 @@
 import os
-from typing import Any, List
+from typing import Any, List, Tuple
+
+from PIL import Image
 
 from DocumentAI_std.base.doc_enum import ContentType
 
@@ -17,6 +19,8 @@ class Document:
     self.elements: List[ List[DocElement]]
     The `filename` attribute contains the filename of the document:
     self.filename: str
+    The `shape` attribute contains the shape of the document:
+    self.filename: tuple[int, int]
 
     Attributes:
         img_path (str): The path to the document image file.
@@ -53,6 +57,8 @@ class Document:
         if not os.path.exists(img_path):
             raise FileNotFoundError(f"unable to locate img_folder at {img_path}")
 
+        # Get the image shape
+        self.__shape = Image.open(img_path).size
         self.__filename = os.path.basename(img_path)
         try:
             assert len(ocr_output["bbox"]) == len(ocr_output["content"])
@@ -64,6 +70,16 @@ class Document:
             DocElement(*bbox, content_type=ContentType.TEXT, content=content)
             for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
         ]
+
+    @property
+    def shape(self) -> tuple[int, int]:
+        """Getter method for the filename attribute."""
+        return self.__shape
+
+    @shape.setter
+    def shape(self, value: tuple[int, int]) -> None:
+        """Setter method for the filename attribute."""
+        self.__shape = value
 
     @property
     def filename(self) -> str:

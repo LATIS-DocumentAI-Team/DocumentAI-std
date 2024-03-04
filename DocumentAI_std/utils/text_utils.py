@@ -1,9 +1,7 @@
 import re
-from datetime import datetime
-
-from DocumentAI_std.base.doc_enum import ContentType
 
 from DocumentAI_std.base.doc_element import DocElement
+from DocumentAI_std.base.doc_enum import ContentType
 
 
 class TextUtils:
