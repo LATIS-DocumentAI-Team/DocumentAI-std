@@ -1,3 +1,4 @@
+import math
 from typing import Tuple
 
 from DocumentAI_std.base.document import Document
@@ -9,7 +10,7 @@ from DocumentAI_std.base.doc_enum import ContentRelativePosition
 class LayoutUtils:
     @staticmethod
     def relative_position(
-        doc_element: DocElement, document: Document
+            doc_element: DocElement, document: Document
     ) -> ContentRelativePosition:
         """
         Determine the relative position of a bounding box within a document.
@@ -48,3 +49,51 @@ class LayoutUtils:
             return ContentRelativePosition.CENTRAL_HEIGHT
         else:
             return ContentRelativePosition.BOTTOM_HEIGHT
+
+    @staticmethod
+    def euclidean_distance(a: DocElement, b: DocElement) -> float:
+        """
+        Compute the Euclidean distance between two points.
+
+        Args:
+            a (DocElement): The first point.
+            b (DocElement): The second point.
+
+        Returns:
+            float: The Euclidean distance between the two points.
+        """
+        dx = a.x - b.x
+        dy = a.y - b.y
+        return math.sqrt(dx ** 2 + dy ** 2)
+
+    @staticmethod
+    def manhattan_distance(a: DocElement, b: DocElement) -> float:
+        """
+        Compute the Manhattan distance between two points.
+
+        Args:
+            a (DocElement): The first point.
+            b (DocElement): The second point.
+
+        Returns:
+            float: The Manhattan distance between the two points.
+        """
+        dx = abs(a.x - b.x)
+        dy = abs(a.y - b.y)
+        return dx + dy
+
+    @staticmethod
+    def chebyshev_distance(a: DocElement, b: DocElement) -> float:
+        """
+        Compute the Chebyshev distance between two points.
+
+        Args:
+            a (DocElement): The first point.
+            b (DocElement): The second point.
+
+        Returns:
+            float: The Chebyshev distance between the two points.
+        """
+        dx = abs(a.x - b.x)
+        dy = abs(a.y - b.y)
+        return max(dx, dy)
