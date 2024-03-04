@@ -32,19 +32,21 @@ def mock_doc_element():
 @pytest.fixture
 def mock_dates():
     return [
-    "WHATEVER 22/10/2029 WHATEVER",
-    "24 November 2008",
-    "text 24/02/2021 ... 24-02-2021 ... 24_02_2021 ... 24|02|2021 text",
-    "Monastir le 23 Avril 2020",
-    "March 12, 2023",
-    "12 March 2023",
-    "03-12-2023",
-    "03/12/2023",
-    "XXXXXXXXXXX 03/12/2023 XXXXXXXX",
-    "Monday 15 July 2023",
-    "20/06/2023",
-        "12/24/1998","10-10-2020", "Grenade 02/01/1492"
-]
+        "WHATEVER 22/10/2029 WHATEVER",
+        "24 November 2008",
+        "text 24/02/2021 ... 24-02-2021 ... 24_02_2021 ... 24|02|2021 text",
+        "Monastir le 23 Avril 2020",
+        "March 12, 2023",
+        "12 March 2023",
+        "03-12-2023",
+        "03/12/2023",
+        "XXXXXXXXXXX 03/12/2023 XXXXXXXX",
+        "Monday 15 July 2023",
+        "20/06/2023",
+        "12/24/1998",
+        "10-10-2020",
+        "Grenade 02/01/1492",
+    ]
 
 
 @pytest.fixture

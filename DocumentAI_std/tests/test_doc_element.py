@@ -14,7 +14,7 @@ class TestDocElements:
         assert mock_doc_element.content == "Mock Content"
 
     def test_doc_element_classification_properties(
-            self, mock_doc_element_classification
+        self, mock_doc_element_classification
     ):
         assert mock_doc_element_classification.x == 1
         assert mock_doc_element_classification.y == 2
@@ -112,5 +112,9 @@ class TestUtils:
     def test_is_date(self, mock_dates):
         for date in mock_dates:
             print(f"the date is {date}")
-            assert TextUtils.is_date(date) == True
-
+            assert (
+                TextUtils.is_date(
+                    DocElement(None, None, None, None, ContentType.TEXT, date)
+                )
+                == True
+            )

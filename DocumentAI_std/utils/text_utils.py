@@ -42,7 +42,9 @@ class TextUtils:
             AssertionError: If the content type of the DocElement is not TEXT.
         """
         if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError("Cannot check for special characters in non-TEXT objects")
+            raise AssertionError(
+                "Cannot check for special characters in non-TEXT objects"
+            )
 
         special_chars = set("!@#$%^&*()_+{}[];:'\"<>,.?/\\|-")
 
@@ -88,7 +90,9 @@ class TextUtils:
         """
         # Ensure the content type is TEXT
         if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError("Cannot calculate numeric percentage in non-TEXT objects")
+            raise AssertionError(
+                "Cannot calculate numeric percentage in non-TEXT objects"
+            )
 
         # Initialize count for numeric characters and total characters
         num_numeric_chars = sum(1 for char in doc_element.content if char.isdigit())
@@ -101,7 +105,7 @@ class TextUtils:
             return num_numeric_chars / total_chars
 
     @staticmethod
-    def is_date(text: str) -> bool:
+    def is_date(doc_element: DocElement) -> bool:
         """
         Check if the given text contains a date in various formats.
 
@@ -111,22 +115,28 @@ class TextUtils:
         Returns:
             bool: True if the text contains a date, False otherwise.
         """
+        # Ensure the content type is TEXT
+        if doc_element.content_type != ContentType.TEXT:
+            raise AssertionError(
+                "Cannot calculate numeric percentage in non-TEXT objects"
+            )
+        text = doc_element.content
         # Define regular expression patterns for different date formats
         date_patterns = [
-            r"\b(\d{1,2}/\d{1,2}/\d{4})\b",                # dd/mm/yyyy
-            r"\b(\d{1,2}-\d{1,2}-\d{4})\b",                # dd-mm-yyyy
-            r"\b(\d{1,2}\s\w+\s\d{4})\b",                  # dd month yyyy
-            r"\b(\d{1,2}\s\w{3,}\s\d{4})\b",               # month dd yyyy
-            r"\b(\w{3,}\s\d{1,2}\s\d{4})\b",               # month day yyyy
-            r"\b(\w{3,}\,\s\d{1,2}\s\d{4})\b",             # month, day yyyy
-            r"\b(\d{1,2}\|\d{1,2}\|\d{4})\b",              # dd|mm|yyyy
-            r"\b(\d{1,2}-\d{1,2}-\d{4})\b",                # mm-dd-yyyy
-            r"\b(\d{1,2}/\d{1,2}/\d{4})\b",                # mm/dd/yyyy
-            r"\b(\d{1,2}\s\w+\s\d{1,2}\s\d{4})\b",         # dd month dd yyyy
-            r"\b(\w{3,}\s\d{1,2}\s\w{3,}\s\d{4})\b",       # month dd month yyyy
-            r"\b(\w{3,}\,\s\d{1,2}\s\w{3,}\s\d{4})\b",     # month, dd month yyyy
+            r"\b(\d{1,2}/\d{1,2}/\d{4})\b",  # dd/mm/yyyy
+            r"\b(\d{1,2}-\d{1,2}-\d{4})\b",  # dd-mm-yyyy
+            r"\b(\d{1,2}\s\w+\s\d{4})\b",  # dd month yyyy
+            r"\b(\d{1,2}\s\w{3,}\s\d{4})\b",  # month dd yyyy
+            r"\b(\w{3,}\s\d{1,2}\s\d{4})\b",  # month day yyyy
+            r"\b(\w{3,}\,\s\d{1,2}\s\d{4})\b",  # month, day yyyy
+            r"\b(\d{1,2}\|\d{1,2}\|\d{4})\b",  # dd|mm|yyyy
+            r"\b(\d{1,2}-\d{1,2}-\d{4})\b",  # mm-dd-yyyy
+            r"\b(\d{1,2}/\d{1,2}/\d{4})\b",  # mm/dd/yyyy
+            r"\b(\d{1,2}\s\w+\s\d{1,2}\s\d{4})\b",  # dd month dd yyyy
+            r"\b(\w{3,}\s\d{1,2}\s\w{3,}\s\d{4})\b",  # month dd month yyyy
+            r"\b(\w{3,}\,\s\d{1,2}\s\w{3,}\s\d{4})\b",  # month, dd month yyyy
             r"\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s(\d{1,2})\s(\w{3,})\s(\d{4})\b",  # Monday 15 July 2023
-            r"\b(\w{3,}\s\d{1,2},\s\d{4})\b",              # Month dd, yyyy (e.g., March 12, 2023)
+            r"\b(\w{3,}\s\d{1,2},\s\d{4})\b",  # Month dd, yyyy (e.g., March 12, 2023)
         ]
 
         # Check each pattern for a match in the text
@@ -136,5 +146,3 @@ class TextUtils:
                 return True
 
         return False
-
-
