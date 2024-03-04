@@ -1,3 +1,6 @@
+import re
+from datetime import datetime
+
 from DocumentAI_std.base.content_type import ContentType
 
 from DocumentAI_std.base.doc_element import DocElement
@@ -96,3 +99,42 @@ class TextUtils:
             return 0.0
         else:
             return num_numeric_chars / total_chars
+
+    @staticmethod
+    def is_date(doc_element: DocElement) -> bool:
+        """
+        Check if the given text contains a date.
+
+        This method utilizes the datetime module for date manipulation and the 're' package for regular expressions.
+
+        Args:
+            doc_element (DocElement): The document element to check for a date.
+
+        Returns:
+            bool: True if the text contains a date, False otherwise.
+        """
+        if doc_element.content_type != ContentType.TEXT:
+            raise AssertionError("Cannot check for dates in non-TEXT objects")
+
+        # Regular expression pattern to match dates
+        date_pattern = r'\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b'
+
+        # Get the content from the DocElement
+        text = doc_element.content
+
+        # Search for the date pattern in the text
+        match = re.search(date_pattern, text)
+
+        # Check if a match is found and if it's a valid date using datetime
+        if match:
+            date_str = match.group()
+            try:
+                datetime.strptime(date_str, '%m/%d/%Y')
+            except ValueError:
+                try:
+                    datetime.strptime(date_str, '%d-%m-%Y')
+                except ValueError:
+                    return False
+            return True
+
+        return False

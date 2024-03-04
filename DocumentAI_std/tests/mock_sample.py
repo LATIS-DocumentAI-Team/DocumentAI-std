@@ -30,6 +30,21 @@ def mock_doc_element():
 
 
 @pytest.fixture
+def mock_doc_element_date():
+    return [DocElement(
+        x=1, y=2, w=3, h=4, content_type=ContentType.TEXT, content="Monastir le 23 Avril 2020"
+    ), DocElement(
+        x=1, y=2, w=3, h=4, content_type=ContentType.TEXT, content="20/06/2023"
+    ), DocElement(
+        x=1, y=2, w=3, h=4, content_type=ContentType.TEXT, content="12/24/1998"
+    ), DocElement(
+        x=1, y=2, w=3, h=4, content_type=ContentType.TEXT, content="10-10-2020"
+    ), DocElement(
+        x=1, y=2, w=3, h=4, content_type=ContentType.TEXT, content="Grenade 02/01/1492"
+    ), ]
+
+
+@pytest.fixture
 def mock_doc_element_classification():
     return DocElementClassification(
         x=1,
