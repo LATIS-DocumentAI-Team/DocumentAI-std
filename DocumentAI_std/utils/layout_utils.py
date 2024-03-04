@@ -97,3 +97,30 @@ class LayoutUtils:
         dx = abs(a.x - b.x)
         dy = abs(a.y - b.y)
         return max(dx, dy)
+
+    @staticmethod
+    def angle_inter_element(a: DocElement, b: DocElement) -> float:
+        """
+        Compute the angle between two DocElements.
+
+        Args:
+            a (DocElement): The first DocElement.
+            b (DocElement): The second DocElement.
+
+        Returns:
+            float: The angle between the two DocElements in radians.
+
+        Note:
+            The angle is calculated based on the centers of the bounding boxes
+            of the DocElements.
+        """
+        # Compute center points
+        center1 = (a.x + a.w / 2, a.y + a.h / 2)
+        center2 = (b.x + b.w / 2, b.y + b.h / 2)
+
+        # Compute differences
+        dx = center2[0] - center1[0]
+        dy = center2[1] - center1[1]
+
+        # Compute and return the angle in radians
+        return math.atan2(dy, dx)
