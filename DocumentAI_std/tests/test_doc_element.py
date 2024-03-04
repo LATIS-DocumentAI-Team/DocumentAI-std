@@ -14,7 +14,7 @@ class TestDocElements:
         assert mock_doc_element.content == "Mock Content"
 
     def test_doc_element_classification_properties(
-        self, mock_doc_element_classification
+            self, mock_doc_element_classification
     ):
         assert mock_doc_element_classification.x == 1
         assert mock_doc_element_classification.y == 2
@@ -104,9 +104,7 @@ class TestDocument:
         output_json = OCRAdapter.from_tesseract_ocr(mock_tesseract)
         assert len(output_json["bbox"]) == len(output_json["content"])
 
+
 class TestUtils:
     def test_nbr_chars(self, mock_doc_element):
-        assert TextUtils.nbr_chars(mock_doc_element) == 12
-        mock_doc_element.content_type = ContentType.IMAGE
-        print(TextUtils.nbr_chars(mock_doc_element))
         assert TextUtils.nbr_chars(mock_doc_element) == 12
