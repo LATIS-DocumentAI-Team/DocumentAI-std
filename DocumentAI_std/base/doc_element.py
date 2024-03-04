@@ -113,3 +113,12 @@ class DocElement:
             "content_type": self.__content_type,
             "content": self.__content,
         }
+
+    def area(self):
+        """
+        Calculate the area of a DocElement.
+
+        Returns:
+            float: The area of the DocElement, calculated as the product of its width (w) and height (h).
+        """
+        return self.__h * self.__w
