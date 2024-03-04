@@ -16,7 +16,7 @@ class TestDocElements:
         assert mock_doc_element.content == "Mock Content"
 
     def test_doc_element_classification_properties(
-        self, mock_doc_element_classification
+            self, mock_doc_element_classification
     ):
         assert mock_doc_element_classification.x == 1
         assert mock_doc_element_classification.y == 2
@@ -114,10 +114,10 @@ class TestUtils:
     def test_is_date(self, mock_dates):
         for date in mock_dates:
             assert (
-                TextUtils.is_date(
-                    DocElement(None, None, None, None, ContentType.TEXT, date)
-                )
-                == True
+                    TextUtils.is_date(
+                        DocElement(None, None, None, None, ContentType.TEXT, date)
+                    )
+                    == True
             )
 
     def test_relative_position(self, mock_document):
@@ -151,3 +151,23 @@ class TestUtils:
 
         # Check if the computed distance matches the expected distance
         assert distance == expected_distance, f"Distance for {s1} and {s2} is incorrect"
+
+    @pytest.mark.parametrize("a_x, a_y, b_x, b_y, expected_distance", [
+        (0, 0, 3, 4, 5),  # Euclidean distance
+        (0, 0, 3, 4, 7),  # Manhattan distance
+        (0, 0, 3, 4, 3),  # Chebyshev distance
+    ])
+    def test_distances(self, a_x, a_y, b_x, b_y, expected_distance):
+        # Create DocElement instances
+        doc_element1 = DocElement(a_x, a_y, 0, 0, ContentType.TEXT, "")
+        doc_element2 = DocElement(b_x, b_y, 0, 0, ContentType.TEXT, "")
+
+        # Compute distances
+        euclidean_dist = LayoutUtils.euclidean_distance(doc_element1, doc_element2)
+        manhattan_dist = LayoutUtils.manhattan_distance(doc_element1, doc_element2)
+        chebyshev_dist = LayoutUtils.chebyshev_distance(doc_element1, doc_element2)
+
+        # Check if the computed distances match the expected distances
+        assert euclidean_dist == expected_distance, f"Euclidean distance is incorrect"
+        assert manhattan_dist == expected_distance, f"Manhattan distance is incorrect"
+        assert chebyshev_dist == expected_distance, f"Chebyshev distance is incorrect"
