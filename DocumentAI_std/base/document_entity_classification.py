@@ -1,6 +1,6 @@
 from typing import Any
 
-from DocumentAI_std.base.content_type import ContentType
+from DocumentAI_std.base.doc_enum import ContentType
 
 from DocumentAI_std.base.doc_element_classification import DocElementClassification
 

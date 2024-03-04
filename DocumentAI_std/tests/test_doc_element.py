@@ -111,7 +111,6 @@ class TestUtils:
 
     def test_is_date(self, mock_dates):
         for date in mock_dates:
-            print(f"the date is {date}")
             assert (
                 TextUtils.is_date(
                     DocElement(None, None, None, None, ContentType.TEXT, date)

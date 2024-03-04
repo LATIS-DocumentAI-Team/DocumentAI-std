@@ -12,7 +12,7 @@ from DocumentAI_std.base.document import Document
 
 from DocumentAI_std.base.doc_element_classification import DocElementClassification
 
-from DocumentAI_std.base.content_type import ContentType
+from DocumentAI_std.base.doc_enum import ContentType
 
 from DocumentAI_std.base.doc_element import DocElement
 from PIL import Image
