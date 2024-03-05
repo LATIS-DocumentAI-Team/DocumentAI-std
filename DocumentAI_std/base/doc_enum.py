@@ -101,5 +101,5 @@ class VerticalAlignment(Enum):
     """
 
     TOP = 1
-    CENTER = 2
+    MIDDLE = 2
     BOTTOM = 3

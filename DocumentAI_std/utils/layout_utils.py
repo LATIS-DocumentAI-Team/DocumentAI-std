@@ -4,7 +4,7 @@ from typing import Tuple
 from DocumentAI_std.base.document import Document
 
 from DocumentAI_std.base.doc_element import DocElement
-from DocumentAI_std.base.doc_enum import ContentRelativePosition, HorizontalAlignment
+from DocumentAI_std.base.doc_enum import ContentRelativePosition, HorizontalAlignment, VerticalAlignment
 
 
 class LayoutUtils:
@@ -180,4 +180,32 @@ class LayoutUtils:
                 return HorizontalAlignment.LEFT
             else:
                 return HorizontalAlignment.RIGHT
+
+    @staticmethod
+    def calculate_vertical_alignment(a: DocElement, b: DocElement) -> VerticalAlignment:
+        """
+        Calculate the vertical alignment between two bounding boxes.
+
+        Args:
+            box1 (tuple): Bounding box coordinates (x1, y1, w1, h1).
+            box2 (tuple): Bounding box coordinates (x2, y2, w2, h2).
+
+        Returns:
+            str: Vertical alignment ('top', 'middle', 'bottom').
+        """
+        x1, y1, w1, h1 = a.x, a.y, a.w, a.h
+        x2, y2, w2, h2 = b.x, b.y, b.w, b.h
+
+        if y1 == y2:
+            return VerticalAlignment.MIDDLE
+        elif y1 < y2:
+            if y1 + h1 == y2:
+                return VerticalAlignment.BOTTOM
+            else:
+                return VerticalAlignment.TOP
+        else:
+            if y2 + h2 == y1:
+                return VerticalAlignment.TOP
+            else:
+                return VerticalAlignment.BOTTOM
 
