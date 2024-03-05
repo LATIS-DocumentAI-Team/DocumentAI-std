@@ -196,8 +196,8 @@ class TestUtils:
         assert alignment == expected_alignment
 
     @pytest.mark.parametrize("a, b, expected_alignment", [
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(2, 2, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.BOTTOM),
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(1, 1, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.BOTTOM),
+        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(2, 2, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.TOP),
+        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(1, 1, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.TOP),
         (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(0, 0, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.MIDDLE),
         (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(4, 4, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.TOP),
     ])
