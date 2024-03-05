@@ -4,7 +4,7 @@ from typing import Tuple
 from DocumentAI_std.base.document import Document
 
 from DocumentAI_std.base.doc_element import DocElement
-from DocumentAI_std.base.doc_enum import ContentRelativePosition
+from DocumentAI_std.base.doc_enum import ContentRelativePosition, HorizontalAlignment
 
 
 class LayoutUtils:
@@ -154,7 +154,7 @@ class LayoutUtils:
         return overlap_ratio
 
     @staticmethod
-    def calculate_horizontal_alignment(a: DocElement, b: DocElement):
+    def calculate_horizontal_alignment(a: DocElement, b: DocElement) -> HorizontalAlignment:
         """
         Calculate the horizontal alignment between two bounding boxes.
 
@@ -169,15 +169,15 @@ class LayoutUtils:
         x2, y2, w2, h2 = b.x, b.y, b.w, b.h
 
         if x1 == x2:
-            return 'center'
+            return HorizontalAlignment.CENTER
         elif x1 < x2:
             if x1 + w1 == x2:
-                return 'right'
+                return HorizontalAlignment.RIGHT
             else:
-                return 'left'
+                return HorizontalAlignment.LEFT
         else:
             if x2 + w2 == x1:
-                return 'left'
+                return HorizontalAlignment.LEFT
             else:
-                return 'right'
+                return HorizontalAlignment.RIGHT
 
