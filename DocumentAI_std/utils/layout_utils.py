@@ -159,11 +159,11 @@ class LayoutUtils:
         Calculate the horizontal alignment between two bounding boxes.
 
         Args:
-            box1 (tuple): Bounding box coordinates (x1, y1, w1, h1).
-            box2 (tuple): Bounding box coordinates (x2, y2, w2, h2).
+            a (DocElement): The first bounding box.
+            b (DocElement): The second bounding box.
 
         Returns:
-            str: Horizontal alignment ('left', 'center', 'right').
+            HorizontalAlignment: Horizontal alignment ('left', 'center', 'right').
         """
         x1, y1, w1, h1 = a.x, a.y, a.w, a.h
         x2, y2, w2, h2 = b.x, b.y, b.w, b.h
@@ -187,11 +187,11 @@ class LayoutUtils:
         Calculate the vertical alignment between two bounding boxes.
 
         Args:
-            box1 (tuple): Bounding box coordinates (x1, y1, w1, h1).
-            box2 (tuple): Bounding box coordinates (x2, y2, w2, h2).
+            a (DocElement): The first bounding box.
+            b (DocElement): The second bounding box.
 
         Returns:
-            str: Vertical alignment ('top', 'middle', 'bottom').
+            VerticalAlignment: Vertical alignment ('top', 'middle', 'bottom').
         """
         x1, y1, w1, h1 = a.x, a.y, a.w, a.h
         x2, y2, w2, h2 = b.x, b.y, b.w, b.h
@@ -208,4 +208,3 @@ class LayoutUtils:
                 return VerticalAlignment.TOP
             else:
                 return VerticalAlignment.BOTTOM
-
