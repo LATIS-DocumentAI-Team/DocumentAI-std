@@ -103,7 +103,6 @@ def mock_distances():
     ]
 
 
-
 @pytest.fixture
 def mock_document_entity_classification():
     # Dummy data for ocr_output

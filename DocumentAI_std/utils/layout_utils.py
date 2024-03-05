@@ -4,13 +4,17 @@ from typing import Tuple
 from DocumentAI_std.base.document import Document
 
 from DocumentAI_std.base.doc_element import DocElement
-from DocumentAI_std.base.doc_enum import ContentRelativePosition, HorizontalAlignment, VerticalAlignment
+from DocumentAI_std.base.doc_enum import (
+    ContentRelativePosition,
+    HorizontalAlignment,
+    VerticalAlignment,
+)
 
 
 class LayoutUtils:
     @staticmethod
     def relative_position(
-            doc_element: DocElement, document: Document
+        doc_element: DocElement, document: Document
     ) -> ContentRelativePosition:
         """
         Determine the relative position of a bounding box within a document.
@@ -64,7 +68,7 @@ class LayoutUtils:
         """
         dx = a.x - b.x
         dy = a.y - b.y
-        return math.sqrt(dx ** 2 + dy ** 2)
+        return math.sqrt(dx**2 + dy**2)
 
     @staticmethod
     def manhattan_distance(a: DocElement, b: DocElement) -> float:
@@ -155,7 +159,9 @@ class LayoutUtils:
         return overlap_ratio
 
     @staticmethod
-    def calculate_horizontal_alignment(a: DocElement, b: DocElement) -> HorizontalAlignment:
+    def calculate_horizontal_alignment(
+        a: DocElement, b: DocElement
+    ) -> HorizontalAlignment:
         """
         Calculate the horizontal alignment between two bounding boxes.
 
