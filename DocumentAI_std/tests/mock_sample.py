@@ -12,7 +12,11 @@ from DocumentAI_std.base.document import Document
 
 from DocumentAI_std.base.doc_element_classification import DocElementClassification
 
-from DocumentAI_std.base.doc_enum import ContentType, HorizontalAlignment
+from DocumentAI_std.base.doc_enum import (
+    ContentType,
+    HorizontalAlignment,
+    VerticalAlignment,
+)
 
 from DocumentAI_std.base.doc_element import DocElement
 from PIL import Image
@@ -149,6 +153,31 @@ def mock_horizontal_alignment():
             DocElement(4, 4, 3, 3, ContentType.TEXT, "A"),
             DocElement(0, 0, 3, 3, ContentType.TEXT, "B"),
             HorizontalAlignment.RIGHT,
+        ),
+    ]
+
+
+def mock_vertical_alignment():
+    return [
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(2, 2, 3, 3, ContentType.TEXT, "B"),
+            VerticalAlignment.TOP,
+        ),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(1, 1, 3, 3, ContentType.TEXT, "B"),
+            VerticalAlignment.TOP,
+        ),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "B"),
+            VerticalAlignment.MIDDLE,
+        ),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(4, 4, 3, 3, ContentType.TEXT, "B"),
+            VerticalAlignment.TOP,
         ),
     ]
 
