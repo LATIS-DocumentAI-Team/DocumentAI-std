@@ -12,7 +12,7 @@ from DocumentAI_std.base.document import Document
 
 from DocumentAI_std.base.doc_element_classification import DocElementClassification
 
-from DocumentAI_std.base.doc_enum import ContentType
+from DocumentAI_std.base.doc_enum import ContentType, HorizontalAlignment
 
 from DocumentAI_std.base.doc_element import DocElement
 from PIL import Image
@@ -101,14 +101,55 @@ def mock_distances():
         (1, 1, 4, 5, 5, 7, 4),
         (-1, -1, 2, 3, 5, 7, 4),
     ]
+
+
 def mock_overlap():
     return [
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(2, 2, 3, 3, ContentType.TEXT, "B"),
-         0.1111111111111111),
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(1, 1, 3, 3, ContentType.TEXT, "B"),
-         0.4444444444444444),
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(0, 0, 3, 3, ContentType.TEXT, "B"), 1.0),
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(4, 4, 3, 3, ContentType.TEXT, "B"), 0.0),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(2, 2, 3, 3, ContentType.TEXT, "B"),
+            0.1111111111111111,
+        ),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(1, 1, 3, 3, ContentType.TEXT, "B"),
+            0.4444444444444444,
+        ),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "B"),
+            1.0,
+        ),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(4, 4, 3, 3, ContentType.TEXT, "B"),
+            0.0,
+        ),
+    ]
+
+
+def mock_horizontal_alignment():
+    return [
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(2, 2, 3, 3, ContentType.TEXT, "B"),
+            HorizontalAlignment.LEFT,
+        ),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(1, 1, 3, 3, ContentType.TEXT, "B"),
+            HorizontalAlignment.LEFT,
+        ),
+        (
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "A"),
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "B"),
+            HorizontalAlignment.CENTER,
+        ),
+        (
+            DocElement(4, 4, 3, 3, ContentType.TEXT, "A"),
+            DocElement(0, 0, 3, 3, ContentType.TEXT, "B"),
+            HorizontalAlignment.RIGHT,
+        ),
     ]
 
 

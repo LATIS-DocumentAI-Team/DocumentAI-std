@@ -1,9 +1,8 @@
-from DocumentAI_std.utils.OCR_adapter import OCRAdapter
-
+from DocumentAI_std.base.doc_enum import ContentRelativePosition
 from DocumentAI_std.tests.mock_sample import *
-from DocumentAI_std.utils.text_utils import TextUtils
-from DocumentAI_std.base.doc_enum import ContentRelativePosition, HorizontalAlignment
+from DocumentAI_std.utils.OCR_adapter import OCRAdapter
 from DocumentAI_std.utils.layout_utils import LayoutUtils
+from DocumentAI_std.utils.text_utils import TextUtils
 
 
 class TestDocElements:
@@ -188,13 +187,7 @@ class TestUtils:
         # Check if the computed overlap matches the expected overlap
         assert overlap == expected_overlap
 
-
-    @pytest.mark.parametrize("a, b, expected_alignment", [
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(2, 2, 3, 3, ContentType.TEXT, "B"), HorizontalAlignment.LEFT),
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(1, 1, 3, 3, ContentType.TEXT, "B"), HorizontalAlignment.LEFT),
-        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(0, 0, 3, 3, ContentType.TEXT, "B"), HorizontalAlignment.CENTER),
-        (DocElement(4, 4, 3, 3, ContentType.TEXT, "A"), DocElement(0, 0, 3, 3, ContentType.TEXT, "B"), HorizontalAlignment.RIGHT),
-    ])
+    @pytest.mark.parametrize("a, b, expected_alignment", mock_horizontal_alignment())
     def test_horizontal_alignment(self, a, b, expected_alignment):
         # Compute horizontal alignment
         alignment = LayoutUtils.calculate_horizontal_alignment(a, b)
