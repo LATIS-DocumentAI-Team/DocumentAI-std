@@ -1,4 +1,4 @@
-from DocumentAI_std.base.doc_enum import ContentRelativePosition
+from DocumentAI_std.base.doc_enum import ContentRelativePosition, VerticalAlignment
 from DocumentAI_std.tests.mock_sample import *
 from DocumentAI_std.utils.OCR_adapter import OCRAdapter
 from DocumentAI_std.utils.layout_utils import LayoutUtils
@@ -191,6 +191,19 @@ class TestUtils:
     def test_horizontal_alignment(self, a, b, expected_alignment):
         # Compute horizontal alignment
         alignment = LayoutUtils.calculate_horizontal_alignment(a, b)
+
+        # Check if the computed alignment matches the expected alignment
+        assert alignment == expected_alignment
+
+    @pytest.mark.parametrize("a, b, expected_alignment", [
+        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(2, 2, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.BOTTOM),
+        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(1, 1, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.BOTTOM),
+        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(0, 0, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.MIDDLE),
+        (DocElement(0, 0, 3, 3, ContentType.TEXT, "A"), DocElement(4, 4, 3, 3, ContentType.TEXT, "B"), VerticalAlignment.TOP),
+    ])
+    def test_vertical_alignment(self, a, b, expected_alignment):
+        # Compute vertical alignment
+        alignment = LayoutUtils.calculate_vertical_alignment(a, b)
 
         # Check if the computed alignment matches the expected alignment
         assert alignment == expected_alignment
