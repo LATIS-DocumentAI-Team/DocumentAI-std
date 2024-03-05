@@ -179,3 +179,11 @@ class TestUtils:
         assert euclidean_dist == expected_euclidean, f"Euclidean distance is incorrect"
         assert manhattan_dist == expected_manhattan, f"Manhattan distance is incorrect"
         assert chebyshev_dist == expected_chebyshev, f"Chebyshev distance is incorrect"
+
+    @pytest.mark.parametrize("a, b, expected_overlap", mock_overlap())
+    def test_overlap_calculation(self, a, b, expected_overlap):
+        # Compute overlap
+        overlap = LayoutUtils.calculate_overlap(a, b)
+
+        # Check if the computed overlap matches the expected overlap
+        assert overlap == expected_overlap
