@@ -124,6 +124,7 @@ class LayoutUtils:
 
         # Compute and return the angle in radians
         return math.atan2(dy, dx)
+
     @staticmethod
     def calculate_overlap(a: DocElement, b: DocElement) -> float:
         """
