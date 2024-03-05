@@ -124,3 +124,64 @@ class LayoutUtils:
 
         # Compute and return the angle in radians
         return math.atan2(dy, dx)
+
+    @staticmethod
+    def calculate_overlap(a: DocElement, b: DocElement) -> float:
+        """
+        Calculate the degree of overlap between two bounding boxes.
+
+        Args:
+            box1 (tuple): Bounding box coordinates (x1, y1, w1, h1).
+            box2 (tuple): Bounding box coordinates (x2, y2, w2, h2).
+
+        Returns:
+            float: Degree of overlap between the bounding boxes.
+        """
+        x1, y1, w1, h1 = a.x, a.y, a.w, a.h
+        x2, y2, w2, h2 = b.x, b.y, b.w, b.h
+
+        # Calculate intersection coordinates
+        x_left = max(x1, x2)
+        y_top = max(y1, y2)
+        x_right = min(x1 + w1, x2 + w2)
+        y_bottom = min(y1 + h1, y2 + h2)
+
+        # Calculate intersection area
+        intersection_area = max(0, x_right - x_left) * max(0, y_bottom - y_top)
+
+        # Calculate total area of smaller box
+        total_area = min(w1 * h1, w2 * h2)
+
+        # Calculate overlap ratio
+        overlap_ratio = intersection_area / total_area if total_area > 0 else 0.0
+
+        return overlap_ratio
+
+    @staticmethod
+    def calculate_horizontal_alignment(a: DocElement, b: DocElement):
+        """
+        Calculate the horizontal alignment between two bounding boxes.
+
+        Args:
+            box1 (tuple): Bounding box coordinates (x1, y1, w1, h1).
+            box2 (tuple): Bounding box coordinates (x2, y2, w2, h2).
+
+        Returns:
+            str: Horizontal alignment ('left', 'center', 'right').
+        """
+        x1, y1, w1, h1 = a.x, a.y, a.w, a.h
+        x2, y2, w2, h2 = b.x, b.y, b.w, b.h
+
+        if x1 == x2:
+            return 'center'
+        elif x1 < x2:
+            if x1 + w1 == x2:
+                return 'right'
+            else:
+                return 'left'
+        else:
+            if x2 + w2 == x1:
+                return 'left'
+            else:
+                return 'right'
+

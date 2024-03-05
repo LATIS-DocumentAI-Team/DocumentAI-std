@@ -6,7 +6,7 @@ from DocumentAI_std.base.doc_enum import ContentType
 
 # TODO: - ADD strategy the compute text embeddings
 #       - ADD methods and some logic related the image content of each doc element (develop a utils for it also)
-#       - Write a docuemnt (.md file) explain the architecture and the relationship between classes and a develop guide
+#       - Write a document (.md file) explain the architecture and the relationship between classes and a develop guide
 class TextUtils:
     @staticmethod
     def nbr_chars(doc_element: DocElement) -> int:
