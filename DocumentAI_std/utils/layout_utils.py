@@ -124,33 +124,29 @@ class LayoutUtils:
 
         # Compute and return the angle in radians
         return math.atan2(dy, dx)
-
     @staticmethod
     def calculate_overlap(a: DocElement, b: DocElement) -> float:
         """
         Calculate the degree of overlap between two bounding boxes.
 
         Args:
-            box1 (tuple): Bounding box coordinates (x1, y1, w1, h1).
-            box2 (tuple): Bounding box coordinates (x2, y2, w2, h2).
+            a (DocElement): First bounding box.
+            b (DocElement): Second bounding box.
 
         Returns:
             float: Degree of overlap between the bounding boxes.
         """
-        x1, y1, w1, h1 = a.x, a.y, a.w, a.h
-        x2, y2, w2, h2 = b.x, b.y, b.w, b.h
-
         # Calculate intersection coordinates
-        x_left = max(x1, x2)
-        y_top = max(y1, y2)
-        x_right = min(x1 + w1, x2 + w2)
-        y_bottom = min(y1 + h1, y2 + h2)
+        x_left = max(a.x, b.x)
+        y_top = max(a.y, b.y)
+        x_right = min(a.x + a.w, b.x + b.w)
+        y_bottom = min(a.y + a.h, b.y + b.h)
 
         # Calculate intersection area
         intersection_area = max(0, x_right - x_left) * max(0, y_bottom - y_top)
 
         # Calculate total area of smaller box
-        total_area = min(w1 * h1, w2 * h2)
+        total_area = min(a.w * a.h, b.w * b.h)
 
         # Calculate overlap ratio
         overlap_ratio = intersection_area / total_area if total_area > 0 else 0.0
