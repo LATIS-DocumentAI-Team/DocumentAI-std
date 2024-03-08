@@ -104,6 +104,7 @@ class LayoutUtils:
 
     @staticmethod
     def angle_inter_element(a: DocElement, b: DocElement) -> float:
+        # TODO: angle relative to docuemnt Center
         """
         Compute the angle between two DocElements.
 
