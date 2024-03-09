@@ -16,11 +16,11 @@ class Document:
     with associated content and content type.
 
     The `elements` attribute contains all the document elements, structured as follows:
-    self.elements: List[ List[DocElement]]
+    self.elements: List[DocElement]
     The `filename` attribute contains the filename of the document:
     self.filename: str
     The `shape` attribute contains the shape of the document:
-    self.filename: tuple[int, int]
+    self.shape: tuple[int, int]
 
     Attributes:
         img_path (str): The path to the document image file.
@@ -29,7 +29,7 @@ class Document:
                 bbox: List[List]
                 content: List[Any]
             }
-        root (str): The root directory of the document image file.
+        device (str): The device to use for processing (default is "cpu").
 
     Example:
     >>> ocr_output = {
@@ -39,13 +39,14 @@ class Document:
     >>> doc = Document(img_path="/path/to/document.jpg", ocr_output=ocr_output)
     """
 
-    def __init__(self, img_path: str, ocr_output: dict, **kwargs: Any) -> None:
+    def __init__(self, img_path: str, ocr_output: dict, device="cpu", **kwargs: Any) -> None:
         """
         Initialize a Document instance with the provided image path and OCR output.
 
         Args:
             img_path (str): The path to the document image file.
             ocr_output (dict): The output of an OCR engine, containing bounding box and content information.
+            device (str): The device to use for processing (default is "cpu").
             **kwargs: Additional keyword arguments.
 
         Raises:
@@ -59,6 +60,7 @@ class Document:
         # Get the image shape
         self.__shape = Image.open(img_path).size
         self.__filename = os.path.basename(img_path)
+        self.device = device
         try:
             assert len(ocr_output["bbox"]) == len(ocr_output["content"])
         except AssertionError:
@@ -66,7 +68,7 @@ class Document:
                 "Length of 'bbox' and 'content' in OCR output are not equal."
             )
         self.__elements: List[DocElement] = [
-            DocElement(*bbox, content_type=ContentType.TEXT, content=content)
+            DocElement(*bbox, content_type=ContentType.TEXT, content=content, device=self.device)
             for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
         ]
 

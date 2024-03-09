@@ -1,6 +1,6 @@
 import torch
-import torchvision
 from PIL import Image
+from torchvision import transforms
 
 from DocumentAI_std.base.doc_enum import ContentType
 
@@ -19,13 +19,21 @@ class DocElement:
         h (int): The height of the document element (or bounding box).
         content_type (ContentType): The type of content contained in the document element.
         content (Any): The actual content of the document element.
+        device (str): The device to use for processing (default is "cpu").
 
     Example:
     >>> doc_element = DocElement(x=10, y=20, w=100, h=50, content_type=ContentType.TEXT, content="Hello, world!")
     """
 
     def __init__(
-        self, x: int, y: int, w: int, h: int, content_type: ContentType, content, device="cpu"
+        self,
+        x: int,
+        y: int,
+        w: int,
+        h: int,
+        content_type: ContentType,
+        content,
+        device="cpu",
     ):
         self.__x = x
         self.__y = y
@@ -128,7 +136,6 @@ class DocElement:
         """
         return self.__h * self.__w
 
-
     def extract_pixels(self, image_path: str, is_gray: bool = True) -> torch.Tensor:
         """
         Extract the pixels from the bounding box region of the image.
@@ -147,8 +154,8 @@ class DocElement:
         roi = image.crop((self.__x, self.__y, self.__x + self.__w, self.__y + self.__h))
 
         # Convert the ROI to grayscale if necessary
-        if is_gray and roi.mode != 'L':
-            roi = roi.convert('L')
+        if is_gray and roi.mode != "L":
+            roi = roi.convert("L")
 
         # Convert the PIL image to a PyTorch tensor
         transform = transforms.ToTensor()
