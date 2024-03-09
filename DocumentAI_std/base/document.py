@@ -39,7 +39,9 @@ class Document:
     >>> doc = Document(img_path="/path/to/document.jpg", ocr_output=ocr_output)
     """
 
-    def __init__(self, img_path: str, ocr_output: dict, device="cpu", **kwargs: Any) -> None:
+    def __init__(
+        self, img_path: str, ocr_output: dict, device="cpu", **kwargs: Any
+    ) -> None:
         """
         Initialize a Document instance with the provided image path and OCR output.
 
@@ -68,7 +70,12 @@ class Document:
                 "Length of 'bbox' and 'content' in OCR output are not equal."
             )
         self.__elements: List[DocElement] = [
-            DocElement(*bbox, content_type=ContentType.TEXT, content=content, device=self.device)
+            DocElement(
+                *bbox,
+                content_type=ContentType.TEXT,
+                content=content,
+                device=self.device,
+            )
             for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
         ]
 
