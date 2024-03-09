@@ -62,6 +62,7 @@ class Document:
         # Get the image shape
         self.__shape = Image.open(img_path).size
         self.__filename = os.path.basename(img_path)
+        self.__img_path = img_path
         self.device = device
         try:
             assert len(ocr_output["bbox"]) == len(ocr_output["content"])
@@ -81,13 +82,23 @@ class Document:
 
     @property
     def shape(self) -> tuple[int, int]:
-        """Getter method for the filename attribute."""
+        """Getter method for the shape attribute."""
         return self.__shape
 
     @shape.setter
     def shape(self, value: tuple[int, int]) -> None:
-        """Setter method for the filename attribute."""
+        """Setter method for the shape attribute."""
         self.__shape = value
+
+    @property
+    def img_path(self) -> str:
+        """Getter method for the img_path attribute."""
+        return self.__img_path
+
+    @img_path.setter
+    def img_path(self, value: str) -> None:
+        """Setter method for the img_path attribute."""
+        self.__img_path = value
 
     @property
     def filename(self) -> str:
