@@ -39,7 +39,6 @@ class Document:
     >>> doc = Document(img_path="/path/to/document.jpg", ocr_output=ocr_output)
     """
 
-    # TODO: add method to extract image when need depend on content
     def __init__(self, img_path: str, ocr_output: dict, **kwargs: Any) -> None:
         """
         Initialize a Document instance with the provided image path and OCR output.
