@@ -128,12 +128,14 @@ class DocElement:
         """
         return self.__h * self.__w
 
-    def extract_pixels(self, image_path: str, is_gray) -> torch.Tensor:
+
+    def extract_pixels(self, image_path: str, is_gray: bool = True) -> torch.Tensor:
         """
         Extract the pixels from the bounding box region of the image.
 
         Args:
             image_path (str): The path to the image file.
+            is_gray (bool, optional): Flag to convert the extracted region to grayscale. Defaults to True.
 
         Returns:
             torch.Tensor: A PyTorch tensor representing the pixels within the bounding box.
@@ -145,11 +147,11 @@ class DocElement:
         roi = image.crop((self.__x, self.__y, self.__x + self.__w, self.__y + self.__h))
 
         # Convert the ROI to grayscale if necessary
-        if roi.mode != 'L':
+        if is_gray and roi.mode != 'L':
             roi = roi.convert('L')
 
         # Convert the PIL image to a PyTorch tensor
-        transform = torchvision.transforms.ToTensor()
+        transform = transforms.ToTensor()
         roi_tensor = transform(roi).to(self.device)
 
         return roi_tensor
