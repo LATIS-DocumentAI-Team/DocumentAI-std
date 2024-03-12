@@ -5,3 +5,4 @@ numpy==1.26.3
 Pillow==10.0.1
 paddleocr==2.7.0.3
 setuptools==65.5.0
+torch
