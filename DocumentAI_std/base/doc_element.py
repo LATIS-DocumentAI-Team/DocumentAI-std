@@ -138,19 +138,18 @@ class DocElement:
         """
         return self.__h * self.__w
 
-    def extract_pixels(self, image_path: str, is_gray: bool = True) -> torch.Tensor:
+    def extract_pixels(self, is_gray: bool = True) -> torch.Tensor:
         """
         Extract the pixels from the bounding box region of the image.
 
         Args:
-            image_path (str): The path to the image file.
             is_gray (bool, optional): Flag to convert the extracted region to grayscale. Defaults to True.
 
         Returns:
             torch.Tensor: A PyTorch tensor representing the pixels within the bounding box.
         """
         # Open the image using PIL
-        image = Image.open(image_path)
+        image = Image.open(self.img_path)
 
         # Crop the image to extract the region of interest (ROI) using the bounding box coordinates
         roi = image.crop((self.__x, self.__y, self.__x + self.__w, self.__y + self.__h))
