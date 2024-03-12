@@ -4,6 +4,21 @@ from DocumentAI_std.base.doc_element import DocElement
 
 
 class DocElementClassification(DocElement):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        w: int,
+        h: int,
+        content_type: ContentType,
+        content,
+        label: int,
+        img_path=None,
+        device="cpu",
+    ):
+        super().__init__(x, y, w, h, content_type, content, img_path, device)
+        self.__label = label
+
     """
     Represents a classified document element within a document, typically defined by bounding boxes.
 
@@ -22,19 +37,6 @@ class DocElementClassification(DocElement):
     Example:
     >>> doc_element = DocElementClassification(x=10, y=20, w=100, h=50, content_type=ContentType.TEXT, content="Hello, world!", label=1)
     """
-
-    def __init__(
-        self,
-        x: int,
-        y: int,
-        w: int,
-        h: int,
-        content_type: ContentType,
-        content,
-        label: int,
-    ):
-        super().__init__(x, y, w, h, content_type, content)
-        self.__label = label
 
     @property
     def label(self):
@@ -58,6 +60,8 @@ class DocElementClassification(DocElement):
                   - "content_type": The type of content contained in the document element.
                   - "content": The actual content of the document element.
                   - label (int): The label assigned to the document element for classification purposes.
+                  - img_path: The image path assigned to the document element of the whole document.
+                  - device: The device used.
         """
         return {
             "x": self.__x,
@@ -67,6 +71,8 @@ class DocElementClassification(DocElement):
             "content_type": self.__content_type,
             "content": self.__content,
             "label": self.__label,
+            "img_path": self.img_path,
+            "device": self.device,
         }
 
     def to_json(self):

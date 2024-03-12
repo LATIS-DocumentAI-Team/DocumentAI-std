@@ -33,6 +33,7 @@ class DocElement:
         h: int,
         content_type: ContentType,
         content,
+        img_path=None,
         device="cpu",
     ):
         self.__x = x
@@ -42,6 +43,7 @@ class DocElement:
         self.__content_type = content_type
         self.__content = content
         self.device = device
+        self.img_path = img_path
 
     @property
     def x(self):
@@ -127,7 +129,7 @@ class DocElement:
             "content": self.__content,
         }
 
-    def area(self):
+    def area(self) -> float:
         """
         Calculate the area of a DocElement.
 

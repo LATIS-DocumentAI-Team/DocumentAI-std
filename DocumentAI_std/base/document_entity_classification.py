@@ -45,7 +45,7 @@ class DocumentEntityClassification(Document):
         super().__init__(img_path, ocr_output, **kwargs)
         self.elements = [
             DocElementClassification(
-                *bbox, content_type=ContentType.TEXT, content=content, label=label
+                *bbox, content_type=ContentType.TEXT, content=content, label=label, img_path=img_path
             )
             for bbox, content, label in zip(
                 ocr_output["bbox"], ocr_output["content"], ocr_output["label"]

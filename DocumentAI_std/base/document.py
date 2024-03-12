@@ -75,6 +75,7 @@ class Document:
                 *bbox,
                 content_type=ContentType.TEXT,
                 content=content,
+                img_path=self.__img_path,
                 device=self.device,
             )
             for bbox, content in zip(ocr_output["bbox"], ocr_output["content"])
