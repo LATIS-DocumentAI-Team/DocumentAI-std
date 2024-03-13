@@ -3,6 +3,7 @@ from DocumentAI_std.tests.mock_sample import *
 from DocumentAI_std.utils.OCR_adapter import OCRAdapter
 from DocumentAI_std.utils.layout_utils import LayoutUtils
 from DocumentAI_std.utils.text_utils import TextUtils
+from utils.image_utils import ImageUtils
 
 
 class TestDocElements:
@@ -205,22 +206,12 @@ class TestUtils:
 
     @pytest.mark.parametrize(
         "a, expected_entropy",
-        [
-            ([1, 1, 2, 2, 2, 3, 3, 3, 3], 1.5219280948873621),  # Example test case
-            ([0, 0, 0, 0, 0, 0, 0, 0, 0], 0.0),  # All same pixel values
-            ([1, 2, 3, 4, 5, 6, 7, 8, 9], 3.169925001442312),  # Increasing pixel values
-            (
-                [255, 128, 0, 255, 128, 0, 255, 128, 0],
-                1.5219280948873621,
-            ),  # Varied pixel values
-        ],
+        mock_entropy()
     )
-    def test_entropy(self, pixels, expected_entropy):
-        # Create a mock DocElement with the given pixel values
-        doc_element = MockDocElement(pixels)
+    def test_entropy(self, a, expected_entropy):
 
         # Calculate entropy using the ImageUtils class
-        entropy = ImageUtils.entropy(doc_element)
+        entropy = ImageUtils.entropy(a)
 
         # Check if the calculated entropy matches the expected value
         assert pytest.approx(entropy, abs=1e-6) == expected_entropy

@@ -182,10 +182,7 @@ def mock_vertical_alignment():
     ]
 
 
-def mock_image():
-    DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg")
-    DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg")
-    DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg")
+def mock_entropy():
     return [
         (
             DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg"),
@@ -286,7 +283,7 @@ def create_dummy_image(file_path):
     image.save(file_path)
 
 
-def dummy_entropy():
+def dummy_entropy(a):
     """
     This function calculates Shannon Entropy of an image
     For more information about the Entropy this link:
@@ -310,11 +307,11 @@ def dummy_entropy():
 
     """
     histogram, bin_edges = np.histogram(
-        input,
-        bins=int(input.max()) - int(input.min()) + 1,
-        range=(int(input.min()), int(input.max()) + 1),
+        a,
+        bins=int(a.max()) - int(a.min()) + 1,
+        range=(int(a.min()), int(a.max()) + 1),
     )
-    probabilities = histogram / input.size
+    probabilities = histogram / a.size
     probabilities = probabilities[probabilities != 0]
 
     return -np.sum(probabilities * np.log2(probabilities))
