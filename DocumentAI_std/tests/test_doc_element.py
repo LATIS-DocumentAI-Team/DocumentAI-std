@@ -204,18 +204,10 @@ class TestUtils:
         # Check if the computed alignment matches the expected alignment
         assert alignment == expected_alignment
 
-    @pytest.mark.parametrize(
-        "a, expected_entropy",
-        mock_entropy()
-    )
+    @pytest.mark.parametrize("a, expected_entropy", mock_entropy())
     def test_entropy(self, a, expected_entropy):
-
         # Calculate entropy using the ImageUtils class
         entropy = ImageUtils.entropy(a)
 
         # Check if the calculated entropy matches the expected value
         assert pytest.approx(entropy, abs=1e-6) == expected_entropy
-
-    # Run the tests
-    if __name__ == "__main__":
-        pytest.main()
