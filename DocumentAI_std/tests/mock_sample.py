@@ -182,6 +182,48 @@ def mock_vertical_alignment():
     ]
 
 
+def mock_image():
+    DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg")
+    DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg")
+    DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg")
+    return [
+        (
+            DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg"),
+            dummy_entropy(
+                DocElement(
+                    0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg"
+                )
+                .extract_pixels()
+                .numpy()
+            ),
+        ),
+        (
+            DocElement(
+                10, 0, 10, 15, ContentType.TEXT, "A", "dummy_data/test/test.jpg"
+            ),
+            dummy_entropy(
+                DocElement(
+                    10, 0, 10, 15, ContentType.TEXT, "A", "dummy_data/test/test.jpg"
+                )
+                .extract_pixels()
+                .numpy()
+            ),
+        ),
+        (
+            DocElement(
+                0, 60, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg"
+            ),
+            dummy_entropy(
+                DocElement(
+                    0, 60, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg"
+                )
+                .extract_pixels()
+                .numpy()
+            ),
+        ),
+    ]
+
+
 @pytest.fixture
 def mock_document_entity_classification():
     # Dummy data for ocr_output
@@ -242,3 +284,37 @@ def create_dummy_image(file_path):
     image = Image.new("RGB", (200, 200), "white")
     # Save the image to the specified file path
     image.save(file_path)
+
+
+def dummy_entropy():
+    """
+    This function calculates Shannon Entropy of an image
+    For more information about the Entropy this link:
+    https://en.wikipedia.org/wiki/Entropy_(information_theory)
+
+    Parameters:
+        input: 2d ndarray to process.
+
+    Returns:
+        entropy: float rounded to 4 decimal places
+
+    Notes:
+        The logarithm used is the bit logarithm (base-2).
+
+    Examples:
+        >>> import numpy as np
+        >>> a = np.random.randint(0, 4095, (512,512))
+        >>> ent = dummy_entropy(a)
+        >>> ent
+        11.9883
+
+    """
+    histogram, bin_edges = np.histogram(
+        input,
+        bins=int(input.max()) - int(input.min()) + 1,
+        range=(int(input.min()), int(input.max()) + 1),
+    )
+    probabilities = histogram / input.size
+    probabilities = probabilities[probabilities != 0]
+
+    return -np.sum(probabilities * np.log2(probabilities))
