@@ -5,7 +5,7 @@ with open("requirements.txt") as f:
 
 setup(
     name="DocumentAI_std",
-    version="0.1.1.dev0",
+    version="0.2.0.dev0",
     # packages=find_packages(where='DocumentAI_std'),  # Include all packages within this directory
     packages=find_packages(exclude=["DocumentAI_std.tests"]),
     # package_dir={'': 'DocumentAI_std'},  # Set root package directory
