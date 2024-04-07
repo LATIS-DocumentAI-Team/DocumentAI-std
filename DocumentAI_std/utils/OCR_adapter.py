@@ -8,6 +8,7 @@ from PIL import Image
 from paddleocr import PaddleOCR
 
 from DocumentAI_std.utils.base_utils import BaseUtils
+from DocumentAI_std.base.document import Document
 
 
 class OCRAdapter:
@@ -90,7 +91,7 @@ class OCRAdapter:
             raise AssertionError(
                 f"Ocr with name {self.ocr_method} is not recognized."
             )
-        return result
+        return Document(source, result)
 
     @staticmethod
     def from_paddle_ocr(paddle_ocr_output):
