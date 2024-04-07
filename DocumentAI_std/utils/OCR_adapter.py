@@ -38,19 +38,6 @@ class OCRAdapter:
     def __init__(self, ocr_method: str, lang: List[str]):
         self.__ocr_method = ocr_method
         self.lang = lang
-        ocr = PaddleOCR(
-            use_angle_cls=True,
-            max_text_length=2,
-            use_space_char=True,
-            lang="french",
-            type="structure",
-        )
-        reader = easyocr.Reader(
-            ["en", "fr"]
-        )  # this needs to run only once to load the model into memory
-        result = reader.readtext("dummy_data/invoice.png")
-
-        result = pytesseract.image_to_data(im, lang='en+fr', output_type=pytesseract.Output.DICT)
 
     @property
     def ocr_method(self):
@@ -60,38 +47,43 @@ class OCRAdapter:
     def ocr_method(self, value):
         self.__ocr_method = value
 
-    def apply_ocr(self, source: Union[str, io.BytesIO]):
-        if self.ocr_method == "easyocr":
-            reader = easyocr.Reader(
-                self.lang
-                # ["en", "fr"]
-            )  # this needs to run only once to load the model into memory
-            result = OCRAdapter.from_easy_ocr(reader.readtext(source))
-        elif self.ocr_method == "paddle":
-            im = Image.open(source)
-            im = im.convert("RGB")
-            lang_map = {
-                "fr": "french",
-                "en": "en"
-            }
-            ocr = PaddleOCR(
-                use_angle_cls=True,
-                max_text_length=2,
-                use_space_char=True,
-                lang=lang_map[self.lang],
-                type="structure",
-            )
-            result = OCRAdapter.from_paddle_ocr(ocr.ocr(np.asarray(im), cls=True))
-        elif self.ocr_method == "tesseract":
-            im = Image.open(source)
-            im = im.convert("RGB")
+    def apply_ocr(self, source: Union[str, io.BytesIO]) -> Document:
+        ocr_methods = {
+            "easyocr": self.apply_easyocr,
+            "paddle": self.apply_paddleocr,
+            "tesseract": self.apply_tesseract_ocr,
+        }
 
-            result = OCRAdapter.from_tesseract_ocr(pytesseract.image_to_data(im, output_type=pytesseract.Output.DICT))
-        else:
-            raise AssertionError(
-                f"Ocr with name {self.ocr_method} is not recognized."
-            )
+        if self.ocr_method not in ocr_methods:
+            raise AssertionError(f"OCR method '{self.ocr_method}' is not recognized.")
+
+        result = ocr_methods[self.ocr_method](source)
         return Document(source, result)
+
+    def apply_easyocr(self, source: Union[str, io.BytesIO]) -> dict:
+        reader = easyocr.Reader(self.lang)
+        return OCRAdapter.from_easy_ocr(reader.readtext(source))
+
+    def apply_paddleocr(self, source: Union[str, io.BytesIO]) -> dict:
+        im = self._open_image(source)
+        lang_map = {"fr": "french", "en": "en"}
+        ocr = PaddleOCR(
+            use_angle_cls=True,
+            max_text_length=2,
+            use_space_char=True,
+            lang=lang_map[self.lang],
+            type="structure",
+        )
+        return OCRAdapter.from_paddle_ocr(ocr.ocr(np.asarray(im), cls=True))
+
+    def apply_tesseract_ocr(self, source: Union[str, io.BytesIO]) -> dict:
+        im = self._open_image(source)
+        return OCRAdapter.from_tesseract_ocr(pytesseract.image_to_data(im, output_type=pytesseract.Output.DICT))
+
+    @staticmethod
+    def _open_image(source: Union[str, io.BytesIO]) -> Image.Image:
+        im = Image.open(source)
+        return im.convert("RGB")
 
     @staticmethod
     def from_paddle_ocr(paddle_ocr_output):
