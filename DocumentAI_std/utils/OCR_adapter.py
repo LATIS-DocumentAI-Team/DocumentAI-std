@@ -127,10 +127,11 @@ class OCRAdapter:
         """
         im = self._open_image(source)
         lang_map = {"fr": "fre", "en": "eng"}
+        lang = "+".join([lang_map[key] for key in self.lang])
         return OCRAdapter.from_tesseract_ocr(
             pytesseract.image_to_data(
                 im,
-                lang=lang_map[self.lang[0]] + "+" + lang_map[self.lang[1]],
+                lang=lang,
                 output_type=pytesseract.Output.DICT,
             )
         )
