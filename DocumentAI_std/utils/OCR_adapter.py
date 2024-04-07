@@ -126,7 +126,7 @@ class OCRAdapter:
             dict: OCR result.
         """
         im = self._open_image(source)
-        lang_map = {"fr": "fre", "en": "eng"}
+        lang_map = {"fr": "fra", "en": "eng"}
         lang = "+".join([lang_map[key] for key in self.lang])
         return OCRAdapter.from_tesseract_ocr(
             pytesseract.image_to_data(
