@@ -65,7 +65,7 @@ class OCRAdapter:
                 self.lang
                 # ["en", "fr"]
             )  # this needs to run only once to load the model into memory
-            result = reader.readtext(source)
+            result = OCRAdapter.from_easy_ocr(reader.readtext(source))
         elif self.ocr_method == "paddle":
             im = Image.open(source)
             im = im.convert("RGB")
@@ -80,12 +80,12 @@ class OCRAdapter:
                 lang=lang_map[self.lang],
                 type="structure",
             )
-            result = ocr.ocr(np.asarray(im), cls=True)
+            result = OCRAdapter.from_paddle_ocr(ocr.ocr(np.asarray(im), cls=True))
         elif self.ocr_method == "tesseract":
             im = Image.open(source)
             im = im.convert("RGB")
 
-            result = pytesseract.image_to_data(im, output_type=pytesseract.Output.DICT)
+            result = OCRAdapter.from_tesseract_ocr(pytesseract.image_to_data(im, output_type=pytesseract.Output.DICT))
         else:
             raise AssertionError(
                 f"Ocr with name {self.ocr_method} is not recognized."
