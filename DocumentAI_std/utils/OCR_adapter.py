@@ -2,6 +2,10 @@ import io
 from typing import Union, List
 
 import easyocr
+import numpy as np
+import pytesseract
+from PIL import Image
+from paddleocr import PaddleOCR
 
 from DocumentAI_std.utils.base_utils import BaseUtils
 
@@ -62,8 +66,31 @@ class OCRAdapter:
                 # ["en", "fr"]
             )  # this needs to run only once to load the model into memory
             result = reader.readtext(source)
+        elif self.ocr_method == "paddle":
+            im = Image.open(source)
+            im = im.convert("RGB")
+            lang_map = {
+                "fr": "french",
+                "en": "en"
+            }
+            ocr = PaddleOCR(
+                use_angle_cls=True,
+                max_text_length=2,
+                use_space_char=True,
+                lang=lang_map[self.lang],
+                type="structure",
+            )
+            result = ocr.ocr(np.asarray(im), cls=True)
+        elif self.ocr_method == "tesseract":
+            im = Image.open(source)
+            im = im.convert("RGB")
 
-        pass
+            result = pytesseract.image_to_data(im, output_type=pytesseract.Output.DICT)
+        else:
+            raise AssertionError(
+                f"Ocr with name {self.ocr_method} is not recognized."
+            )
+        return result
 
     @staticmethod
     def from_paddle_ocr(paddle_ocr_output):
