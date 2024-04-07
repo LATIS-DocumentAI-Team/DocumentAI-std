@@ -211,3 +211,14 @@ class TestUtils:
 
         # Check if the calculated entropy matches the expected value
         assert pytest.approx(entropy, abs=1e-6) == expected_entropy
+
+    @pytest.mark.parametrize("ocr_method, lang_list, source", mock_ocr())
+    def test_ocr(self, ocr_method, lang_list, source):
+        ocr = OCRAdapter(ocr_method, lang_list)
+        # ocr.apply_ocr()
+        print(ocr.apply_ocr(source).to_json())
+        # Compute overlap
+        # overlap = LayoutUtils.calculate_overlap(a, b)
+
+        # Check if the computed overlap matches the expected overlap
+        # assert overlap == expected_overlap

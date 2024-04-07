@@ -70,7 +70,7 @@ class OCRAdapter:
             AssertionError: If the specified OCR method is not recognized.
         """
         ocr_methods = {
-            "easyocr": self.apply_easyocr,
+            "easy": self.apply_easy_ocr,
             "paddle": self.apply_paddleocr,
             "tesseract": self.apply_tesseract_ocr,
         }
@@ -81,7 +81,7 @@ class OCRAdapter:
         result = ocr_methods[self.ocr_method](source)
         return Document(source, result)
 
-    def apply_easyocr(self, source: Union[str, io.BytesIO]) -> dict:
+    def apply_easy_ocr(self, source: Union[str, io.BytesIO]) -> dict:
         """
         Apply OCR using EasyOCR.
 
@@ -126,7 +126,13 @@ class OCRAdapter:
             dict: OCR result.
         """
         im = self._open_image(source)
-        return OCRAdapter.from_tesseract_ocr(pytesseract.image_to_data(im, output_type=pytesseract.Output.DICT))
+        return OCRAdapter.from_tesseract_ocr(
+            pytesseract.image_to_data(
+                im,
+                lang=str(self.lang[0]) + str(self.lang[1]),
+                output_type=pytesseract.Output.DICT,
+            )
+        )
 
     @staticmethod
     def _open_image(source: Union[str, io.BytesIO]) -> Image.Image:

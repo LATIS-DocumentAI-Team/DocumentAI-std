@@ -84,6 +84,14 @@ def mock_document():
     return document
 
 
+def mock_ocr():
+    return [
+        ("paddle", ["fr"], "tests/dummy_data/invoice.png"),
+        ("tesseract", ["fr", "en"], "tests/dummy_data/invoice.png"),
+        ("easy", ["fr", "en"], "tests/dummy_data/invoice.png"),
+    ]
+
+
 def mock_levenshtien():
     return [
         ("kitten", "sitting", 3),
