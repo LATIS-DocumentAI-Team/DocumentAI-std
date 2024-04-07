@@ -110,7 +110,7 @@ class OCRAdapter:
             use_angle_cls=True,
             max_text_length=2,
             use_space_char=True,
-            lang=lang_map[self.lang],
+            lang=lang_map[self.lang[0]],
             type="structure",
         )
         return OCRAdapter.from_paddle_ocr(ocr.ocr(np.asarray(im), cls=True))
@@ -126,10 +126,11 @@ class OCRAdapter:
             dict: OCR result.
         """
         im = self._open_image(source)
+        lang_map = {"fr": "fre", "en": "eng"}
         return OCRAdapter.from_tesseract_ocr(
             pytesseract.image_to_data(
                 im,
-                lang=str(self.lang[0]) + str(self.lang[1]),
+                lang=lang_map[self.lang[0]] + "+" + lang_map[self.lang[1]],
                 output_type=pytesseract.Output.DICT,
             )
         )

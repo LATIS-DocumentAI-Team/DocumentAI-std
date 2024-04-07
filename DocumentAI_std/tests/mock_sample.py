@@ -86,9 +86,9 @@ def mock_document():
 
 def mock_ocr():
     return [
-        ("paddle", ["fr"], "tests/dummy_data/invoice.png"),
-        ("tesseract", ["fr", "en"], "tests/dummy_data/invoice.png"),
-        ("easy", ["fr", "en"], "tests/dummy_data/invoice.png"),
+        ("paddle", ["fr"], "dummy_data/invoice.png"),
+        ("tesseract", ["fr", "en"], "dummy_data/invoice.png"),
+        ("easy", ["fr", "en"], "dummy_data/invoice.png"),
     ]
 
 
