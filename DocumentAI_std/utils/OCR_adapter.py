@@ -1,3 +1,6 @@
+import io
+from typing import Union
+
 from DocumentAI_std.utils.base_utils import BaseUtils
 
 
@@ -24,6 +27,22 @@ class OCRAdapter:
             'content': List[Any]
         }
     """
+
+    def __init__(self, ocr_method: str):
+        self.__ocr_method = ocr_method
+
+    @property
+    def ocr_method(self):
+        return self.__ocr_method
+
+    @ocr_method.setter
+    def ocr_method(self, value):
+        self.__ocr_method = value
+
+    @staticmethod
+    def apply_ocr(source: Union[str, io.BytesIO]):
+        pass
+
 
     @staticmethod
     def from_paddle_ocr(paddle_ocr_output):
