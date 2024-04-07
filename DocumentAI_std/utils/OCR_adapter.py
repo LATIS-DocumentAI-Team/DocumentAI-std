@@ -1,5 +1,7 @@
 import io
-from typing import Union
+from typing import Union, List
+
+import easyocr
 
 from DocumentAI_std.utils.base_utils import BaseUtils
 
@@ -28,8 +30,22 @@ class OCRAdapter:
         }
     """
 
-    def __init__(self, ocr_method: str):
+    def __init__(self, ocr_method: str, lang: List[str]):
         self.__ocr_method = ocr_method
+        self.lang = lang
+        ocr = PaddleOCR(
+            use_angle_cls=True,
+            max_text_length=2,
+            use_space_char=True,
+            lang="french",
+            type="structure",
+        )
+        reader = easyocr.Reader(
+            ["en", "fr"]
+        )  # this needs to run only once to load the model into memory
+        result = reader.readtext("dummy_data/invoice.png")
+
+        result = pytesseract.image_to_data(im, lang='en+fr', output_type=pytesseract.Output.DICT)
 
     @property
     def ocr_method(self):
@@ -39,10 +55,15 @@ class OCRAdapter:
     def ocr_method(self, value):
         self.__ocr_method = value
 
-    @staticmethod
-    def apply_ocr(source: Union[str, io.BytesIO]):
-        pass
+    def apply_ocr(self, source: Union[str, io.BytesIO]):
+        if self.ocr_method == "easyocr":
+            reader = easyocr.Reader(
+                self.lang
+                # ["en", "fr"]
+            )  # this needs to run only once to load the model into memory
+            result = reader.readtext(source)
 
+        pass
 
     @staticmethod
     def from_paddle_ocr(paddle_ocr_output):
