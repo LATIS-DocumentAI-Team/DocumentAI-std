@@ -185,7 +185,7 @@ class OCRAdapter:
             dict: Dictionary containing standardized OCR output with 'bbox' and 'content' keys.
         """
         bbox_content_pairs = [
-            (BaseUtils.X1X2X3X4_to_xywh(sum(text_box[0], [])), text_box[1])
+            (list(map(int, BaseUtils.X1X2X3X4_to_xywh(sum(text_box[0], [])))), text_box[1])
             for text_box in easy_ocr_output
         ]
 
