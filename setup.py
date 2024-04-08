@@ -16,4 +16,3 @@ setup(
     author_email="",
     description="The main standards for Latis Document AI project",
 )
-# TODO: about tesseract: https://stackoverflow.com/questions/63048908/how-do-i-install-a-new-language-pack-for-tesseract-on-windows
