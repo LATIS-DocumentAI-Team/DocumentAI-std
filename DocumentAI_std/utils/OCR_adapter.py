@@ -91,7 +91,6 @@ class OCRAdapter:
         Returns:
             dict: OCR result.
         """
-        #TODO: FIX this (check the microservice)
         reader = easyocr.Reader(self.lang)
         return OCRAdapter.from_easy_ocr(reader.readtext(source))
 
@@ -126,7 +125,6 @@ class OCRAdapter:
         Returns:
             dict: OCR result.
         """
-        #TODO: FIX this (check the microservice)
         im = self._open_image(source)
         lang_map = {"fr": "fra", "en": "eng"}
         lang = "+".join([lang_map[key] for key in self.lang])
