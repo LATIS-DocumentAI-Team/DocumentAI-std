@@ -98,7 +98,7 @@ class CORD:
             stem = Path(img_path).stem
             _targets = []
 
-            with open(os.path.join(self.root, "json", f"{stem}.json"), "rb") as f:
+            with open(os.path.join(label_path, f"{stem}.json"), "rb") as f:
                 label = json.load(f)
                 row_id_dic = {}
                 for line in label["valid_line"]:
@@ -130,16 +130,17 @@ class CORD:
                             )
                             _targets.append((box, word["text"], line["category"]))
 
-            if len(_targets) != 0:
-                text_targets, label_targets, box_targets = zip(*_targets)
-                ocr_output = {
-                    "bbox": box_targets,
-                    "content": text_targets,
-                    "label": label_targets,
-                }
-                self.data.append(
-                    DocumentEntityClassification(
-                        os.path.join(tmp_root, img_path), ocr_output
+                if len(_targets) != 0:
+                    box_targets, text_targets, label_targets = zip(*_targets)
+                    ocr_output = {
+                        "bbox": box_targets,
+                        "content": text_targets,
+                        "label": label_targets,
+                    }
+
+                    self.data.append(
+                        DocumentEntityClassification(
+                            os.path.join(tmp_root, img_path), ocr_output
+                        )
                     )
-                )
         self.root = tmp_root
