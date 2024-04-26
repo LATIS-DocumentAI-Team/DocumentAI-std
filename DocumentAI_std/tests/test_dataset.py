@@ -1,5 +1,6 @@
 from DocumentAI_std.datasets.wildreceipt import Wildreceipt
 from DocumentAI_std.datasets.cord import CORD
+from datasets.funsd import FUNSD
 
 
 class TestDataset:
@@ -30,3 +31,13 @@ class TestDataset:
         )
         assert len(train_set.data) == 800
         assert len(test_set.data) == 100
+
+    def test_funsd_dataset(self):
+        train_set = FUNSD(
+            train=True, data_folder="/home/bobmarley/.cache/doctr/datasets/funsd"
+        )
+        test_set = FUNSD(
+            train=False, data_folder="/home/bobmarley/.cache/doctr/datasets/funsd"
+        )
+        assert len(train_set.data) == 149
+        assert len(test_set.data) == 50

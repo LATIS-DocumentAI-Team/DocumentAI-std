@@ -81,4 +81,3 @@ class FUNSD:
                         os.path.join(tmp_root, img_path), ocr_output
                     )
                 )
-        self.root = tmp_root
