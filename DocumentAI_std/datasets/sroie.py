@@ -21,15 +21,12 @@ class SROIE:
 
     def __init__(
         self,
+        img_folder: str,
+        label_path: str,
         train: bool = True,
-        img_transforms: Optional[Callable[[Any], Any]] = None,
-        sample_transforms: Optional[Callable[[Any, Any], Tuple[Any, Any]]] = None,
-        pre_transforms: Optional[Callable[[Any, Any], Tuple[Any, Any]]] = None,
     ) -> None:
         self.train = train
-        self.img_transforms = img_transforms
-        self.sample_transforms = sample_transforms
-        self.pre_transforms = pre_transforms
+
 
         self.data: List[Tuple[str, Dict[str, Any]]] = []
 
