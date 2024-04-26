@@ -37,6 +37,7 @@ class XFUND:
         self,
         data_folder: str,
         train: bool = True,
+        lang: str = "fr"
     ) -> None:
         # File existence check
         if not os.path.exists(data_folder):
@@ -44,10 +45,13 @@ class XFUND:
 
         self.train = train
         self.data: List[Document] = []
-        tmp_root = os.path.join(
-            data_folder, "en.train.json" if train else "en.val.json"
+        img_path =  os.path.join(
+            data_folder, f"{lang}.train" if train else f"{lang}.val"
         )
-        with open(tmp_root, "r") as file:
+        label_path = os.path.join(
+            data_folder, f"{lang}.train.json" if train else f"{lang}.val.json"
+        )
+        with open(label_path, "r") as file:
             data = file.read()
         # Split the text file into separate JSON strings
         _targets = []
@@ -72,7 +76,7 @@ class XFUND:
                 }
                 self.data.append(
                     DocumentEntityClassification(
-                        os.path.join(data_folder, file_name), ocr_output
+                        os.path.join(img_path, file_name), ocr_output
                     )
                 )
-        self.root = tmp_root
+        self.root = label_path
