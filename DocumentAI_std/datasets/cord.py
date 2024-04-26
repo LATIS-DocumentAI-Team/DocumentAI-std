@@ -3,6 +3,10 @@ import os
 from pathlib import Path
 from typing import List
 
+from DocumentAI_std.base.document_entity_classification import (
+    DocumentEntityClassification,
+)
+
 from DocumentAI_std.utils.base_utils import BaseUtils
 
 from DocumentAI_std.base.document import Document
@@ -79,12 +83,6 @@ class CORD:
                 f"unable to locate {label_path if not os.path.exists(label_path) else img_folder}"
             )
 
-        url, sha256 = self.TRAIN if train else self.TEST
-        super().__init__(
-            url, None, sha256, True, pre_transforms=convert_target_to_relative, **kwargs
-        )
-
-        # # List images
         tmp_root = img_folder
         self.train = train
 
@@ -127,10 +125,10 @@ class CORD:
                                 word["quad"]["y4"],
                             )
                             # Reduce 8 coords to 4 -> xmin, ymin, xmax, ymax
-                            box = BaseUtils.X1X2_to_xywh([min(x), min(y), max(x), max(y)])
-                            _targets.append(
-                                (box, word["text"], line["category"])
+                            box = BaseUtils.X1X2_to_xywh(
+                                [min(x), min(y), max(x), max(y)]
                             )
+                            _targets.append((box, word["text"], line["category"]))
 
             if len(_targets) != 0:
                 text_targets, label_targets, box_targets = zip(*_targets)
@@ -140,16 +138,8 @@ class CORD:
                     "label": label_targets,
                 }
                 self.data.append(
-                        (
-                            img_path,
-                            dict(
-                                boxes=np.asarray(box_targets, dtype=int).clip(min=0),
-                                text_units=list(text_targets),
-                                labels=list(labels),
-                            ),
-                        )
+                    DocumentEntityClassification(
+                        os.path.join(tmp_root, img_path), ocr_output
                     )
+                )
         self.root = tmp_root
-
-    def extra_repr(self) -> str:
-        return f"train={self.train}"
