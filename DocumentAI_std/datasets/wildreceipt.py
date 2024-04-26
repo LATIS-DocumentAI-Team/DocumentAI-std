@@ -66,7 +66,7 @@ class Wildreceipt:
                 *[
                     (
                         BaseUtils.X1X2X3X4_to_xywh(annotation["box"]),
-                        annotation["text"].lower(),
+                        annotation["text"],
                         annotation["label"],
                     )
                     for annotation in annotations
