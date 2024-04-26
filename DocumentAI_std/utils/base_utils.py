@@ -32,6 +32,7 @@ class BaseUtils:
         w = max_x - min_x
         h = max_y - min_y
         return [min_x, min_y, w, h]
+
     @staticmethod
     def read_bbox_and_words(path: Path):
         bbox_and_words_list = []
@@ -51,11 +52,23 @@ class BaseUtils:
                 bbox_and_words_list.append([path.stem, *bbox, text])
         dataframe = pd.DataFrame(
             bbox_and_words_list,
-            columns=["filename", "x0", "y0", "x1", "y1", "x2", "y2", "x3", "y3", "line"],
+            columns=[
+                "filename",
+                "x0",
+                "y0",
+                "x1",
+                "y1",
+                "x2",
+                "y2",
+                "x3",
+                "y3",
+                "line",
+            ],
         )
         dataframe = dataframe.drop(columns=["x1", "y1", "x3", "y3"])
 
         return dataframe
+
     @staticmethod
     def read_entities(path: Path):
         with open(path, "r") as f:
@@ -78,9 +91,14 @@ class BaseUtils:
                     matches_count += 1
 
                 if (
-                        (column.upper() == "ADDRESS" and (matches_count / len(line_set)) >= 0.5)
-                        or (column.upper() != "ADDRESS" and (matches_count == len(line_set)))
-                        or matches_count == len(entity_set)
+                    (
+                        column.upper() == "ADDRESS"
+                        and (matches_count / len(line_set)) >= 0.5
+                    )
+                    or (
+                        column.upper() != "ADDRESS" and (matches_count == len(line_set))
+                    )
+                    or matches_count == len(entity_set)
                 ):
                     return column.upper()
 
@@ -104,14 +122,15 @@ class BaseUtils:
 
             already_labeled[label] = True
             if (label == "ADDRESS" and already_labeled["TOTAL"]) or (
-                    label == "COMPANY" and (already_labeled["DATE"] or already_labeled["TOTAL"])
+                label == "COMPANY"
+                and (already_labeled["DATE"] or already_labeled["TOTAL"])
             ):
                 label = "O"
 
             # Assign to the largest bounding box
             if label in ["TOTAL", "DATE"]:
                 x0_loc = words.columns.get_loc("x0")
-                bbox = words.iloc[i, x0_loc: x0_loc + 4].to_list()
+                bbox = words.iloc[i, x0_loc : x0_loc + 4].to_list()
                 area = (bbox[2] - bbox[0]) + (bbox[3] - bbox[1])
 
                 if max_area[label][0] < area:
@@ -126,4 +145,3 @@ class BaseUtils:
 
         words["label"] = labels
         return words
-

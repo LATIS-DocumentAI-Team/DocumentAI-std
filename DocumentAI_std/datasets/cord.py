@@ -14,33 +14,33 @@ from DocumentAI_std.base.document import Document
 
 class CORD:
     """
-        CORD dataset from `"CORD: A Consolidated Receipt Dataset forPost-OCR Parsing"
-        <https://openreview.net/pdf?id=SJl3z659UH>`_.
+    CORD dataset from `"CORD: A Consolidated Receipt Dataset forPost-OCR Parsing"
+    <https://openreview.net/pdf?id=SJl3z659UH>`_.
 
 
 
-        Args:
-            img_folder (str): Folder containing all the images of the dataset.
-            label_path (str): Path to the annotations file of the dataset.
-            train (bool, optional): Whether the subset should be the training one. Defaults to True.
+    Args:
+        img_folder (str): Folder containing all the images of the dataset.
+        label_path (str): Path to the annotations file of the dataset.
+        train (bool, optional): Whether the subset should be the training one. Defaults to True.
 
-        Attributes:
-            data (List[DocumentEntityClassification]): List of document entities in the dataset.
-            root (str): Root directory of the document image files.
-            train (bool): Indicates whether the dataset is for training or not.
+    Attributes:
+        data (List[DocumentEntityClassification]): List of document entities in the dataset.
+        root (str): Root directory of the document image files.
+        train (bool): Indicates whether the dataset is for training or not.
 
-        Example:
-        >>> dataset = CORD(
-        ...     img_folder="/path/to/cord_train/image",
-        ...     label_path="/path/to/cord_train/json",
-        ...     train=True
-        ... )
-        >>> dataset = CORD(
-        ...     img_folder="/path/to/cord_test/image",
-        ...     label_path="/path/to/cord_test/json",
-        ...     train=False
-        ... )
-        """
+    Example:
+    >>> dataset = CORD(
+    ...     img_folder="/path/to/cord_train/image",
+    ...     label_path="/path/to/cord_train/json",
+    ...     train=True
+    ... )
+    >>> dataset = CORD(
+    ...     img_folder="/path/to/cord_test/image",
+    ...     label_path="/path/to/cord_test/json",
+    ...     train=False
+    ... )
+    """
 
     def __init__(
         self,
