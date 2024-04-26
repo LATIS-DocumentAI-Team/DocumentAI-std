@@ -2,7 +2,9 @@ import json
 import os
 from typing import List
 
-from DocumentAI_std.base.document_entity_classification import DocumentEntityClassification
+from DocumentAI_std.base.document_entity_classification import (
+    DocumentEntityClassification,
+)
 
 from DocumentAI_std.utils.base_utils import BaseUtils
 
@@ -33,19 +35,14 @@ class XFUND:
     ... )
     """
 
-    def __init__(
-        self,
-        data_folder: str,
-        train: bool = True,
-        lang: str = "fr"
-    ) -> None:
+    def __init__(self, data_folder: str, train: bool = True, lang: str = "fr") -> None:
         # File existence check
         if not os.path.exists(data_folder):
             raise FileNotFoundError(f"unable to locate {data_folder}")
 
         self.train = train
         self.data: List[Document] = []
-        img_path =  os.path.join(
+        img_path = os.path.join(
             data_folder, f"{lang}.train" if train else f"{lang}.val"
         )
         label_path = os.path.join(

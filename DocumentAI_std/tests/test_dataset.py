@@ -45,10 +45,12 @@ class TestDataset:
 
     def test_xfund_dataset(self):
         train_set = XFUND(
-            train=True, data_folder="/home/bobmarley/PycharmProjects/direct-neighbor-vrd/data"
+            train=True,
+            data_folder="/home/bobmarley/PycharmProjects/direct-neighbor-vrd/data",
         )
         test_set = XFUND(
-            train=False, data_folder="/home/bobmarley/PycharmProjects/direct-neighbor-vrd/data"
+            train=False,
+            data_folder="/home/bobmarley/PycharmProjects/direct-neighbor-vrd/data",
         )
         assert len(train_set.data) == 149
         assert len(test_set.data) == 50
