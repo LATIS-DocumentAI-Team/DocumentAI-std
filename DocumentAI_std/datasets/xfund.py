@@ -1,13 +1,36 @@
+import json
+import os
+from typing import List
 
-class XFUND(VisionDataset):
-    # FIXME: CONVERT THIS TO X, Y, W, H
+from DocumentAI_std.base.document_entity_classification import DocumentEntityClassification
+
+from DocumentAI_std.utils.base_utils import BaseUtils
+
+from DocumentAI_std.base.document import Document
+
+
+class XFUND:
     """
-    >>> # NOTE: You need to download the dataset first.
-    >>> train_set = XFUND(train=True, data_folder="data/fr.train.json")
-    >>> img, target = train_set[0]
-    >>> test_set = XFUND(train=False, data_folder="data/fr.val.json")
-    :return:
-        Bounding boxes are in the Format (xmin, ymin, xmax, ymax) top left, bottom right corners
+    CORD dataset from `"CORD: A Consolidated Receipt Dataset forPost-OCR Parsing"
+    <https://openreview.net/pdf?id=SJl3z659UH>`_.
+
+
+
+    Args:
+        img_folder (str): Folder containing all the images of the dataset.
+        label_path (str): Path to the annotations file of the dataset.
+        train (bool, optional): Whether the subset should be the training one. Defaults to True.
+
+    Attributes:
+        data (List[DocumentEntityClassification]): List of document entities in the dataset.
+        root (str): Root directory of the document image files.
+        train (bool): Indicates whether the dataset is for training or not.
+
+    Example:
+    >>> dataset = XFUND(
+    ...     data_folder="/path/to/xfund/"
+    ...     train=True
+    ... )
     """
 
     def __init__(
@@ -19,17 +42,14 @@ class XFUND(VisionDataset):
         if not os.path.exists(data_folder):
             raise FileNotFoundError(f"unable to locate {data_folder}")
 
-        tmp_root = data_folder
         self.train = train
-        np_dtype = np.float32
-        self.data: List[
-            Tuple[Union[str, Path, np.ndarray], Union[str, Dict[str, Any]]]
-        ] = []
-
-        with open(data_folder, "r") as file:
+        self.data: List[Document] = []
+        tmp_root = os.path.join(
+            data_folder, "en.train.json" if train else "en.val.json"
+        )
+        with open(tmp_root, "r") as file:
             data = file.read()
         # Split the text file into separate JSON strings
-        box: Union[List[float], np.ndarray]
         _targets = []
         json_data = json.loads(data)
         for document in json_data["documents"]:
@@ -37,26 +57,22 @@ class XFUND(VisionDataset):
             annotations = document["document"]
             _targets = [
                 (
-                    convert_xmin_ymin(annotation["box"]),
-                    annotation["text"].lower(),
+                    BaseUtils.X1X2_to_xywh(annotation["box"]),
+                    annotation["text"],
                     annotation["label"],
                 )
                 for annotation in annotations
-                if get_area(convert_xmin_ymin(annotation["box"])) >= 50
             ]
             if _targets:
-                box_targets, text_units, labels = zip(*_targets)
-                if (
-                    len(box_targets) > 1
-                ):  # number of bounding boxes in document should be more than one
-                    self.data.append(
-                        (
-                            file_name,
-                            dict(
-                                boxes=np.asarray(box_targets, dtype=int),
-                                text_units=list(text_units),
-                                labels=list(labels),
-                            ),
-                        )
+                box_targets, text_targets, label_targets = zip(*_targets)
+                ocr_output = {
+                    "bbox": box_targets,
+                    "content": text_targets,
+                    "label": label_targets,
+                }
+                self.data.append(
+                    DocumentEntityClassification(
+                        os.path.join(data_folder, file_name), ocr_output
                     )
+                )
         self.root = tmp_root
