@@ -9,20 +9,7 @@ To install **DocumentAI-std**, you can follow these steps:
 1. Clone the repository from GitHub:
 
 ```sh
-$ git clone https://github.com/LATIS-DocumentAI-Group/DocumentAI-std.git
-$ cd DocumentAI-std
-```
-
-2. Generate the wheel file using the setup script:
-
-```sh
-$ python setup.py sdist bdist_wheel	
-```
-
-3. Install the package using pip:
-
-```sh
-$ pip install dist/DocumentAI_std-0.1.0-py3-none-any.whl
+pip install DocumentAI-std
 ```
 
 
