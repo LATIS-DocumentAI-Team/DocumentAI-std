@@ -2,7 +2,6 @@
 import math
 
 import torch
-from scipy import ndimage
 from skimage.filters import gabor
 
 from DocumentAI_std.base.doc_element import DocElement

@@ -173,8 +173,8 @@ class LayoutUtils:
         Returns:
             HorizontalAlignment: Horizontal alignment ('left', 'center', 'right').
         """
-        x1, y1, w1, h1 = a.x, a.y, a.w, a.h
-        x2, y2, w2, h2 = b.x, b.y, b.w, b.h
+        x1, _, w1, _ = a.x, a.y, a.w, a.h
+        x2, _, w2, _ = b.x, b.y, b.w, b.h
 
         if x1 == x2:
             return HorizontalAlignment.CENTER
@@ -201,8 +201,8 @@ class LayoutUtils:
         Returns:
             VerticalAlignment: Vertical alignment ('top', 'middle', 'bottom').
         """
-        x1, y1, w1, h1 = a.x, a.y, a.w, a.h
-        x2, y2, w2, h2 = b.x, b.y, b.w, b.h
+        _, y1, _, h1 = a.x, a.y, a.w, a.h
+        _, y2, _, h2 = b.x, b.y, b.w, b.h
 
         if y1 == y2:
             return VerticalAlignment.MIDDLE

@@ -1,5 +1,5 @@
-from DocumentAI_std.base.doc_enum import ContentRelativePosition, VerticalAlignment
-from DocumentAI_std.tests.mock_sample import *
+from DocumentAI_std.base.doc_enum import ContentRelativePosition
+import DocumentAI_std.tests.mock_sample
 from DocumentAI_std.utils.OCR_adapter import OCRAdapter
 from DocumentAI_std.utils.layout_utils import LayoutUtils
 from DocumentAI_std.utils.text_utils import TextUtils
@@ -12,24 +12,24 @@ class TestDocElements:
         assert mock_doc_element.y == 2
         assert mock_doc_element.w == 3
         assert mock_doc_element.h == 4
-        assert mock_doc_element.content_type == ContentType.TEXT
+        assert mock_doc_element.content_type == DocumentAI_std.tests.mock_sample.ContentType.TEXT
         assert mock_doc_element.content == "Mock Content"
 
     def test_doc_element_classification_properties(
-        self, mock_doc_element_classification
+            self, mock_doc_element_classification
     ):
         assert mock_doc_element_classification.x == 1
         assert mock_doc_element_classification.y == 2
         assert mock_doc_element_classification.w == 3
         assert mock_doc_element_classification.h == 4
-        assert mock_doc_element_classification.content_type == ContentType.TEXT
+        assert mock_doc_element_classification.content_type == DocumentAI_std.tests.mock_sample.ContentType.TEXT
         assert mock_doc_element_classification.content == "Mock Content"
         assert mock_doc_element_classification.label == 5
 
     def test_to_json(self, mock_doc_element_classification):
         json_data = mock_doc_element_classification.to_json()
         assert json_data["bbox"] == [1, 2, 3, 4]
-        assert json_data["content_type"] == ContentType.TEXT
+        assert json_data["content_type"] == DocumentAI_std.tests.mock_sample.ContentType.TEXT
         assert json_data["content"] == "Mock Content"
         assert json_data["label"] == 5
 
@@ -39,7 +39,7 @@ class TestDocElements:
         assert serialize_object["y"] == 2
         assert serialize_object["w"] == 3
         assert serialize_object["h"] == 4
-        assert serialize_object["content_type"] == ContentType.TEXT
+        assert serialize_object["content_type"] == DocumentAI_std.tests.mock_sample.ContentType.TEXT
         assert serialize_object["content"] == "Mock Content"
 
 
@@ -52,7 +52,7 @@ class TestDocument:
         assert doc_element_class.y == 20
         assert doc_element_class.w == 30
         assert doc_element_class.h == 40
-        assert doc_element_class.content_type == ContentType.TEXT
+        assert doc_element_class.content_type == DocumentAI_std.tests.mock_sample.ContentType.TEXT
         assert doc_element_class.content == "Text 1"
         assert doc_element_class.label == 1
 
@@ -64,7 +64,7 @@ class TestDocument:
         assert doc_element.y == 20
         assert doc_element.w == 30
         assert doc_element.h == 40
-        assert doc_element.content_type == ContentType.TEXT
+        assert doc_element.content_type == DocumentAI_std.tests.mock_sample.ContentType.TEXT
         assert doc_element.content == "Text 1"
 
     def test_to_json(self, mock_document):
@@ -77,9 +77,9 @@ class TestDocument:
         assert json_data["bbox_list"][1] == [50, 60, 70, 80]
         assert json_data["bbox_list"][2] == [90, 100, 110, 120]
 
-        assert json_data["content_type_list"][0] == ContentType.TEXT
-        assert json_data["content_type_list"][1] == ContentType.TEXT
-        assert json_data["content_type_list"][2] == ContentType.TEXT
+        assert json_data["content_type_list"][0] == DocumentAI_std.tests.mock_sample.ContentType.TEXT
+        assert json_data["content_type_list"][1] == DocumentAI_std.tests.mock_sample.ContentType.TEXT
+        assert json_data["content_type_list"][2] == DocumentAI_std.tests.mock_sample.ContentType.TEXT
 
         assert json_data["content_list"][0] == "Text 1"
         assert json_data["content_list"][1] == "Text 2"
@@ -113,12 +113,12 @@ class TestUtils:
 
     def test_is_date(self, mock_dates):
         for date in mock_dates:
-            assert (
-                TextUtils.is_date(
-                    DocElement(None, None, None, None, ContentType.TEXT, date)
-                )
-                == True
-            )
+            assert (TextUtils.is_date(
+                DocumentAI_std.tests.mock_sample.DocElement(None, None, None, None,
+                                                            DocumentAI_std.tests.mock_sample.ContentType.TEXT,
+                                                            date)
+            ) == True
+                    )
 
     def test_relative_position(self, mock_document):
         """Test the relative_position method."""
@@ -140,11 +140,16 @@ class TestUtils:
         )
         assert position == ContentRelativePosition.BOTTOM_HEIGHT
 
-    @pytest.mark.parametrize("s1, s2, expected_distance", mock_levenshtien())
+    @DocumentAI_std.tests.mock_sample.pytest.mark.parametrize("s1, s2, expected_distance",
+                                                              DocumentAI_std.tests.mock_sample.mock_levenshtien())
     def test_levenshtein_distance(self, s1, s2, expected_distance):
         # Create DocElement instances
-        doc_element1 = DocElement(0, 0, 0, 0, ContentType.TEXT, s1)
-        doc_element2 = DocElement(0, 0, 0, 0, ContentType.TEXT, s2)
+        doc_element1 = DocumentAI_std.tests.mock_sample.DocElement(0, 0, 0, 0,
+                                                                   DocumentAI_std.tests.mock_sample.ContentType.TEXT,
+                                                                   s1)
+        doc_element2 = DocumentAI_std.tests.mock_sample.DocElement(0, 0, 0, 0,
+                                                                   DocumentAI_std.tests.mock_sample.ContentType.TEXT,
+                                                                   s2)
 
         # Compute Levenshtein distance
         distance = TextUtils.levenshtein_distance(doc_element1, doc_element2)
@@ -152,23 +157,27 @@ class TestUtils:
         # Check if the computed distance matches the expected distance
         assert distance == expected_distance, f"Distance for {s1} and {s2} is incorrect"
 
-    @pytest.mark.parametrize(
+    @DocumentAI_std.tests.mock_sample.pytest.mark.parametrize(
         "a_x, a_y, b_x, b_y, expected_euclidean, expected_manhattan, expected_chebyshev",
-        mock_distances(),
+        DocumentAI_std.tests.mock_sample.mock_distances(),
     )
     def test_distances(
-        self,
-        a_x,
-        a_y,
-        b_x,
-        b_y,
-        expected_euclidean,
-        expected_manhattan,
-        expected_chebyshev,
+            self,
+            a_x,
+            a_y,
+            b_x,
+            b_y,
+            expected_euclidean,
+            expected_manhattan,
+            expected_chebyshev,
     ):
         # Create DocElement instances
-        doc_element1 = DocElement(a_x, a_y, 0, 0, ContentType.TEXT, "")
-        doc_element2 = DocElement(b_x, b_y, 0, 0, ContentType.TEXT, "")
+        doc_element1 = DocumentAI_std.tests.mock_sample.DocElement(a_x, a_y, 0, 0,
+                                                                   DocumentAI_std.tests.mock_sample.ContentType.TEXT,
+                                                                   "")
+        doc_element2 = DocumentAI_std.tests.mock_sample.DocElement(b_x, b_y, 0, 0,
+                                                                   DocumentAI_std.tests.mock_sample.ContentType.TEXT,
+                                                                   "")
 
         # Compute distances
         euclidean_dist = LayoutUtils.euclidean_distance(doc_element1, doc_element2)
@@ -180,7 +189,8 @@ class TestUtils:
         assert manhattan_dist == expected_manhattan, f"Manhattan distance is incorrect"
         assert chebyshev_dist == expected_chebyshev, f"Chebyshev distance is incorrect"
 
-    @pytest.mark.parametrize("a, b, expected_overlap", mock_overlap())
+    @DocumentAI_std.tests.mock_sample.pytest.mark.parametrize("a, b, expected_overlap",
+                                                              DocumentAI_std.tests.mock_sample.mock_overlap())
     def test_overlap_calculation(self, a, b, expected_overlap):
         # Compute overlap
         overlap = LayoutUtils.calculate_overlap(a, b)
@@ -188,7 +198,8 @@ class TestUtils:
         # Check if the computed overlap matches the expected overlap
         assert overlap == expected_overlap
 
-    @pytest.mark.parametrize("a, b, expected_alignment", mock_horizontal_alignment())
+    @DocumentAI_std.tests.mock_sample.pytest.mark.parametrize("a, b, expected_alignment",
+                                                              DocumentAI_std.tests.mock_sample.mock_horizontal_alignment())
     def test_horizontal_alignment(self, a, b, expected_alignment):
         # Compute horizontal alignment
         alignment = LayoutUtils.calculate_horizontal_alignment(a, b)
@@ -196,7 +207,8 @@ class TestUtils:
         # Check if the computed alignment matches the expected alignment
         assert alignment == expected_alignment
 
-    @pytest.mark.parametrize("a, b, expected_alignment", mock_vertical_alignment())
+    @DocumentAI_std.tests.mock_sample.pytest.mark.parametrize("a, b, expected_alignment",
+                                                              DocumentAI_std.tests.mock_sample.mock_vertical_alignment())
     def test_vertical_alignment(self, a, b, expected_alignment):
         # Compute vertical alignment
         alignment = LayoutUtils.calculate_vertical_alignment(a, b)
@@ -204,15 +216,17 @@ class TestUtils:
         # Check if the computed alignment matches the expected alignment
         assert alignment == expected_alignment
 
-    @pytest.mark.parametrize("a, expected_entropy", mock_entropy())
+    @DocumentAI_std.tests.mock_sample.pytest.mark.parametrize("a, expected_entropy",
+                                                              DocumentAI_std.tests.mock_sample.mock_entropy())
     def test_entropy(self, a, expected_entropy):
         # Calculate entropy using the ImageUtils class
         entropy = ImageUtils.entropy(a)
 
         # Check if the calculated entropy matches the expected value
-        assert pytest.approx(entropy, abs=1e-6) == expected_entropy
+        assert DocumentAI_std.tests.mock_sample.pytest.approx(entropy, abs=1e-6) == expected_entropy
 
-    @pytest.mark.parametrize("ocr_method, lang_list, source", mock_ocr())
+    @DocumentAI_std.tests.mock_sample.pytest.mark.parametrize("ocr_method, lang_list, source",
+                                                              DocumentAI_std.tests.mock_sample.mock_ocr())
     def test_ocr(self, ocr_method, lang_list, source):
         ocr = OCRAdapter(ocr_method, lang_list)
         # ocr.apply_ocr()

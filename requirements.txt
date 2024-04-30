@@ -7,3 +7,4 @@ paddleocr>=2.0.1
 PyMuPDF==1.21.1
 setuptools==65.5.0
 paddlepaddle
+black

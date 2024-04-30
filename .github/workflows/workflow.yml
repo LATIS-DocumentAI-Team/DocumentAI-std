@@ -3,7 +3,7 @@ name: DocumentAI CI
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -17,24 +17,19 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.11
 
     - name: Install dependencies
       run: pip install -r requirements.txt
 
     - name: Run tests
-      run: pytest
+      run: pytest DocumentAI_std/tests
 
     - name: Check code formatting
       run: black --check .
 
     - name: Linting
       run: flake8
-
-    - name: Build Documentation
-      run: |
-        pip install -r docs/requirements.txt
-        sphinx-build -b html docs/source docs/build
 
     - name: Publish to PyPI
       if: github.ref == 'refs/tags/v*'

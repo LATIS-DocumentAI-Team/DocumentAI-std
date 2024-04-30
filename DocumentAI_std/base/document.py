@@ -1,11 +1,10 @@
 import os
-from typing import Any, List, Tuple
+from typing import Any, List
 
 from PIL import Image
 
-from DocumentAI_std.base.doc_enum import ContentType
-
 from DocumentAI_std.base.doc_element import DocElement
+from DocumentAI_std.base.doc_enum import ContentType
 
 
 class Document:

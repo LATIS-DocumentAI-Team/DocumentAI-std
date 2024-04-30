@@ -56,7 +56,6 @@ class Wildreceipt:
             data = file.read()
         # Split the text file into separate JSON strings
         json_strings = data.strip().split("\n")
-        _targets = []
         for json_string in json_strings:
             json_data = json.loads(json_string)
             img_path = json_data["file_name"]
