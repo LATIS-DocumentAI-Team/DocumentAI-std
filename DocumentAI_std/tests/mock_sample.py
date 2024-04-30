@@ -191,6 +191,10 @@ def mock_vertical_alignment():
 
 
 def mock_entropy():
+    img_dir = os.path.join("dummy_data", "test")
+    os.makedirs(img_dir, exist_ok=True)
+    img_path = os.path.join(img_dir, "test.jpg")
+    create_dummy_image(img_path)  # Create dummy image at the specified path
     return [
         (
             DocElement(0, 0, 10, 20, ContentType.TEXT, "A", "dummy_data/test/test.jpg"),
@@ -276,6 +280,10 @@ def mock_easy():
 
 @pytest.fixture
 def mock_tesseract():
+    img_dir = os.path.join("dummy_data", "test")
+    os.makedirs(img_dir, exist_ok=True)
+    img_path = os.path.join(img_dir, "invoice.png")
+    create_dummy_image(img_path)  # Create dummy image at the specified path
     im = Image.open("dummy_data/invoice.png")
     im = im.convert("RGB")
 
