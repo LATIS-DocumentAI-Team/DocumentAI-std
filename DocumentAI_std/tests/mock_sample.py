@@ -254,6 +254,10 @@ def mock_document_entity_classification():
 
 @pytest.fixture
 def mock_paddle():
+    img_dir = os.path.join("dummy_data")
+    os.makedirs(img_dir, exist_ok=True)
+    img_path = os.path.join(img_dir, "invoice.png")
+    create_dummy_image(img_path)
     im = Image.open("dummy_data/invoice.png")
     im = im.convert("RGB")
 
@@ -271,6 +275,10 @@ def mock_paddle():
 
 @pytest.fixture
 def mock_easy():
+    img_dir = os.path.join("dummy_data")
+    os.makedirs(img_dir, exist_ok=True)
+    img_path = os.path.join(img_dir, "invoice.png")
+    create_dummy_image(img_path)
     reader = easyocr.Reader(
         ["en", "fr"]
     )  # this needs to run only once to load the model into memory
@@ -280,7 +288,7 @@ def mock_easy():
 
 @pytest.fixture
 def mock_tesseract():
-    img_dir = os.path.join("dummy_data", "test")
+    img_dir = os.path.join("dummy_data")
     os.makedirs(img_dir, exist_ok=True)
     img_path = os.path.join(img_dir, "invoice.png")
     create_dummy_image(img_path)  # Create dummy image at the specified path
