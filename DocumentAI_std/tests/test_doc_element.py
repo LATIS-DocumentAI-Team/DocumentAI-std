@@ -216,7 +216,7 @@ class TestUtils:
     def test_ocr(self, ocr_method, lang_list, source):
         ocr = OCRAdapter(ocr_method, lang_list)
         # ocr.apply_ocr()
-        print(ocr.apply_ocr(source).to_json())
+        # print(ocr.apply_ocr(source).to_json())
         # Compute overlap
         # overlap = LayoutUtils.calculate_overlap(a, b)
 
