@@ -20,7 +20,7 @@ jobs:
         python-version: 3.11
 
     - name: Install tesseract
-      run: apt-get install tesseract-ocr && apt-get install tesseract-ocr-all
+      run: sudo apt-get install -y tesseract-ocr && sudo apt-get install -y tesseract-ocr-all
 
     - name: Install dependencies
       run: pip install -r requirements.txt
