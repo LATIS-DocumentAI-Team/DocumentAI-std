@@ -91,14 +91,14 @@ class BaseUtils:
                     matches_count += 1
 
                 if (
-                        (
-                                column.upper() == "ADDRESS"
-                                and (matches_count / len(line_set)) >= 0.5
-                        )
-                        or (
+                    (
+                        column.upper() == "ADDRESS"
+                        and (matches_count / len(line_set)) >= 0.5
+                    )
+                    or (
                         column.upper() != "ADDRESS" and (matches_count == len(line_set))
-                )
-                        or matches_count == len(entity_set)
+                    )
+                    or matches_count == len(entity_set)
                 ):
                     return column.upper()
 
@@ -122,15 +122,15 @@ class BaseUtils:
 
             already_labeled[label] = True
             if (label == "ADDRESS" and already_labeled["TOTAL"]) or (
-                    label == "COMPANY"
-                    and (already_labeled["DATE"] or already_labeled["TOTAL"])
+                label == "COMPANY"
+                and (already_labeled["DATE"] or already_labeled["TOTAL"])
             ):
                 label = "O"
 
             # Assign to the largest bounding box
             if label in ["TOTAL", "DATE"]:
                 x0_loc = words.columns.get_loc("x0")
-                bbox = words.iloc[i, x0_loc: x0_loc + 4].to_list()
+                bbox = words.iloc[i, x0_loc : x0_loc + 4].to_list()
                 area = (bbox[2] - bbox[0]) + (bbox[3] - bbox[1])
 
                 if max_area[label][0] < area:

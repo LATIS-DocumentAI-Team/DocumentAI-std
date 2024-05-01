@@ -256,11 +256,7 @@ def mock_document_entity_classification():
 
 @pytest.fixture
 def mock_paddle():
-    # TODO: Create or download a mock invoice from internet
-    img_dir = os.path.join("dummy_data")
-    os.makedirs(img_dir, exist_ok=True)
-    img_path = os.path.join(img_dir, "invoice.png")
-    create_dummy_image(img_path)
+    mock_invoice()
     im = Image.open("dummy_data/invoice.png")
     im = im.convert("RGB")
 
@@ -278,10 +274,7 @@ def mock_paddle():
 
 @pytest.fixture
 def mock_easy():
-    img_dir = os.path.join("dummy_data")
-    os.makedirs(img_dir, exist_ok=True)
-    img_path = os.path.join(img_dir, "invoice.png")
-    create_dummy_image(img_path)
+    mock_invoice()
     reader = easyocr.Reader(
         ["en", "fr"]
     )  # this needs to run only once to load the model into memory
@@ -291,10 +284,7 @@ def mock_easy():
 
 @pytest.fixture
 def mock_tesseract():
-    img_dir = os.path.join("dummy_data")
-    os.makedirs(img_dir, exist_ok=True)
-    img_path = os.path.join(img_dir, "invoice.png")
-    create_dummy_image(img_path)  # Create dummy image at the specified path
+    mock_invoice()
     im = Image.open("dummy_data/invoice.png")
     im = im.convert("RGB")
 
@@ -348,19 +338,21 @@ def mock_invoice():
     img_dir = os.path.join("dummy_data")
     os.makedirs(img_dir, exist_ok=True)
 
-    # URL of the invoice image to download
-    invoice_url = ("https://assets-global.website-files.com/609d5d3c4d120e9c52e52b07/6331dbe479349413d652cd20_invoice"
-                   "-lp-sample-click-to-edit-p-500.png")
-
-    # Set the file path for the invoice image
     invoice_path = os.path.join(img_dir, "invoice.png")
 
+    if os.path.exists(invoice_path):
+        print("Invoice already exists at:", invoice_path)
+        return
+
+    invoice_url = (
+        "https://assets-global.website-files.com/609d5d3c4d120e9c52e52b07/6331dbe479349413d652cd20_invoice"
+        "-lp-sample-click-to-edit-p-500.png"
+    )
+
     try:
-        # Download the invoice image
         response = requests.get(invoice_url)
         response.raise_for_status()  # Raise an error for bad response status codes
 
-        # Save the downloaded image to the specified directory
         with open(invoice_path, "wb") as f:
             f.write(response.content)
 
