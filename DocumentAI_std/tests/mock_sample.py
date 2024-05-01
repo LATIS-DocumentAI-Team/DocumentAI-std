@@ -4,6 +4,8 @@ import easyocr
 import numpy as np
 import pytesseract
 import pytest
+import requests
+
 from DocumentAI_std.base.document_entity_classification import (
     DocumentEntityClassification,
 )
@@ -254,6 +256,7 @@ def mock_document_entity_classification():
 
 @pytest.fixture
 def mock_paddle():
+    # TODO: Create or download a mock invoice from internet
     img_dir = os.path.join("dummy_data")
     os.makedirs(img_dir, exist_ok=True)
     img_path = os.path.join(img_dir, "invoice.png")
@@ -339,3 +342,30 @@ def dummy_entropy(a):
     probabilities = probabilities[probabilities != 0]
 
     return -np.sum(probabilities * np.log2(probabilities))
+
+
+def mock_invoice():
+    img_dir = os.path.join("dummy_data")
+    os.makedirs(img_dir, exist_ok=True)
+
+    # URL of the invoice image to download
+    invoice_url = ("https://assets-global.website-files.com/609d5d3c4d120e9c52e52b07/6331dbe479349413d652cd20_invoice"
+                   "-lp-sample-click-to-edit-p-500.png")
+
+    # Set the file path for the invoice image
+    invoice_path = os.path.join(img_dir, "invoice.png")
+
+    try:
+        # Download the invoice image
+        response = requests.get(invoice_url)
+        response.raise_for_status()  # Raise an error for bad response status codes
+
+        # Save the downloaded image to the specified directory
+        with open(invoice_path, "wb") as f:
+            f.write(response.content)
+
+        print("Invoice downloaded successfully.")
+        print("Saved at:", invoice_path)
+
+    except requests.exceptions.RequestException as e:
+        print("Error downloading the invoice:", e)
