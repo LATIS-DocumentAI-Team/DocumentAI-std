@@ -3,7 +3,7 @@ easyocr==1.7.1
 pytesseract==0.3.10
 numpy>=1.26.3
 Pillow==10.0.1
-setuptools>=70.0.0
+setuptools>=65.5.0
 # TODO: FIX paddle OCR issue
 #       register_finder(pkgutil.ImpImporter, find_on_path)
 #       E   AttributeError: module 'pkgutil' has no attribute 'ImpImporter'. Did you mean: 'zipimporter'?
