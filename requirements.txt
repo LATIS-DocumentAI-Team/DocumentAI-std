@@ -7,7 +7,8 @@ setuptools>=65.5.0
 # TODO: FIX paddle OCR issue
 #       register_finder(pkgutil.ImpImporter, find_on_path)
 #       E   AttributeError: module 'pkgutil' has no attribute 'ImpImporter'. Did you mean: 'zipimporter'?
-paddleocr>=2.0.1
+# paddleocr>=2.0.1
+paddleocr==2.7.5
 PyMuPDF>=1.21.1
 setuptools==65.5.0
 paddlepaddle
