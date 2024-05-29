@@ -7,20 +7,22 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11, 3.12]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
-        python-version: 3.11
+        python-version: ${{ matrix.python-version }}
 
     - name: Install tesseract
-      run: sudo apt-get install -y tesseract-ocr && sudo apt-get install -y tesseract-ocr-all
+      run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-all
 
     - name: Install dependencies
       run: pip install -r requirements.txt
