@@ -10,6 +10,7 @@ from paddleocr import PaddleOCR
 from DocumentAI_std.utils.base_utils import BaseUtils
 from DocumentAI_std.base.document import Document
 
+# TODO: Add the following languages: German, Greek or Latin, Arabic if possible,and chinese or japanese
 
 class OCRAdapter:
     """
