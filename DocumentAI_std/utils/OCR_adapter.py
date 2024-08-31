@@ -10,7 +10,6 @@ from paddleocr import PaddleOCR
 from DocumentAI_std.utils.base_utils import BaseUtils
 from DocumentAI_std.base.document import Document
 
-# TODO: Add the following languages: German, Greek or Latin, Arabic if possible,and chinese or japanese
 
 class OCRAdapter:
     """
@@ -106,7 +105,15 @@ class OCRAdapter:
             dict: OCR result.
         """
         im = self._open_image(source)
-        lang_map = {"fr": "french", "en": "en", "de": "german", "ar":"ar", "ja": "japan", "ch_sim": "ch", "hi": "hi"}
+        lang_map = {
+            "fr": "french",
+            "en": "en",
+            "de": "german",
+            "ar": "ar",
+            "ja": "japan",
+            "ch_sim": "ch",
+            "hi": "hi",
+        }
         ocr = PaddleOCR(
             use_angle_cls=True,
             max_text_length=2,
@@ -127,7 +134,15 @@ class OCRAdapter:
             dict: OCR result.
         """
         im = self._open_image(source)
-        lang_map = {"fr": "fra", "en": "eng", "de": "deu", "ar":"ara", "ja": "jpn", "ch_sim": "chi_sim", "hi": "hin"}
+        lang_map = {
+            "fr": "fra",
+            "en": "eng",
+            "de": "deu",
+            "ar": "ara",
+            "ja": "jpn",
+            "ch_sim": "chi_sim",
+            "hi": "hin",
+        }
         lang = "+".join([lang_map[key] for key in self.lang])
         return OCRAdapter.from_tesseract_ocr(
             pytesseract.image_to_data(
