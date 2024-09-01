@@ -1,5 +1,6 @@
 # DocumentAI-std
 
+[//]: # ( TODO: Write a well presented documentation)
 **DocumentAI-std** is a Python library designed to facilitate and standardize document analysis and processing tasks. It offers functionality for handling document elements, performing optical character recognition (OCR), and managing document datasets.
 
 ## Installation
