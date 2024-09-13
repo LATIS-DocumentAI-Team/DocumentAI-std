@@ -9,3 +9,5 @@ pip install /path/to/your/package/dist/your_package_name-0.1.tar.gz
 /dist/
 /DocumentAI_std/DocumentAI_std.egg-info/
 /DocumentAI_std.egg-info/
+/doc_md.py
+/dummy_data/test/test.jpg
