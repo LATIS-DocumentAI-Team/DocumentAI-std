@@ -1,3 +1,4 @@
+import json
 import re
 from typing import Optional
 
@@ -21,7 +22,7 @@ class TextUtils:
         Count the number of characters in the content of a DocElement if it is of type TEXT.
 
         Args:
-            doc_element (DocElement): The document element to count characters from.
+            (doc_element DocElement): The document element to count characters from.
 
         Returns:
             int: The number of characters in the content of the DocElement.
@@ -319,5 +320,43 @@ class TextUtils:
         # If no match found, return False
         return False
 
+    @classmethod
+    def load_countries(cls):
+        try:
+            with open("countries.json", "r") as f:
+                cls.country_dict = json.load(f)
+        except FileNotFoundError:
+            print("Error: countries.json file not found.")
+        except json.JSONDecodeError:
+            print("Error: Failed to decode countries.json.")
 
-# TODO: check known city throw this API, Note check always of the url Valid: https://stackoverflow.com/questions/65688515/what-is-the-easiest-way-to-check-if-a-city-name-belongs-to-a-given-country
+    @staticmethod
+    def is_known_country(doc_element: DocElement) -> bool:
+        """
+        Checks if the content of a given DocElement matches a known country code or name.
+
+        Args:
+            doc_element (DocElement): The document element containing the text to check.
+
+        Returns:
+            bool: True if the content matches a known country name or code, False otherwise.
+
+        Raises:
+            AssertionError: If the content type of the DocElement is not TEXT.
+        """
+        # Verify content type is TEXT
+        if doc_element.content_type != ContentType.TEXT:
+            raise AssertionError("Country check requires content type TEXT")
+
+        # Normalize the country name or code by stripping spaces and converting to lowercase
+        country_text = doc_element.content.strip().lower()
+
+        # Check if the text matches a known country name or code
+        if (
+            country_text in TextUtils.country_dict.values()
+            or country_text in TextUtils.country_dict.keys()
+        ):
+            return True
+
+        # If no match is found, return False
+        return False
