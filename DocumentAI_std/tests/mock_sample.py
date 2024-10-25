@@ -65,6 +65,20 @@ def mock_cities():
     ]
 
 
+def mock_countries():
+    return [
+        ("United States", True),  # Known country name
+        ("us", True),  # Known country code
+        ("Canada", True),  # Known country name
+        ("ca", True),  # Known country code
+        ("Atlantis", False),  # Unknown country
+        ("xyz", False),  # Unknown code
+        ("France", True),  # Known country name
+        ("fr", True),  # Known country code
+        ("UnknownLand", False),  # Unknown country
+    ]
+
+
 @pytest.fixture
 def mock_dates():
     return [

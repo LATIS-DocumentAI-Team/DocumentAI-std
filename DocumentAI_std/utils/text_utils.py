@@ -1,4 +1,5 @@
 import json
+import os
 import re
 from typing import Optional
 
@@ -14,6 +15,7 @@ from DocumentAI_std.base.doc_enum import ContentType
 class TextUtils:
 
     city_country_cache = {}
+    country_dict = {}
     geonames_url = "https://www.geonames.org/search.html"
 
     @staticmethod
@@ -322,9 +324,21 @@ class TextUtils:
 
     @classmethod
     def load_countries(cls):
+        """
+        Load country data from a JSON file and make both keys and values lowercase.
+        """
         try:
-            with open("countries.json", "r") as f:
-                cls.country_dict = json.load(f)
+            base_dir = os.path.dirname(__file__)  # Directory of the TextUtils module
+            json_file_path = os.path.join(
+                base_dir, "countries.json"
+            )  # Construct the path
+
+            with open(json_file_path, "r") as f:
+                data = json.load(f)
+                cls.country_dict = {
+                    k.lower(): v.lower() if isinstance(v, str) else v
+                    for k, v in data.items()
+                }
         except FileNotFoundError:
             print("Error: countries.json file not found.")
         except json.JSONDecodeError:
@@ -345,12 +359,12 @@ class TextUtils:
             AssertionError: If the content type of the DocElement is not TEXT.
         """
         # Verify content type is TEXT
+        TextUtils.load_countries()
         if doc_element.content_type != ContentType.TEXT:
             raise AssertionError("Country check requires content type TEXT")
 
         # Normalize the country name or code by stripping spaces and converting to lowercase
-        country_text = doc_element.content.strip().lower()
-
+        country_text = doc_element.content.lower()
         # Check if the text matches a known country name or code
         if (
             country_text in TextUtils.country_dict.values()

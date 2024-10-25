@@ -250,3 +250,16 @@ class TestUtils:
         assert (
             result == expected_result
         ), f"Expected {expected_result} for '{city_name}', but got {result}"
+
+    @pytest.mark.parametrize("country_name, expected_result", mock_countries())
+    def test_is_known_country(self, country_name, expected_result):
+        # Create a DocElement instance with the country_name
+        doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, country_name)
+
+        # Run the is_known_country function
+        result = TextUtils.is_known_country(doc_element)
+
+        # Assert the result matches the expected result
+        assert (
+            result == expected_result
+        ), f"Expected {expected_result} for '{country_name}', but got {result}"
