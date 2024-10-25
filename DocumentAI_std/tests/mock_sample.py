@@ -53,6 +53,18 @@ def mock_zip_codes():
     ]
 
 
+def mock_cities():
+    return [
+        ("New York", True),  # Known city
+        ("mlkmml", False),  # Unknown city
+        ("London", True),  # Known city
+        ("bugsHugs", False),  # Unknown city
+        ("Sousse", True),  # Known city
+        ("Susah", True),  # Known city
+        ("Debcha", False),  # Known city
+    ]
+
+
 @pytest.fixture
 def mock_dates():
     return [

@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock, patch
+
 from DocumentAI_std.base.doc_enum import ContentRelativePosition, VerticalAlignment
 from DocumentAI_std.tests.mock_sample import *
 from DocumentAI_std.utils.OCR_adapter import OCRAdapter
@@ -235,3 +237,16 @@ class TestUtils:
         assert (
             result == expected_result
         ), f"Expected {expected_result} for '{zip_code_text}', but got {result}"
+
+    @pytest.mark.parametrize("city_name, expected_result", mock_cities())
+    def test_is_known_city(self, city_name, expected_result):
+        # Create a DocElement instance with the city_name
+        doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, city_name)
+
+        # Run the is_known_city function
+        result = TextUtils.is_known_city(doc_element)
+
+        # Assert the result matches the expected result
+        assert (
+            result == expected_result
+        ), f"Expected {expected_result} for '{city_name}', but got {result}"

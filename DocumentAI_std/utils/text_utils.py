@@ -1,6 +1,8 @@
 import re
 from typing import Optional
 
+import requests
+
 from DocumentAI_std.base.doc_element import DocElement
 from DocumentAI_std.base.doc_enum import ContentType
 
@@ -9,6 +11,10 @@ from DocumentAI_std.base.doc_enum import ContentType
 #       - ADD methods and some logic related the image content of each doc element (develop a utils for it also)
 #       - Write a document (.md file) explain the architecture and the relationship between classes and a develop guide
 class TextUtils:
+
+    city_country_cache = {}
+    geonames_url = "https://www.geonames.org/search.html"
+
     @staticmethod
     def nbr_chars(doc_element: DocElement) -> int:
         """
@@ -258,3 +264,60 @@ class TextUtils:
         zip_code_pattern = r"\b([A-Z]\d[A-Z]\s*\d[A-Z]\d|\d{5}(?:-\d{4})?|\d{6})\b"
         match = re.search(zip_code_pattern, text)
         return match.group(0) if match else None
+
+    @staticmethod
+    def is_url_reachable(url: str) -> bool:
+        """Checks if the given URL is reachable."""
+        try:
+            response = requests.head(url, timeout=5)
+            return response.status_code == 200
+        except requests.RequestException:
+            print(f"Warning: Unable to reach {url}")
+            return False
+
+    @staticmethod
+    def is_known_city(doc_element: DocElement) -> bool:
+        """
+        Checks if the content of a given DocElement is a known city by querying the GeoNames service.
+
+        Args:
+            doc_element (DocElement): The document element containing the text to check.
+
+        Returns:
+            bool: True if the content matches a known city name, False otherwise.
+
+        Raises:
+            AssertionError: If the content type of the DocElement is not TEXT.
+        """
+        # Verify content type is TEXT
+        if doc_element.content_type != ContentType.TEXT:
+            raise AssertionError("City check requires content type TEXT")
+
+        # Normalize city name (trim spaces, capitalize appropriately)
+        city_name = doc_element.content.strip().title()
+
+        # Check if the URL is reachable before making the query
+        if not TextUtils.is_url_reachable(TextUtils.geonames_url):
+            print("GeoNames service is currently unreachable.")
+            return False
+
+        # Check the cache first to avoid unnecessary requests
+        if city_name in TextUtils.city_country_cache:
+            return True
+
+        try:
+            # Query GeoNames for the city name
+            response = requests.get(f"{TextUtils.geonames_url}?q={city_name}&country=")
+            # Attempt to find the country in the response HTML
+            if re.search(r"/countries/[A-Z]{2}/[a-zA-Z-]+\.html", response.text):
+                # Cache the city as known if the country is found
+                TextUtils.city_country_cache[city_name] = True
+                return True
+        except requests.RequestException:
+            print(f"Warning: Could not verify city '{city_name}'")
+
+        # If no match found, return False
+        return False
+
+
+# TODO: check known city throw this API, Note check always of the url Valid: https://stackoverflow.com/questions/65688515/what-is-the-easiest-way-to-check-if-a-city-name-belongs-to-a-given-country
