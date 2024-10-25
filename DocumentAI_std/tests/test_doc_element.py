@@ -222,3 +222,16 @@ class TestUtils:
 
         # Check if the computed overlap matches the expected overlap
         # assert overlap == expected_overlap
+
+    @pytest.mark.parametrize("zip_code_text, expected_result", mock_zip_codes())
+    def test_is_zip_code(self, zip_code_text, expected_result):
+        # Create a DocElement instance with the zip_code_text
+        doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, zip_code_text)
+
+        # Run the is_zip_code function
+        result = TextUtils.is_zip_code(doc_element)
+
+        # Assert the result matches the expected result
+        assert (
+            result == expected_result
+        ), f"Expected {expected_result} for '{zip_code_text}', but got {result}"

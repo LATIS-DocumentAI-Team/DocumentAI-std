@@ -1,4 +1,5 @@
 import re
+from typing import Optional
 
 from DocumentAI_std.base.doc_element import DocElement
 from DocumentAI_std.base.doc_enum import ContentType
@@ -195,3 +196,65 @@ class TextUtils:
             prev_row, curr_row = curr_row, prev_row
 
         return prev_row[-1]
+
+    @staticmethod
+    def is_zip_code(doc_element: DocElement) -> bool:
+        """
+        Determines if the content of a given DocElement represents a valid ZIP code,
+        supporting Canadian postal codes, US ZIP codes, and 6-digit numeric codes.
+
+        This method validates that the content type of the DocElement is TEXT and then
+        checks whether the content matches a recognized ZIP code pattern.
+
+        Args:
+            doc_element (DocElement): The document element whose content is to be checked.
+
+        Returns:
+            bool: True if the content matches a valid ZIP code pattern, False otherwise.
+
+        Raises:
+            AssertionError: If the content type of the DocElement is not TEXT.
+
+        Notes:
+            - Supports Canadian postal codes in the format `A1A 1A1`.
+            - Supports US ZIP codes in the formats `12345`, `12345-6789`.
+            - Supports 6-digit numeric ZIP codes (e.g., `800010`).
+        """
+        # Verify content type is TEXT
+        if doc_element.content_type != ContentType.TEXT:
+            raise AssertionError("ZIP code check requires content type TEXT")
+
+        text = doc_element.content.strip()
+
+        # Define patterns for Canadian, US, and 6-digit numeric ZIP codes
+        canadian_zip_code_pattern = r"\b([A-Z]\d[A-Z])\s*\d[A-Z]\d\b"
+        us_zip_code_pattern = r"\b\d{5}(?:-\d{4})?\b"
+        six_digit_zip_code_pattern = r"\b\d{6}\b"
+
+        # Check if the content matches any of the ZIP code patterns
+        return bool(
+            re.fullmatch(canadian_zip_code_pattern, text)
+            or re.fullmatch(us_zip_code_pattern, text)
+            or re.fullmatch(six_digit_zip_code_pattern, text)
+        )
+
+    @staticmethod
+    def extract_zip_code(text: str) -> Optional[str]:
+        """
+        Extracts the first occurrence of a ZIP code from a given text, supporting Canadian, US, and 6-digit formats.
+
+        Args:
+            text (str): The text from which to extract the ZIP code.
+
+        Returns:
+            Optional[str]: The first ZIP code found, or None if no valid ZIP code is present.
+
+        Notes:
+            - Supports Canadian postal codes in the format `A1A 1A1`.
+            - Supports US ZIP codes in the formats `12345`, `12345-6789`.
+            - Supports 6-digit numeric ZIP codes (e.g., `800010`).
+        """
+        # TODO: write unit test for this
+        zip_code_pattern = r"\b([A-Z]\d[A-Z]\s*\d[A-Z]\d|\d{5}(?:-\d{4})?|\d{6})\b"
+        match = re.search(zip_code_pattern, text)
+        return match.group(0) if match else None

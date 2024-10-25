@@ -35,6 +35,24 @@ def mock_doc_element():
     )
 
 
+def mock_zip_codes():
+    """Fixture providing a mix of valid and invalid ZIP code examples."""
+    return [
+        ("A1A 1A1", True),  # Valid Canadian postal code
+        ("80001", True),  # Valid Canadian postal code
+        ("80001-2222", True),  # Valid Canadian postal code
+        ("800010", True),  # Valid Canadian postal code
+        ("K1A0B1", True),  # Valid Canadian postal code without spaces
+        ("M5V-2T6", False),  # Invalid format due to special character
+        ("123 456", False),  # Invalid numeric ZIP code for Canada format
+        ("A1A1A", False),  # Too short for Canadian format
+        ("", False),  # Empty string
+        (" ", False),  # Whitespace only
+        ("1234 AB", False),  # Not a valid Canadian format
+        ("B3H 2Y4", True),  # Another valid Canadian postal code with space
+    ]
+
+
 @pytest.fixture
 def mock_dates():
     return [
