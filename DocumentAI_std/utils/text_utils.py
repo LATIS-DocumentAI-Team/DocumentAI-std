@@ -1,9 +1,13 @@
 import json
 import os
 import re
+import urllib
+import zipfile
 from typing import Optional
 
+import nltk
 import requests
+from nltk import StanfordNERTagger
 
 from DocumentAI_std.base.doc_element import DocElement
 from DocumentAI_std.base.doc_enum import ContentType
@@ -17,6 +21,34 @@ class TextUtils:
     city_country_cache = {}
     country_dict = {}
     geonames_url = "https://www.geonames.org/search.html"
+    model_url = 'https://nlp.stanford.edu/software/stanford-ner-4.2.0.zip'
+    model_path = 'stanford-ner/classifiers/english.all.3class.distsim.crf.ser.gz'
+    jar_path = 'stanford-ner/stanford-ner.jar'
+
+    def __init__(self):
+        """
+        Initializes the Stanford NER Tagger by downloading and extracting the necessary files
+        if they are not already present.
+        """
+        self.setup_stanford_ner()
+        self.ner_tagger = StanfordNERTagger(self.model_path, self.jar_path, encoding='utf-8')
+
+    def setup_stanford_ner(self):
+        """
+        Checks if the model and JAR files exist locally. If not, downloads and extracts them.
+        """
+        if not os.path.exists(self.jar_path) or not os.path.exists(self.model_path):
+            zip_file_path = 'stanford-ner.zip'
+            print("Downloading Stanford NER files...")
+            urllib.request.urlretrieve(self.model_url, zip_file_path)
+
+            # Extract the zip file
+            with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+                zip_ref.extractall('stanford-ner')
+
+            print("Stanford NER files downloaded and extracted.")
+        else:
+            print("Stanford NER files already exist. Using existing files.")
 
     @staticmethod
     def nbr_chars(doc_element: DocElement) -> int:
@@ -374,3 +406,20 @@ class TextUtils:
 
         # If no match is found, return False
         return False
+
+    def is_person_name(self, doc_element: DocElement) -> bool:
+        """
+        Checks if the given text is a person’s name.
+
+        Args:
+            text (str): The text to check.
+
+        Returns:
+            bool: True if the entire string is classified as a person name, False otherwise.
+        """
+        text = doc_element.content.lower()
+        tokens = nltk.word_tokenize(text)
+        tags = self.ner_tagger.tag(tokens)
+
+        # Check if all tokens are tagged as 'PERSON'
+        return all(tag == 'PERSON' for _, tag in tags)
