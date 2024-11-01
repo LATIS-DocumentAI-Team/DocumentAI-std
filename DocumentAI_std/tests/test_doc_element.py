@@ -1,11 +1,9 @@
-from unittest.mock import MagicMock, patch
-
-from DocumentAI_std.base.doc_enum import ContentRelativePosition, VerticalAlignment
+from DocumentAI_std.base.doc_enum import ContentRelativePosition
 from DocumentAI_std.tests.mock_sample import *
 from DocumentAI_std.utils.OCR_adapter import OCRAdapter
+from DocumentAI_std.utils.image_utils import ImageUtils
 from DocumentAI_std.utils.layout_utils import LayoutUtils
 from DocumentAI_std.utils.text_utils import TextUtils
-from DocumentAI_std.utils.image_utils import ImageUtils
 
 
 class TestDocElements:
@@ -263,3 +261,4 @@ class TestUtils:
         assert (
             result == expected_result
         ), f"Expected {expected_result} for '{country_name}', but got {result}"
+

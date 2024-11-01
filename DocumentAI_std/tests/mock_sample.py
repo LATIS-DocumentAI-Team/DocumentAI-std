@@ -5,24 +5,20 @@ import numpy as np
 import pytesseract
 import pytest
 import requests
+from PIL import Image
+from paddleocr import PaddleOCR
 
-from DocumentAI_std.base.document_entity_classification import (
-    DocumentEntityClassification,
-)
-
-from DocumentAI_std.base.document import Document
-
+from DocumentAI_std.base.doc_element import DocElement
 from DocumentAI_std.base.doc_element_classification import DocElementClassification
-
 from DocumentAI_std.base.doc_enum import (
     ContentType,
     HorizontalAlignment,
     VerticalAlignment,
 )
-
-from DocumentAI_std.base.doc_element import DocElement
-from PIL import Image
-from paddleocr import PaddleOCR
+from DocumentAI_std.base.document import Document
+from DocumentAI_std.base.document_entity_classification import (
+    DocumentEntityClassification,
+)
 
 
 # FIXME: TO Install paddle ocr try: pip install "paddleocr>=2.0.1" --upgrade PyMuPDF==1.21.1
@@ -51,7 +47,6 @@ def mock_zip_codes():
         ("1234 AB", False),  # Not a valid Canadian format
         ("B3H 2Y4", True),  # Another valid Canadian postal code with space
     ]
-
 
 def mock_cities():
     return [
