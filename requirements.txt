@@ -2,7 +2,7 @@ pytest==7.4.4
 easyocr==1.7.1
 pytesseract==0.3.10
 # numpy>=1.26.3
-numpy==2.0.2
+numpy>=1.26.3,<2.0
 paddleocr==2.7.3
 Pillow==10.3.0
 setuptools==70.0.0
@@ -12,7 +12,7 @@ torchvision==0.18.0
 pandas==2.2.2
 scikit-image==0.23.2
 requests==2.32.3
-spacy==3.8.2
+spacy
 
 setuptools
 paddlepaddle

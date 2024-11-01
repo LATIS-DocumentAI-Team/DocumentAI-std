@@ -268,7 +268,6 @@ class TextUtils:
             - Supports US ZIP codes in the formats `12345`, `12345-6789`.
             - Supports 6-digit numeric ZIP codes (e.g., `800010`).
         """
-        # TODO: write unit test for this
         zip_code_pattern = r"\b([A-Z]\d[A-Z]\s*\d[A-Z]\d|\d{5}(?:-\d{4})?|\d{6})\b"
         match = re.search(zip_code_pattern, text)
         return match.group(0) if match else None
@@ -419,6 +418,6 @@ class TextUtils:
         return probability
 
 if __name__ == "__main__":
-    d = DocElement(0,0,0,0, ContentType.TEXT, "bob")
+    d = DocElement(0,0,0,0, ContentType.TEXT, "John")
     x = TextUtils.is_person_name(d)
     print(x)
