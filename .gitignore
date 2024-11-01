@@ -11,3 +11,4 @@ pip install /path/to/your/package/dist/your_package_name-0.1.tar.gz
 /DocumentAI_std.egg-info/
 /doc_md.py
 /dummy_data/test/test.jpg
+/.venv/
