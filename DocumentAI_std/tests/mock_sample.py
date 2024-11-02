@@ -48,6 +48,7 @@ def mock_zip_codes():
         ("B3H 2Y4", True),  # Another valid Canadian postal code with space
     ]
 
+
 def mock_cities():
     return [
         ("New York", True),  # Known city
@@ -59,16 +60,19 @@ def mock_cities():
         ("Debcha", False),  # Known city
     ]
 
+
 def mock_person_names():
     return [
-        ("John Doe", True, 1.0),      # Known person, 100% probability
-        ("mlkmml", False, 0.0),       # Unknown entity, 0% probability
-        ("Alice Johnson", True, 1.0), # Known person, 100% probability
-        ("bugsHugs", False, 0.0),     # Not a person, 0% probability
-        ("Michael Scott", True, 1.0), # Known person, 100% probability
-        ("RandomCity", False, 0.0),   # Known city but not a person, 0% probability
-        ("Steve", True, 1.0),         # Single name, detected as person
+        ("John Doe", True, 1.0),  # Known person, 100% probability
+        ("mlkmml", False, 0.0),  # Unknown entity, 0% probability
+        ("Alice Johnson", True, 1.0),  # Known person, 100% probability
+        ("bugsHugs", False, 0.0),  # Not a person, 0% probability
+        ("Michael Scott", True, 1.0),  # Known person, 100% probability
+        ("RandomCity", False, 0.0),  # Known city but not a person, 0% probability
+        ("Steve", True, 1.0),  # Single name, detected as person
     ]
+
+
 def mock_countries():
     return [
         ("United States", True),  # Known country name

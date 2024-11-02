@@ -22,7 +22,6 @@ class TextUtils:
     geonames_url = "https://www.geonames.org/search.html"
     nlp = spacy.load("en_core_web_sm")
 
-
     @staticmethod
     def nbr_chars(doc_element: DocElement) -> int:
         """
@@ -382,13 +381,18 @@ class TextUtils:
     @staticmethod
     def is_person_name(doc_element: DocElement) -> bool:
         """
-        Checks if the given text is a person’s name.
+        Determines if the content of a given `DocElement` instance is classified as a person's name.
 
         Args:
-            text (str): The text to check.
+            doc_element (DocElement): An instance of `DocElement` containing the text to evaluate.
 
         Returns:
-            bool: True if the entire string is classified as a person name, False otherwise.
+            bool: True if the entire text is classified as a person’s name based on named entity recognition, False otherwise.
+
+        Example:
+            >>> doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, 'John Doe')
+            >>> TextUtils.is_person_name(doc_element)
+            True
         """
         text = doc_element.content.lower()
         doc = TextUtils.nlp(text)
@@ -401,7 +405,21 @@ class TextUtils:
 
     @staticmethod
     def person_name_probability(doc_element: DocElement) -> float:
-        # Process the provider string with spaCy
+        """
+        Calculates the probability that the content of a `DocElement` instance is classified as a person’s name.
+
+        Args:
+            doc_element (DocElement): An instance of `DocElement` containing the text to evaluate.
+
+        Returns:
+            float: The probability, ranging from 0.0 to 1.0, that the text is classified as a person’s name.
+                   If no entities are found, returns 0.0.
+
+        Example:
+            >>> doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, 'Alice Johnson')
+            >>> TextUtils.person_name_probability(doc_element)
+            1.0
+        """
         text = doc_element.content.lower()
         doc = TextUtils.nlp(text)
 
@@ -416,8 +434,3 @@ class TextUtils:
             probability = 0.0  # No entities found
 
         return probability
-
-if __name__ == "__main__":
-    d = DocElement(0,0,0,0, ContentType.TEXT, "John")
-    x = TextUtils.is_person_name(d)
-    print(x)
