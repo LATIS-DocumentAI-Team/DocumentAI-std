@@ -263,7 +263,7 @@ class TestUtils:
         ), f"Expected {expected_result} for '{country_name}', but got {result}"
 
     @pytest.mark.parametrize("name, expected_is_person, expected_probability", mock_person_names())
-    def test_is_person_name_and_probability(self, nlp_mock, name, expected_is_person, expected_probability):
+    def test_is_person_name_and_probability(self, name, expected_is_person, expected_probability):
         # Create DocElement for test input
         doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, name)
 
