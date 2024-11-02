@@ -434,3 +434,68 @@ class TextUtils:
             probability = 0.0  # No entities found
 
         return probability
+
+    @staticmethod
+    def is_real_number(doc_element: DocElement) -> bool:
+        """
+        Determines if the content of a `DocElement` instance represents a real number, supporting both integer and decimal formats.
+
+        Args:
+            doc_element (DocElement): An instance of `DocElement` containing the text to evaluate.
+
+        Returns:
+            bool: True if the content is a valid real number, False otherwise.
+
+        Example:
+            >>> doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, '123.45')
+            >>> TextUtils.is_real_number(doc_element)
+            True
+        """
+        text = doc_element.content
+        pattern = r'^-?\d+(\.\d+)?$'
+        return bool(re.match(pattern, text))
+
+    @staticmethod
+    def is_currency(doc_element: DocElement) -> bool:
+        """
+        Checks if the content of a `DocElement` instance represents a currency amount.
+
+        Args:
+            doc_element (DocElement): An instance of `DocElement` containing the text to evaluate.
+
+        Returns:
+            bool: True if the content matches a currency format, False otherwise.
+
+        Supported Formats:
+            - Matches various world currencies, including symbols (e.g., $, €, ¥, £) and abbreviations (e.g., TND, AED, SAR).
+            - Accepts amounts in formats like "$123.45", "€99", "100 TND".
+
+        Example:
+            >>> doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, '$123.45')
+            >>> TextUtils.is_currency(doc_element)
+            True
+        """
+        text = doc_element.content
+        pattern = r'^(?:[¥€$£₹₩₺₽د.تد.إد.م.تد.ج]?(\d+(\.\d{2})?)|\d+\s?(TND|AED|SAR|EGP|KWD|QAR|BHD|OMR|¥|€|$|£|₹|₩|₺|₽|د.ت|د.إ|ر.س|ج.م|د.ك|ر.ق|د.ب|ر.ع.|د.ج|د.م))$'
+        return bool(re.match(pattern, text))
+
+    @staticmethod
+    def has_real_and_currency(doc_element: DocElement) -> bool:
+        """
+        Checks if the content of a `DocElement` instance represents both a real number and a currency format.
+
+        Args:
+            doc_element (DocElement): An instance of `DocElement` containing the text to evaluate.
+
+        Returns:
+            bool: True if the content matches both a real number and a currency format, False otherwise.
+
+        Example:
+            >>> doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, '$123.45')
+            >>> TextUtils.has_real_and_currency(doc_element)
+            True
+        """
+        text = doc_element.content
+        return TextUtils.is_real_number(doc_element) and TextUtils.is_currency(doc_element)
+
+
