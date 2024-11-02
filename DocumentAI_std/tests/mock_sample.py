@@ -160,6 +160,51 @@ def mock_levenshtien():
         ("abc", "xyz", 3),
     ]
 
+def mock_real_numbers():
+    """Fixture providing test cases for valid and invalid real numbers."""
+    return [
+        ("123.45", True),
+        ("-123.45", True),
+        ("0.123", True),
+        ("-0.123", True),
+        ("123", True),
+        ("-123", True),
+        ("123.", False),
+        ("12a", False),
+        ("abc", False),
+        ("", False),
+        (" ", False),
+        ("- 123", False)
+    ]
+
+def mock_currencies():
+    """Fixture providing test cases for valid and invalid currency formats."""
+    return [
+        ("$123.45", True),
+        ("€99", True),
+        ("100 TND", True),
+        ("¥5000", True),
+        ("£123", True),
+        ("₹1.50", True),
+        ("1,234.56", False),  # Invalid due to comma
+        ("100USD", False),  # Missing space
+        ("12.34 AED", True),
+        ("12a TND", False),
+        ("", False),
+    ]
+
+def mock_real_and_currency():
+    """Fixture providing test cases for content matching both real number and currency."""
+    return [
+        ("$123.45", True),
+        ("€99", True),
+        ("-123", False),  # Valid number but not a currency
+        ("12.34 AED", True),
+        ("$100.00", True),
+        ("abc", False),
+        ("", False),
+    ]
+
 
 def mock_distances():
     return [

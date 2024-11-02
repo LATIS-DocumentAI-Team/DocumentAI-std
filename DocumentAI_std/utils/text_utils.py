@@ -452,7 +452,7 @@ class TextUtils:
             True
         """
         text = doc_element.content
-        pattern = r'^-?\d+(\.\d+)?$'
+        pattern = r"^-?\d+(\.\d+)?$"
         return bool(re.match(pattern, text))
 
     @staticmethod
@@ -476,7 +476,7 @@ class TextUtils:
             True
         """
         text = doc_element.content
-        pattern = r'^(?:[¥€$£₹₩₺₽د.تد.إد.م.تد.ج]?(\d+(\.\d{2})?)|\d+\s?(TND|AED|SAR|EGP|KWD|QAR|BHD|OMR|¥|€|$|£|₹|₩|₺|₽|د.ت|د.إ|ر.س|ج.م|د.ك|ر.ق|د.ب|ر.ع.|د.ج|د.م))$'
+        pattern = r'^(?:(?:[¥€$£₹₩₺₽د.تد.إد.م.تد.ج]?\d+(\.\d{2})?)|\d+(\.\d{2})?\s?(TND|AED|SAR|EGP|KWD|QAR|BHD|OMR|¥|€|$|£|₹|₩|₺|₽|د.ت|د.إ|ر.س|ج.م|د.ك|ر.ق|د.ب|ر.ع.|د.ج|د.م))$'
         return bool(re.match(pattern, text))
 
     @staticmethod
@@ -496,6 +496,6 @@ class TextUtils:
             True
         """
         text = doc_element.content
-        return TextUtils.is_real_number(doc_element) and TextUtils.is_currency(doc_element)
-
-
+        return TextUtils.is_real_number(doc_element) and TextUtils.is_currency(
+            doc_element
+        )
