@@ -476,7 +476,7 @@ class TextUtils:
             True
         """
         text = doc_element.content
-        pattern = r'^(?:(?:[¥€$£₹₩₺₽د.تد.إد.م.تد.ج]?\d+(\.\d{2})?)|\d+(\.\d{2})?\s?(TND|AED|SAR|EGP|KWD|QAR|BHD|OMR|¥|€|$|£|₹|₩|₺|₽|د.ت|د.إ|ر.س|ج.م|د.ك|ر.ق|د.ب|ر.ع.|د.ج|د.م))$'
+        pattern = r"^(?:(?:[¥€$£₹₩₺₽د.تد.إد.م.تد.ج]?\d+(\.\d{2})?)|\d+(\.\d{2})?\s?(TND|AED|SAR|EGP|KWD|QAR|BHD|OMR|¥|€|$|£|₹|₩|₺|₽|د.ت|د.إ|ر.س|ج.م|د.ك|ر.ق|د.ب|ر.ع.|د.ج|د.م))$"
         return bool(re.match(pattern, text))
 
     @staticmethod
@@ -489,13 +489,21 @@ class TextUtils:
 
         Returns:
             bool: True if the content matches both a real number and a currency format, False otherwise.
-
-        Example:
-            >>> doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, '$123.45')
-            >>> TextUtils.has_real_and_currency(doc_element)
-            True
         """
         text = doc_element.content
-        return TextUtils.is_real_number(doc_element) and TextUtils.is_currency(
-            doc_element
+        text_no_spaces = text.replace(" ", "")
+
+        # Check if the text is a valid currency
+        if not TextUtils.is_currency(doc_element):
+            return False
+
+        # Look for real number patterns in the text without spaces
+        # Match for numbers that can include decimals
+        pattern = r"(-?\d+(\.\d+)?)"  # This pattern matches both integers and decimals
+        matches = re.findall(pattern, text_no_spaces)
+
+        # Check if at least one of the matches corresponds to a valid real number
+        return any(
+            TextUtils.is_real_number(DocElement(0, 0, 0, 0, "", match[0]))
+            for match in matches
         )

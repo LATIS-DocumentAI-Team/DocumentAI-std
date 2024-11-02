@@ -282,24 +282,27 @@ class TestUtils:
         assert (
             result_probability == expected_probability
         ), f"Expected person_name_probability to be {expected_probability} for '{name}', but got {result_probability}"
-    @pytest.mark.parametrize(
-        "number, expected_result", mock_real_numbers()
-    )
+
+    @pytest.mark.parametrize("number, expected_result", mock_real_numbers())
     def test_is_real_number(self, number, expected_result):
         """Test is_real_number with various real number formats."""
         doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, number)
-        assert TextUtils.is_real_number(doc_element) == expected_result, f"Failed on number: {number}"
-    @pytest.mark.parametrize(
-        "currency, expected_result", mock_currencies()
-    )
+        assert (
+            TextUtils.is_real_number(doc_element) == expected_result
+        ), f"Failed on number: {number}"
+
+    @pytest.mark.parametrize("currency, expected_result", mock_currencies())
     def test_is_currency(self, currency, expected_result):
         """Test is_currency with various currency formats."""
         doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, currency)
-        assert TextUtils.is_currency(doc_element) == expected_result, f"Failed on currency: {currency}"
-    @pytest.mark.parametrize(
-        "text, expected_result", mock_real_and_currency()
-    )
+        assert (
+            TextUtils.is_currency(doc_element) == expected_result
+        ), f"Failed on currency: {currency}"
+
+    @pytest.mark.parametrize("text, expected_result", mock_real_and_currency())
     def test_has_real_and_currency(self, text, expected_result):
         """Test has_real_and_currency with formats matching both real numbers and currency."""
-        doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, text)
-        assert TextUtils.has_real_and_currency(doc_element) == expected_result, f"Failed on text: {text}"
+        doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, content=text)
+        assert (
+            TextUtils.has_real_and_currency(doc_element) == expected_result
+        ), f"Failed on text: {text}"

@@ -160,6 +160,7 @@ def mock_levenshtien():
         ("abc", "xyz", 3),
     ]
 
+
 def mock_real_numbers():
     """Fixture providing test cases for valid and invalid real numbers."""
     return [
@@ -174,8 +175,9 @@ def mock_real_numbers():
         ("abc", False),
         ("", False),
         (" ", False),
-        ("- 123", False)
+        ("- 123", False),
     ]
+
 
 def mock_currencies():
     """Fixture providing test cases for valid and invalid currency formats."""
@@ -192,6 +194,7 @@ def mock_currencies():
         ("12a TND", False),
         ("", False),
     ]
+
 
 def mock_real_and_currency():
     """Fixture providing test cases for content matching both real number and currency."""
