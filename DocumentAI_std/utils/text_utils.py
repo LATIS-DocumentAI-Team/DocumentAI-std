@@ -3,7 +3,7 @@ import os
 import re
 import urllib
 import zipfile
-from typing import Optional
+from typing import Optional, Union
 
 import requests
 import spacy
@@ -15,130 +15,125 @@ from DocumentAI_std.base.doc_enum import ContentType
 # TODO: - ADD strategy the compute text embeddings
 #       - ADD methods and some logic related the image content of each doc element (develop a utils for it also)
 #       - Write a document (.md file) explain the architecture and the relationship between classes and a develop guide
-class TextUtils:
 
+
+def get_content(input_element: Union[DocElement, str], error_message: str) -> str:
+    if isinstance(input_element, str):
+        return input_element
+    if input_element.content_type != ContentType.TEXT:
+        raise AssertionError(error_message)
+    return input_element.content
+
+
+class TextUtils:
     city_country_cache = {}
     country_dict = {}
     geonames_url = "https://www.geonames.org/search.html"
     nlp = spacy.load("en_core_web_sm")
 
     @staticmethod
-    def nbr_chars(doc_element: DocElement) -> int:
+    def nbr_chars(doc_element: Union[DocElement, str]) -> int:
         """
-        Count the number of characters in the content of a DocElement if it is of type TEXT.
+        Count the number of characters in the given input.
 
         Args:
-            (doc_element DocElement): The document element to count characters from.
+            doc_element (Union[DocElement, str]): A DocElement or string whose characters are to be counted.
 
         Returns:
-            int: The number of characters in the content of the DocElement.
+            int: The number of characters in the string or the content of the DocElement.
 
         Raises:
             AssertionError: If the content type of the DocElement is not TEXT.
         """
-        if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError(
-                "Cannot count the number of character of non TEXT Objects"
+        return len(
+            get_content(
+                doc_element,
+                "Cannot count the number of characters of non-TEXT objects.",
             )
-        return len(doc_element.content)
+        )
 
     @staticmethod
-    def has_special_char(doc_element: DocElement) -> bool:
+    def has_special_char(doc_element: Union[DocElement, str]) -> bool:
         """
-        Check if the content of a DocElement of type TEXT contains special characters.
+        Check if the content of a DocElement or string contains special characters.
 
         Args:
-            doc_element (DocElement): The document element to check for special characters.
+            doc_element (Union[DocElement, str]): The input to check for special characters. Can be a DocElement or a string.
 
         Returns:
             bool: True if the content contains special characters, False otherwise.
 
         Raises:
-            AssertionError: If the content type of the DocElement is not TEXT.
+            AssertionError: If the input is a DocElement but its content type is not TEXT.
         """
-        if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError(
-                "Cannot check for special characters in non-TEXT objects"
-            )
-
         special_chars = set("!@#$%^&*()_+{}[];:'\"<>,.?/\\|-")
-
-        for char in doc_element.content:
-            if char in special_chars:
-                return True
-
-        return False
+        content = get_content(
+            doc_element, "Cannot check for special characters in non-TEXT objects."
+        )
+        # Check for the presence of special characters
+        return any(char in special_chars for char in content)
 
     @staticmethod
-    def count_special_chars(doc_element: DocElement) -> int:
+    def count_special_chars(doc_element: Union[DocElement, str]) -> int:
         """
-        Count the number of special characters in the content of a DocElement of type TEXT.
+        Count the number of special characters in the content of a DocElement or a string.
 
         Args:
-            doc_element (DocElement): The document element to count special characters.
+            doc_element (Union[DocElement, str]): The input to count special characters. Can be a DocElement or a string.
 
         Returns:
             int: The number of special characters in the content.
 
         Raises:
-            AssertionError: If the content type of the DocElement is not TEXT.
+            AssertionError: If the input is a DocElement but its content type is not TEXT.
         """
-        if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError("Cannot count special characters in non-TEXT objects")
-
-        special_chars = "!@#$%^&*()_+{}[];:'\"<>,.?/\\|-"
-        return sum(1 for char in doc_element.content if char in special_chars)
+        special_chars = set("!@#$%^&*()_+{}[];:'\"<>,.?/\\|-")
+        content = get_content(
+            doc_element, "Cannot count special characters in non-TEXT objects."
+        )
+        # Count the special characters
+        return sum(1 for char in content if char in special_chars)
 
     @staticmethod
-    def calculate_numeric_percentage(doc_element: DocElement) -> float:
+    def calculate_numeric_percentage(doc_element: Union[DocElement, str]) -> float:
         """
-        Calculate the percentage of numeric characters in the content of a DocElement of type TEXT.
+        Calculate the percentage of numeric characters in the content of a DocElement or a string.
 
         Args:
-            doc_element (DocElement): The document element whose content's numeric percentage needs to be calculated.
+            doc_element (Union[DocElement, str]): The input whose numeric character percentage needs to be calculated. Can be a DocElement or a string.
 
         Returns:
             float: The percentage of numeric characters in the content.
 
         Raises:
-            AssertionError: If the content type of the DocElement is not TEXT.
+            AssertionError: If the input is a DocElement but its content type is not TEXT.
         """
-        # Ensure the content type is TEXT
-        if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError(
-                "Cannot calculate numeric percentage in non-TEXT objects"
-            )
-
+        content = get_content(
+            doc_element, "Cannot calculate numeric percentage in non-TEXT objects."
+        )
         # Initialize count for numeric characters and total characters
-        num_numeric_chars = sum(1 for char in doc_element.content if char.isdigit())
-        total_chars = len(doc_element.content)
+        num_numeric_chars = sum(1 for char in content if char.isdigit())
+        total_chars = len(content)
 
-        # Calculate the percentage
-        if total_chars == 0:
-            return 0.0
-        else:
-            return num_numeric_chars / total_chars
+        # Calculate and return the percentage
+        return (num_numeric_chars / total_chars) * 100 if total_chars > 0 else 0.0
 
     @staticmethod
-    def is_date(doc_element: DocElement) -> bool:
+    def is_date(doc_element: Union[DocElement, str]) -> bool:
         """
         Check if the given text contains a date in various formats.
 
         Args:
-            doc_element (DocElement): The document element to check for a date.
+            doc_element (Union[DocElement, str]): The document element or string to check for a date.
 
         Returns:
             bool: True if the text contains a date, False otherwise.
 
         Raises:
-            AssertionError: If the content type of the DocElement is not TEXT.
+            AssertionError: If the input is a DocElement but its content type is not TEXT.
         """
         # Ensure the content type is TEXT
-        if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError(
-                "Cannot calculate numeric percentage in non-TEXT objects"
-            )
-        text = doc_element.content
+        text = get_content(doc_element, "Cannot check date in non-TEXT objects.")
         # Define regular expression patterns for different date formats
         date_patterns = [
             r"\b(\d{1,2}/\d{1,2}/\d{4})\b",  # dd/mm/yyyy
@@ -167,26 +162,26 @@ class TextUtils:
         return False
 
     @staticmethod
-    def levenshtein_distance(a: DocElement, b: DocElement) -> int:
+    def levenshtein_distance(
+        a: Union[DocElement, str], b: Union[DocElement, str]
+    ) -> int:
         """
-        Compute the Levenshtein distance between the content of two DocElements.
+        Compute the Levenshtein distance between the content of two DocElements or strings.
 
         Args:
-            a (DocElement): The first DocElement.
-            b (DocElement): The second DocElement.
+            a (Union[DocElement, str]): The first DocElement or string.
+            b (Union[DocElement, str]): The second DocElement or string.
 
         Returns:
-            int: The Levenshtein distance between the content of the two DocElements.
+            int: The Levenshtein distance between the content of the two inputs.
 
         Raises:
-            AssertionError: If either of the DocElements does not contain text content.
+            AssertionError: If either input is a DocElement and does not contain text content.
         """
-        if a.content_type != ContentType.TEXT or b.content_type != ContentType.TEXT:
-            raise AssertionError(
-                "Cannot calculate Levenshtein distance for non-text content"
-            )
 
-        s1, s2 = a.content, b.content
+        s1, s2 = get_content(
+            a, "Cannot calculate Levenshtein distance for non-text content"
+        ), get_content(b, "Cannot calculate Levenshtein distance for non-text content")
 
         # Ensure s1 is the shorter string
         if len(s1) > len(s2):
@@ -211,7 +206,7 @@ class TextUtils:
         return prev_row[-1]
 
     @staticmethod
-    def is_zip_code(doc_element: DocElement) -> bool:
+    def is_zip_code(doc_element: Union[DocElement, str]) -> bool:
         """
         Determines if the content of a given DocElement represents a valid ZIP code,
         supporting Canadian postal codes, US ZIP codes, and 6-digit numeric codes.
@@ -233,11 +228,10 @@ class TextUtils:
             - Supports US ZIP codes in the formats `12345`, `12345-6789`.
             - Supports 6-digit numeric ZIP codes (e.g., `800010`).
         """
-        # Verify content type is TEXT
-        if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError("ZIP code check requires content type TEXT")
 
-        text = doc_element.content.strip()
+        text = get_content(
+            doc_element, "ZIP code check requires content type TEXT"
+        ).strip()
 
         # Define patterns for Canadian, US, and 6-digit numeric ZIP codes
         canadian_zip_code_pattern = r"\b([A-Z]\d[A-Z])\s*\d[A-Z]\d\b"
@@ -282,7 +276,7 @@ class TextUtils:
             return False
 
     @staticmethod
-    def is_known_city(doc_element: DocElement) -> bool:
+    def is_known_city(doc_element: Union[DocElement, str]) -> bool:
         """
         Checks if the content of a given DocElement is a known city by querying the GeoNames service.
 
@@ -295,12 +289,10 @@ class TextUtils:
         Raises:
             AssertionError: If the content type of the DocElement is not TEXT.
         """
-        # Verify content type is TEXT
-        if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError("City check requires content type TEXT")
+        text = get_content(doc_element, "City check requires content type TEXT").strip()
 
         # Normalize city name (trim spaces, capitalize appropriately)
-        city_name = doc_element.content.strip().title()
+        city_name = text.title()
 
         # Check if the URL is reachable before making the query
         if not TextUtils.is_url_reachable(TextUtils.geonames_url):
@@ -348,7 +340,7 @@ class TextUtils:
             print("Error: Failed to decode countries.json.")
 
     @staticmethod
-    def is_known_country(doc_element: DocElement) -> bool:
+    def is_known_country(doc_element: Union[DocElement, str]) -> bool:
         """
         Checks if the content of a given DocElement matches a known country code or name.
 
@@ -363,11 +355,10 @@ class TextUtils:
         """
         # Verify content type is TEXT
         TextUtils.load_countries()
-        if doc_element.content_type != ContentType.TEXT:
-            raise AssertionError("Country check requires content type TEXT")
+        text = get_content(doc_element, "Country check requires content type TEXT")
 
         # Normalize the country name or code by stripping spaces and converting to lowercase
-        country_text = doc_element.content.lower()
+        country_text = text.lower()
         # Check if the text matches a known country name or code
         if (
             country_text in TextUtils.country_dict.values()
@@ -379,7 +370,7 @@ class TextUtils:
         return False
 
     @staticmethod
-    def is_person_name(doc_element: DocElement) -> bool:
+    def is_person_name(doc_element: Union[DocElement, str]) -> bool:
         """
         Determines if the content of a given `DocElement` instance is classified as a person's name.
 
@@ -394,7 +385,9 @@ class TextUtils:
             >>> TextUtils.is_person_name(doc_element)
             True
         """
-        text = doc_element.content.lower()
+        text = get_content(
+            doc_element, "Person name check requires content type TEXT"
+        ).lower()
         doc = TextUtils.nlp(text)
 
         # Check for named entities in the processed text
@@ -404,7 +397,7 @@ class TextUtils:
         return False
 
     @staticmethod
-    def person_name_probability(doc_element: DocElement) -> float:
+    def person_name_probability(doc_element: Union[DocElement, str]) -> float:
         """
         Calculates the probability that the content of a `DocElement` instance is classified as a person’s name.
 
@@ -420,7 +413,9 @@ class TextUtils:
             >>> TextUtils.person_name_probability(doc_element)
             1.0
         """
-        text = doc_element.content.lower()
+        text = get_content(
+            doc_element, "Person name requires content type TEXT"
+        ).lower()
         doc = TextUtils.nlp(text)
 
         # Count the number of person entities and total entities
@@ -436,7 +431,7 @@ class TextUtils:
         return probability
 
     @staticmethod
-    def is_real_number(doc_element: DocElement) -> bool:
+    def is_real_number(doc_element: Union[DocElement, str]) -> bool:
         """
         Determines if the content of a `DocElement` instance represents a real number, supporting both integer and decimal formats.
 
@@ -451,12 +446,12 @@ class TextUtils:
             >>> TextUtils.is_real_number(doc_element)
             True
         """
-        text = doc_element.content
+        text = get_content(doc_element, "Content type TEXT is required")
         pattern = r"^-?\d+(\.\d+)?$"
         return bool(re.match(pattern, text))
 
     @staticmethod
-    def is_currency(doc_element: DocElement) -> bool:
+    def is_currency(doc_element: Union[DocElement, str]) -> bool:
         """
         Checks if the content of a `DocElement` instance represents a currency amount.
 
@@ -475,12 +470,12 @@ class TextUtils:
             >>> TextUtils.is_currency(doc_element)
             True
         """
-        text = doc_element.content
+        text = get_content(doc_element, "Currency check requires content type TEXT")
         pattern = r"^(?:(?:[¥€$£₹₩₺₽د.تد.إد.م.تد.ج]?\d+(\.\d{2})?)|\d+(\.\d{2})?\s?(TND|AED|SAR|EGP|KWD|QAR|BHD|OMR|¥|€|$|£|₹|₩|₺|₽|د.ت|د.إ|ر.س|ج.م|د.ك|ر.ق|د.ب|ر.ع.|د.ج|د.م))$"
         return bool(re.match(pattern, text))
 
     @staticmethod
-    def has_real_and_currency(doc_element: DocElement) -> bool:
+    def has_real_and_currency(doc_element: Union[DocElement, str]) -> bool:
         """
         Checks if the content of a `DocElement` instance represents both a real number and a currency format.
 
@@ -490,7 +485,7 @@ class TextUtils:
         Returns:
             bool: True if the content matches both a real number and a currency format, False otherwise.
         """
-        text = doc_element.content
+        text = get_content(doc_element, "Content type TEXT is required")
         text_no_spaces = text.replace(" ", "")
 
         # Check if the text is a valid currency
@@ -504,6 +499,6 @@ class TextUtils:
 
         # Check if at least one of the matches corresponds to a valid real number
         return any(
-            TextUtils.is_real_number(DocElement(0, 0, 0, 0, "", match[0]))
+            TextUtils.is_real_number(DocElement(0, 0, 0, 0, ContentType.TEXT, match[0]))
             for match in matches
         )
