@@ -29,8 +29,7 @@ class TextUtils:
     city_country_cache = {}
     country_dict = {}
     geonames_url = "https://www.geonames.org/search.html"
-    nlp = spacy.load("en_core_web_sm")
-
+    nlp = spacy.load("en_core_web_lg")
     @staticmethod
     def nbr_chars(doc_element: Union[DocElement, str]) -> int:
         """
@@ -502,3 +501,49 @@ class TextUtils:
             TextUtils.is_real_number(DocElement(0, 0, 0, 0, ContentType.TEXT, match[0]))
             for match in matches
         )
+    @staticmethod
+    def load_context_words(json_file='context_words.json'):
+        with open(json_file, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        return data['english'], data['french']
+
+    # Function to get Datamuse API suggestions based on keyword
+    @staticmethod
+    def get_datamuse_suggestions(keyword):
+        url = f"https://api.datamuse.com/words?ml={keyword}&max=10"
+        response = requests.get(url)
+        suggestions = response.json()
+        return [word['word'] for word in suggestions]
+
+    # Function to get similar words using spaCy based on the expanded context word list
+    @staticmethod
+    def get_spacy_similar_words(keyword, context_words):
+        keyword_doc = TextUtils.nlp(keyword)
+        similar_words = set()
+
+        # Compare input keyword with each word in the context word list
+        for word in context_words:
+            word_doc = TextUtils.nlp(word)
+            similarity = keyword_doc.similarity(word_doc)
+            if similarity > 0.7:  # Threshold for similarity, adjustable
+                similar_words.add(word)
+
+        return list(similar_words)
+
+    # Combine both approaches to get equivalent keywords using context words
+    @staticmethod
+    def get_equivalent_keywords(keyword):
+        # Load context words from the JSON file
+        english_words, french_words = TextUtils.load_context_words()
+
+        # Combine the English and French context words
+        context_words = english_words + french_words
+
+        # Get Datamuse suggestions (synonyms, related terms)
+        datamuse_suggestions = TextUtils.get_datamuse_suggestions(keyword)
+
+        # Get similar words using spaCy based on the expanded context words
+        spacy_similar_words = TextUtils.get_spacy_similar_words(keyword, context_words)
+
+        # Combine and return a unique list of equivalent keywords
+        return list(set(datamuse_suggestions + spacy_similar_words))

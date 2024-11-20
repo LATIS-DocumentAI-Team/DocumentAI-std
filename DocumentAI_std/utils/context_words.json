@@ -1,0 +1,18 @@
+{
+  "english": [
+    "total", "amount", "price", "unit price", "cost", "tax", "date", "invoice date",
+    "bill date", "total TTC", "total amount", "receipt", "payment", "day", "month", "year",
+    "quantity", "subtotal", "discount", "price", "percentage", "amount due", "invoice",
+    "charge", "fee", "due", "balance", "payment date", "taxable", "value", "credit", "debit",
+    "transaction", "net amount", "gross amount", "due date", "payment terms", "account", "invoice number",
+    "item", "product", "service", "subtotal amount", "total amount due", "total price", "payment received",
+    "balance due", "description", "quantity", "unit cost", "total price", "order number", "delivery date"
+  ],
+  "french": [
+    "montant", "prix", "coût", "taxe", "date de facture", "date de paiement", "total TTC", "montant total",
+    "reçu", "paiement", "jour", "mois", "année", "quantité", "sous-total", "remise", "pourcentage", "montant dû",
+    "facture", "frais", "solde", "date d'échéance", "conditions de paiement", "numéro de facture", "article",
+    "produit", "service", "montant sous-total", "prix total", "paiement reçu", "solde dû", "description",
+    "prix unitaire", "numéro de commande", "date de livraison"
+  ]
+}
