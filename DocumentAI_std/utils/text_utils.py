@@ -29,6 +29,7 @@ class TextUtils:
     city_country_cache = {}
     country_dict = {}
     geonames_url = "https://www.geonames.org/search.html"
+    nlp_names = spacy.load("en_core_web_sm")
     nlp = spacy.load("en_core_web_lg")
 
     @staticmethod
@@ -388,7 +389,7 @@ class TextUtils:
         text = get_content(
             doc_element, "Person name check requires content type TEXT"
         ).lower()
-        doc = TextUtils.nlp(text)
+        doc = TextUtils.nlp_names(text)
 
         # Check for named entities in the processed text
         for ent in doc.ents:
@@ -416,7 +417,7 @@ class TextUtils:
         text = get_content(
             doc_element, "Person name requires content type TEXT"
         ).lower()
-        doc = TextUtils.nlp(text)
+        doc = TextUtils.nlp_names(text)
 
         # Count the number of person entities and total entities
         person_count = sum(1 for ent in doc.ents if ent.label_ == "PERSON")
