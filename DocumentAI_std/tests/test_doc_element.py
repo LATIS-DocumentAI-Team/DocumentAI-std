@@ -306,3 +306,9 @@ class TestUtils:
         assert (
             TextUtils.has_real_and_currency(doc_element) == expected_result
         ), f"Failed on text: {text}"
+
+    @pytest.mark.parametrize("text", mock_equivalent_word())
+    def test_get_equivalent_keywords(self, text):
+        """Test has_real_and_currency with formats matching both real numbers and currency."""
+        doc_element = DocElement(0, 0, 0, 0, ContentType.TEXT, content=text)
+        assert TextUtils.get_equivalent_keywords(doc_element), f"Failed on text: {text}"

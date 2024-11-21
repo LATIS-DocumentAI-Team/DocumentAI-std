@@ -9,7 +9,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="DocumentAI_std",
-    version="0.3.1-dev3",
+    version="0.3.2-dev3",
     packages=find_packages(exclude=["DocumentAI_std.tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",

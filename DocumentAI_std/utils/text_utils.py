@@ -30,6 +30,7 @@ class TextUtils:
     country_dict = {}
     geonames_url = "https://www.geonames.org/search.html"
     nlp = spacy.load("en_core_web_lg")
+
     @staticmethod
     def nbr_chars(doc_element: Union[DocElement, str]) -> int:
         """
@@ -501,23 +502,38 @@ class TextUtils:
             TextUtils.is_real_number(DocElement(0, 0, 0, 0, ContentType.TEXT, match[0]))
             for match in matches
         )
+
     @staticmethod
-    def load_context_words(json_file='context_words.json'):
-        with open(json_file, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-        return data['english'], data['french']
+    def load_context_words():
+        try:
+            base_dir = os.path.dirname(__file__)  # Directory of the TextUtils module
+            json_file_path = os.path.join(
+                base_dir, "context_words.json"
+            )  # Construct the path
+
+            with open(json_file_path, "r", encoding="utf-8") as file:
+                data = json.load(file)
+            return data["english"], data["french"]
+        except FileNotFoundError:
+            print("Error: countries.json file not found.")
+        except json.JSONDecodeError:
+            print("Error: Failed to decode countries.json.")
 
     # Function to get Datamuse API suggestions based on keyword
     @staticmethod
-    def get_datamuse_suggestions(keyword):
-        url = f"https://api.datamuse.com/words?ml={keyword}&max=10"
+    def get_datamuse_suggestions(doc_element: Union[DocElement, str]) -> list:
+        keyword = get_content(doc_element, "Content type TEXT is required")
+        url = f"https://api.datamuse.com/words?ml={keyword}&max=15"
         response = requests.get(url)
         suggestions = response.json()
-        return [word['word'] for word in suggestions]
+        return [word["word"] for word in suggestions]
 
     # Function to get similar words using spaCy based on the expanded context word list
     @staticmethod
-    def get_spacy_similar_words(keyword, context_words):
+    def get_spacy_similar_words(
+        doc_element: Union[DocElement, str], context_words
+    ) -> list:
+        keyword = get_content(doc_element, "Content type TEXT is required")
         keyword_doc = TextUtils.nlp(keyword)
         similar_words = set()
 
@@ -525,14 +541,15 @@ class TextUtils:
         for word in context_words:
             word_doc = TextUtils.nlp(word)
             similarity = keyword_doc.similarity(word_doc)
-            if similarity > 0.7:  # Threshold for similarity, adjustable
+            if similarity > 0.6:  # Threshold for similarity, adjustable
                 similar_words.add(word)
 
         return list(similar_words)
 
     # Combine both approaches to get equivalent keywords using context words
     @staticmethod
-    def get_equivalent_keywords(keyword):
+    def get_equivalent_keywords(doc_element: Union[DocElement, str]) -> list:
+        keyword = get_content(doc_element, "Content type TEXT is required")
         # Load context words from the JSON file
         english_words, french_words = TextUtils.load_context_words()
 

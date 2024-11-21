@@ -179,6 +179,10 @@ def mock_real_numbers():
     ]
 
 
+def mock_equivalent_word():
+    return ["total", "price", "prix unitaire", "date", "Invoice number"]
+
+
 def mock_currencies():
     """Fixture providing test cases for valid and invalid currency formats."""
     return [

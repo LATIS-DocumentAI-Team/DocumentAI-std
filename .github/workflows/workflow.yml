@@ -27,8 +27,11 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Install Spacy core
+    - name: Install spaCy small model
       run: python -m spacy download en_core_web_sm
+
+    - name: Install spaCy large model
+      run: python -m spacy download en_core_web_lg
 
     - name: Run tests
       run: pytest DocumentAI_std/tests/test_doc_element.py
