@@ -1,20 +1,17 @@
-import subprocess
-import sys
 from pathlib import Path
+
 from setuptools import setup, find_packages
-from setuptools.command.install import install
-from spacy.cli import download
 
 with open("requirements.txt") as f:
     required = f.read().splitlines()
-
+# TODO: FIX the issue of downloading spacy models within installation
 
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="DocumentAI_std",
-    version="0.3.6-dev3",
+    version="0.3.7-dev3",
     packages=find_packages(exclude=["DocumentAI_std.tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",

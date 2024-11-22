@@ -324,7 +324,7 @@ class TextUtils:
         Load country data from a JSON file and make both keys and values lowercase.
         """
         try:
-            base_dir = os.path.dirname(__file__)  # Directory of the TextUtils module
+            base_dir = os.path.join(os.path.dirname(__file__), "..", "data_files")
             json_file_path = os.path.join(
                 base_dir, "countries.json"
             )  # Construct the path
@@ -507,7 +507,7 @@ class TextUtils:
     @staticmethod
     def load_context_words():
         try:
-            base_dir = os.path.dirname(__file__)  # Directory of the TextUtils module
+            base_dir = os.path.join(os.path.dirname(__file__), "..", "data_files")
             json_file_path = os.path.join(
                 base_dir, "context_words.json"
             )  # Construct the path
