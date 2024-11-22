@@ -9,27 +9,12 @@ with open("requirements.txt") as f:
     required = f.read().splitlines()
 
 
-class SpacyModelInstallCommand(install):
-    """Custom installation class to run spaCy model download after installation"""
-
-    def run(self):
-        install.run(self)
-
-        try:
-            print("downloading spacy models")
-            download('en_core_web_sm')
-            download('en_core_web_lg')
-        except subprocess.CalledProcessError as e:
-            print(f"Error downloading spaCy model: {e}")
-            sys.exit(1)
-
-
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="DocumentAI_std",
-    version="0.3.5-dev3",
+    version="0.3.6-dev3",
     packages=find_packages(exclude=["DocumentAI_std.tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -46,7 +31,4 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: POSIX :: Linux",
     ],
-    cmdclass={
-        "install": SpacyModelInstallCommand,
-    },
 )
