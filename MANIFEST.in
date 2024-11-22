@@ -1,2 +1,2 @@
 include requirements.txt
-include DocumentAI_std/data_files/*
+include DocumentAI_std/data_files/*.json
