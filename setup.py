@@ -15,8 +15,12 @@ class SpacyModelInstallCommand(install):
         install.run(self)
 
         try:
-            subprocess.check_call([sys.executable, "-m", "spacy", "download", "en_core_web_sm"])
-            subprocess.check_call([sys.executable, "-m", "spacy", "download", "en_core_web_lg"])
+            subprocess.check_call(
+                [sys.executable, "-m", "spacy", "download", "en_core_web_sm"]
+            )
+            subprocess.check_call(
+                [sys.executable, "-m", "spacy", "download", "en_core_web_lg"]
+            )
         except subprocess.CalledProcessError as e:
             print(f"Error downloading spaCy model: {e}")
             sys.exit(1)
@@ -45,6 +49,6 @@ setup(
         "Operating System :: POSIX :: Linux",
     ],
     cmdclass={
-            'install': SpacyModelInstallCommand,
-        },
+        "install": SpacyModelInstallCommand,
+    },
 )
