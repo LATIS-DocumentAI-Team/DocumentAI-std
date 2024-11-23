@@ -1,8 +1,6 @@
-
 # TODO: FIX the issue of downloading spacy models within installation
 
 
-import glob
 import os
 from pathlib import Path
 from setuptools import setup, find_packages
@@ -16,20 +14,20 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
 # Collect all .json files in the data_files directory
-data_files_path = glob.glob(os.path.join("DocumentAI_std", "data_files", "*.json"))
-
-# List of tuples (target_dir, files)
-data_files = [("data_files", data_files_path)]
+data_files_path = [str(p) for p in Path("DocumentAI_std/data_file").rglob("*.json")]
 
 # Set up the package
 setup(
     name="DocumentAI_std",
-    version="0.3.8-dev4",
+    version="0.3.8-dev5",
     packages=find_packages(exclude=["DocumentAI_std.tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=required,
-    data_files=data_files,  # Include the data_files in the package
+    package_data={
+        "DocumentAI_std": data_files_path,  # Include JSON files in the DocumentAI_std package
+    },
+    include_package_data=True,  # Ensure non-Python files are included
     url="https://github.com/LATIS-DocumentAI-Group/DocumentAI-std",
     license="MIT",
     author="Hamza Gbada",
