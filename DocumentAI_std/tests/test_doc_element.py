@@ -215,13 +215,25 @@ class TestUtils:
     @pytest.mark.parametrize("ocr_method, lang_list, source", mock_ocr())
     def test_ocr(self, ocr_method, lang_list, source):
         ocr = OCRAdapter(ocr_method, lang_list)
-        # ocr.apply_ocr()
-        # print(ocr.apply_ocr(source).to_json())
+        print(ocr.apply_ocr(source).to_json())
         # Compute overlap
         # overlap = LayoutUtils.calculate_overlap(a, b)
 
         # Check if the computed overlap matches the expected overlap
         # assert overlap == expected_overlap
+
+    @pytest.mark.parametrize("ocr_method, lang_list, source", mock_ocr())
+    def test_ocr_class(self, ocr_method, lang_list, source):
+        ocr = OCRAdapter(ocr_method, lang_list)
+        document = ocr.apply_ocr(source)
+        assert document.__class__ == Document
+
+    @pytest.mark.parametrize("ocr_method, lang_list, source", mock_ocr())
+    def test_ocr_document(self, ocr_method, lang_list, source):
+        ocr_engine = OCRAdapter(ocr_method, lang_list)
+        ocr_output = ocr_engine.apply_tesseract_ocr(source)
+        document = Document(img_path=source, ocr_output=ocr_output)
+        assert document.__class__ == Document
 
     @pytest.mark.parametrize("zip_code_text, expected_result", mock_zip_codes())
     def test_is_zip_code(self, zip_code_text, expected_result):

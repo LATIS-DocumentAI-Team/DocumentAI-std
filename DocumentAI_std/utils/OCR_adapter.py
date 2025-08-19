@@ -1,5 +1,5 @@
-import io
-from typing import Union, List
+import os
+from typing import List
 
 import easyocr
 import numpy as np
@@ -7,8 +7,8 @@ import pytesseract
 from PIL import Image
 from paddleocr import PaddleOCR
 
-from DocumentAI_std.utils.base_utils import BaseUtils
 from DocumentAI_std.base.document import Document
+from DocumentAI_std.utils.base_utils import BaseUtils
 
 
 class OCRAdapter:
@@ -26,10 +26,10 @@ class OCRAdapter:
 
     Methods:
         __init__(ocr_method: str, lang: List[str]): Initialize the OCRAdapter instance with the specified OCR method and language settings.
-        apply_ocr(source: Union[str, io.BytesIO]) -> Document: Apply OCR to the given source using the specified OCR method.
-        apply_easyocr(source: Union[str, io.BytesIO]) -> dict: Apply OCR using EasyOCR.
-        apply_paddleocr(source: Union[str, io.BytesIO]) -> dict: Apply OCR using PaddleOCR.
-        apply_tesseract_ocr(source: Union[str, io.BytesIO]) -> dict: Apply OCR using Tesseract.
+        apply_ocr(source: str) -> Document: Apply OCR to the given source using the specified OCR method.
+        apply_easyocr(source: str) -> dict: Apply OCR using EasyOCR.
+        apply_paddleocr(source: str) -> dict: Apply OCR using PaddleOCR.
+        apply_tesseract_ocr(source: str) -> dict: Apply OCR using Tesseract.
         from_paddle_ocr(paddle_ocr_output): Convert PaddleOCR output to a standardized format.
         from_easy_ocr(easy_ocr_output): Convert EasyOCR output to a standardized format.
         from_tesseract_ocr(tesseract_ocr_output): Convert Tesseract OCR output to a standardized format.
@@ -45,6 +45,10 @@ class OCRAdapter:
             lang (List[str]): A list of language codes specifying the language(s) to be used for OCR.
                 Example: ["en", "fr"] for English and French.
         """
+        ocr_methods = ["easy", "paddle", "tesseract"]
+
+        if ocr_method not in ocr_methods:
+            raise AssertionError(f"OCR method '{self.ocr_method}' is not recognized.")
         self.__ocr_method = ocr_method
         self.lang = lang
 
@@ -56,12 +60,12 @@ class OCRAdapter:
     def ocr_method(self, value):
         self.__ocr_method = value
 
-    def apply_ocr(self, source: Union[str, io.BytesIO]) -> Document:
+    def apply_ocr(self, source: str) -> Document:
         """
         Apply OCR to the given source using the specified OCR method.
 
         Args:
-            source (Union[str, io.BytesIO]): The source of the image file to apply OCR on.
+            source (str): The source of the image file to apply OCR on.
 
         Returns:
             Document: A Document object containing the source and OCR result.
@@ -74,19 +78,25 @@ class OCRAdapter:
             "paddle": self.apply_paddleocr,
             "tesseract": self.apply_tesseract_ocr,
         }
-        # TODO: Remove BytesIO, accept only Path
         if self.ocr_method not in ocr_methods:
             raise AssertionError(f"OCR method '{self.ocr_method}' is not recognized.")
+
+        if not isinstance(source, str):
+            raise AssertionError(
+                "Source must be either a string path. " f"Received: {type(source)}"
+            )
+        if not os.path.exists(source):
+            raise AssertionError(f"Path {source} does not exist")
 
         result = ocr_methods[self.ocr_method](source)
         return Document(source, result)
 
-    def apply_easy_ocr(self, source: Union[str, io.BytesIO]) -> dict:
+    def apply_easy_ocr(self, source: str) -> dict:
         """
         Apply OCR using EasyOCR.
 
         Args:
-            source (Union[str, io.BytesIO]): The source of the image file to apply OCR on.
+            source (str): The source of the image file to apply OCR on.
 
         Returns:
             dict: OCR result.
@@ -94,12 +104,12 @@ class OCRAdapter:
         reader = easyocr.Reader(self.lang)
         return OCRAdapter.from_easy_ocr(reader.readtext(source))
 
-    def apply_paddleocr(self, source: Union[str, io.BytesIO]) -> dict:
+    def apply_paddleocr(self, source: str) -> dict:
         """
         Apply OCR using PaddleOCR.
 
         Args:
-            source (Union[str, io.BytesIO]): The source of the image file to apply OCR on.
+            source (str): The source of the image file to apply OCR on.
 
         Returns:
             dict: OCR result.
@@ -119,12 +129,12 @@ class OCRAdapter:
         )
         return OCRAdapter.from_paddle_ocr(ocr.predict(np.asarray(im)))
 
-    def apply_tesseract_ocr(self, source: Union[str, io.BytesIO]) -> dict:
+    def apply_tesseract_ocr(self, source: str) -> dict:
         """
         Apply OCR using Tesseract.
 
         Args:
-            source (Union[str, io.BytesIO]): The source of the image file to apply OCR on.
+            source (str): The source of the image file to apply OCR on.
 
         Returns:
             dict: OCR result.
@@ -149,12 +159,12 @@ class OCRAdapter:
         )
 
     @staticmethod
-    def _open_image(source: Union[str, io.BytesIO]) -> Image.Image:
+    def _open_image(source: str) -> Image.Image:
         """
         Open and convert the image file to RGB format.
 
         Args:
-            source (Union[str, io.BytesIO]): The source of the image file.
+            source (str): The source of the image file.
 
         Returns:
             Image.Image: Image object in RGB format.

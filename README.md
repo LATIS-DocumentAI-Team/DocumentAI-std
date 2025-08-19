@@ -148,13 +148,6 @@ The CORD dataset is designed for post-OCR parsing of consolidated receipt docume
 
 ## Additional Features
 
-- **OCR Integration**: The `Document` class can seamlessly ingest OCR outputs, structuring the raw text into a well-organized document representation. This is particularly useful for downstream tasks such as information extraction, table parsing, and content classification. For example, you can input OCR data from an invoice and easily extract line items, total amounts, or vendor details for further processing.
-
-  ```python
-  ocr_output = [{"text": "Invoice", "bbox": [10, 20, 200, 40]}, {"text": "Total: $500", "bbox": [10, 50, 200, 70]}]
-  document = Document.from_ocr(ocr_output)
-  ```
-
 - **Serialization**: The `Document` and `DocElement` classes provide methods to serialize their structures into JSON-compatible dictionaries. This enables you to export or save documents for further analysis in a structured format.
 
   ```python
@@ -205,12 +198,26 @@ The CORD dataset is designed for post-OCR parsing of consolidated receipt docume
 
 - **OCR Adapter**: The `OCRAdapter` class simplifies the integration of various OCR engines, including PaddleOCR, EasyOCR, and Tesseract. It standardizes OCR outputs, making it easy to pass OCR results into the `Document` class regardless of the engine used. This ensures a consistent workflow for analyzing OCR results across different engines.
 
+  a full example of creating a document from tesseract ocr output:
+  
   ```python
-  ocr_adapter = OCRAdapter(engine="Tesseract")
-  ocr_output = ocr_adapter.run_ocr(image)
-  document = Document.from_ocr(ocr_output)
+  source = "dummy_data/invoice.png"
+  ocr_method = "tesseract"
+  lang_list = ["fr", "en"]
+  ocr_engine = OCRAdapter(ocr_method, lang_list)
+  ocr_output = ocr_engine.apply_tesseract_ocr(source)
+  document = Document(img_path=source, ocr_output=ocr_output)
+  ```
+  
+  you can use also the method `apply_ocr` from the `OCRAdapter` class, which return by default a `Document` Object
+  
+  ```python
+  ocr = OCRAdapter(ocr_method, lang_list)
+  document = ocr.apply_ocr(source)
+  assert document.__class__ == Document
   ```
 
+you can fine more examples in: [DocumentAI-tests](https://github.com/LATIS-DocumentAI-Team/DocumentAI-std/tree/master/DocumentAI_std/tests)
 ---
 
 ## Contributing
