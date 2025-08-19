@@ -19,7 +19,7 @@ data_files_path = [str(p) for p in Path("DocumentAI_std/data_file").rglob("*.jso
 # Set up the package
 setup(
     name="DocumentAI_std",
-    version="0.4.0-dev5",
+    version="0.4.0",
     packages=find_packages(exclude=["DocumentAI_std.tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",
