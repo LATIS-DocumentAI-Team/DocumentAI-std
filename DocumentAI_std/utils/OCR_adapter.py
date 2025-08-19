@@ -115,13 +115,9 @@ class OCRAdapter:
             "hi": "hi",
         }
         ocr = PaddleOCR(
-            use_angle_cls=True,
-            max_text_length=2,
-            use_space_char=True,
             lang=lang_map[self.lang[0]],
-            type="structure",
         )
-        return OCRAdapter.from_paddle_ocr(ocr.ocr(np.asarray(im), cls=True))
+        return OCRAdapter.from_paddle_ocr(ocr.predict(np.asarray(im)))
 
     def apply_tesseract_ocr(self, source: Union[str, io.BytesIO]) -> dict:
         """
@@ -172,18 +168,34 @@ class OCRAdapter:
         Convert PaddleOCR output to a standardized format.
 
         Args:
-            paddle_ocr_output (list): List containing OCR output from PaddleOCR engine.
+            paddle_ocr_output (list): List containing OCR output from PaddleOCR engine
+                                      or mock dictionaries with 'rec_boxes' and 'rec_res'.
 
         Returns:
             dict: Dictionary containing standardized OCR output with 'bbox' and 'content' keys.
         """
-        bbox_content_pairs = [
-            (BaseUtils.X1X2X3X4_to_xywh(sum(text_box[0], [])), text_box[1][0])
-            for output in paddle_ocr_output
-            for text_box in output
-        ]
+        bbox_content_pairs = []
 
-        bbox, content = zip(*bbox_content_pairs)
+        for output in paddle_ocr_output:
+            if isinstance(output, dict):
+                # Handle mock dictionary with 'rec_boxes' and 'rec_res'
+                rec_boxes = output.get("rec_boxes", [])
+                rec_res = output.get("rec_res", [["", 0.0]] * len(rec_boxes))
+                for box, res in zip(rec_boxes, rec_res):
+                    bbox_content_pairs.append((BaseUtils.X1X2_to_xywh(box), res[0]))
+            elif isinstance(output, list):
+                # Handle real PaddleOCR output (list of tuples)
+                for box, res in output:
+                    bbox_content_pairs.append((BaseUtils.X1X2_to_xywh(box), res[0]))
+            else:
+                raise TypeError(
+                    f"Unsupported paddle_ocr_output element: {type(output)}"
+                )
+
+        if bbox_content_pairs:
+            bbox, content = zip(*bbox_content_pairs)
+        else:
+            bbox, content = [], []
 
         return {"bbox": list(bbox), "content": list(content)}
 

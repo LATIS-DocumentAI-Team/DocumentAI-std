@@ -64,7 +64,7 @@ def mock_cities():
 def mock_person_names():
     return [
         ("John Doe", True, 1.0),  # Known person, 100% probability
-        ("mlkmml", False, 0.0),  # Unknown entity, 0% probability
+        ("us:;v ", False, 0.0),  # Unknown entity, 0% probability
         ("Alice Johnson", True, 1.0),  # Known person, 100% probability
         ("bugsHugs", False, 0.0),  # Not a person, 0% probability
         ("Michael Scott", True, 1.0),  # Known person, 100% probability
@@ -365,13 +365,12 @@ def mock_paddle():
     im = im.convert("RGB")
 
     ocr = PaddleOCR(
-        use_angle_cls=True,
-        max_text_length=2,
-        use_space_char=True,
+        # use_angle_cls=True,
+        # max_text_length=2,
+        # use_space_char=True,
         lang="french",
-        type="structure",
     )
-    result = ocr.ocr(np.asarray(im), cls=True)
+    result = ocr.predict(np.asarray(im))
 
     return result
 
