@@ -19,7 +19,7 @@ data_files_path = [str(p) for p in Path("DocumentAI_std/data_file").rglob("*.jso
 # Set up the package
 setup(
     name="DocumentAI_std",
-    version="0.3.8-dev5",
+    version="0.4.0-dev5",
     packages=find_packages(exclude=["DocumentAI_std.tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -32,11 +32,12 @@ setup(
     license="MIT",
     author="Hamza Gbada",
     author_email="hamza.gbada@gmail.com",
-    python_requires=">=3.11, <3.13",
+    python_requires=">=3.11, <=3.13",
     description="The main standards for Latis Document AI project",
     classifiers=[
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "License :: OSI Approved :: MIT License",
         "Operating System :: POSIX :: Linux",
     ],
