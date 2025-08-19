@@ -32,7 +32,7 @@ setup(
     license="MIT",
     author="Hamza Gbada",
     author_email="hamza.gbada@gmail.com",
-    python_requires=">=3.11, <=3.13",
+    python_requires=">=3.11, <3.14",
     description="The main standards for Latis Document AI project",
     classifiers=[
         "Programming Language :: Python :: 3.11",
