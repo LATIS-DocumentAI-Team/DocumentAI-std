@@ -31,7 +31,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="DocumentAI_std",
-    version="0.3.4-dev3",
+    version="0.4.0-dev0",
     packages=find_packages(exclude=["DocumentAI_std.tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -40,7 +40,7 @@ setup(
     license="MIT",
     author="Hamza Gbada",
     author_email="hamza.gbada@gmail.com",
-    python_requires=">=3.11, <3.13",
+    python_requires=">=3.11",
     description="The main standards for Latis Document AI project",
     classifiers=[
         "Programming Language :: Python :: 3.11",
